@@ -1,0 +1,68 @@
+.purchase-history {
+  margin-top: 1rem;
+}
+
+.purchase-history .link-history {
+  margin-bottom: 1rem;
+}
+
+.purchase-history .body-history {
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 1rem;
+}
+
+.body-history .sub-body-history {
+  padding: 1.5rem;
+}
+
+.sub-body-history .title-history h2 {
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.sub-body-history .prd-history {
+  background-color: #254151;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+}
+
+.sub-body-history .prd-history-sub {
+  text-align: center;
+  padding: 1rem;
+  background: #254151;
+  margin-top: 1rem;
+  color: #ffffff;
+  border-radius: 1rem;
+}
+
+.sub-body-history .status-history {
+  margin-top: 1rem;
+}
+
+.status-history .sub-status {
+  background-color: #6591ab;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+}
+.status-history .sub-status-htr {
+  text-align: center;
+  padding: 1rem;
+  background: #6591ab;
+  margin-top: 1rem;
+  color: #ffffff;
+  border-radius: 1rem;
+}
+
+.status-orders .sub-status-orders {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0b68b1;
+  color: white;
+  padding: 0.5rem 4rem;
+  font-weight: bold;
+  border-radius: 1rem;
+}

@@ -1,0 +1,17 @@
+.tag {
+  background-color: #63b0ef;
+  border-radius: 3rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.tag:hover {
+  color: aliceblue;
+  background-color: #0d69b2;
+}
+
+.tag .body-tag {
+  color: white;
+  padding: 0.3rem;
+  text-align: center;
+}

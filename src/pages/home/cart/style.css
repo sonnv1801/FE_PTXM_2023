@@ -1,0 +1,24 @@
+.cart-container {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cart-container .body-cart {
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 1rem;
+  margin-top: 1rem;
+}
+
+.body-cart .sub-body-cart {
+  padding: 1rem;
+}
+
+.sub-body-cart .carts {
+  font-family: "SF Pro Display", "sans-serif";
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 2.4rem;
+  transition: 0.3s;
+}

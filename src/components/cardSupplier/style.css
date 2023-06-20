@@ -1,0 +1,26 @@
+.code-product {
+  font-size: 1rem;
+  color: #939393;
+  margin: 0.8rem 0;
+}
+
+#priceandstatus {
+  display: flex;
+  justify-content: space-between;
+}
+
+#priceandstatus p {
+  color: #00d084;
+}
+
+#priceandstatus span {
+  color: #0b68b1;
+}
+
+.title-prd {
+  color: black;
+}
+
+.title-prd:hover {
+  color: blue;
+}

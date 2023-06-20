@@ -1,0 +1,111 @@
+.prd-dt-container {
+  margin-top: 1rem;
+}
+
+.prd-dt-container .body-prd-dt {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.body-prd-dt {
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 1rem;
+}
+
+.body-prd-dt .sub-body-prd {
+  padding: 1.5rem;
+}
+
+.sub-body-prd img {
+  width: 100%;
+  border-radius: 2rem;
+}
+
+.sub-body-prd .body-ds h2 {
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.sub-body-prd .prd-dt-code {
+  margin-top: 1rem;
+  color: gray;
+}
+
+.sub-body-prd .item-prd {
+  margin-top: 1rem;
+}
+
+.sub-body-prd .item-prd span {
+  color: black;
+}
+
+.sub-body-prd .item-prd h6 {
+  color: #0693e3;
+}
+.sub-body-prd .share-prd {
+  margin-top: 1rem;
+}
+
+.sub-body-prd .share-prd p {
+  color: black;
+}
+
+.sub-body-prd .share-prd svg {
+  color: #0693e3;
+  margin: 0 0.1rem;
+}
+
+.sub-body-prd .action-prd-dt {
+  margin-top: 1rem;
+}
+
+.sub-body-prd .action-prd-dt .btn-quantity {
+  border: 1px solid gray;
+  display: flex;
+  justify-content: space-between;
+  width: 49%;
+  /* padding: 1rem; */
+  border-radius: 2rem;
+  align-items: center;
+}
+
+.sub-body-prd .action-prd-dt-btn {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.sub-body-prd .action-prd-dt-btn button {
+  margin-left: 1rem;
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 2rem;
+  color: black;
+  height: 45px;
+  font-weight: 500;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+.sub-body-prd .action-prd-dt-btn button:hover {
+  background-color: #0693e3;
+  color: white;
+}
+
+.sub-body-prd .policy-prd {
+  margin-top: 1rem;
+}
+
+.sub-body-prd .policy-prd img {
+  width: 20%;
+  margin-left: 39%;
+}
+
+.sub-body-prd .policy-prd p {
+  text-align: center;
+}
+
+.sub-body-prd .tag-prd {
+  margin-top: 1rem;
+}

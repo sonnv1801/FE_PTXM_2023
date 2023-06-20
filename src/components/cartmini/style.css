@@ -1,0 +1,19 @@
+.cart-mini {
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: 0 3px 6px #00000029;
+  margin-bottom: 1rem;
+}
+
+.cart-mini .body-cart {
+  padding: 1rem;
+}
+
+.cart-mini .body-cart a {
+  text-transform: uppercase;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}

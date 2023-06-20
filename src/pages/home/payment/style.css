@@ -1,0 +1,37 @@
+.payment-container {
+  background-color: #e7f0f7;
+}
+
+.payment-container .body-container-payment {
+  padding: 2rem;
+}
+
+.body-container-payment h1 {
+  font-family: "SF Pro Display", "sans-serif";
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 2.4rem;
+  transition: 0.3s;
+}
+
+.body-container-payment .account-payment {
+  display: flex;
+  align-items: center;
+}
+
+.account-payment p {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+.payments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.payments button {
+  border-radius: 2rem;
+  background-color: #26c3f4;
+  text-transform: uppercase;
+}

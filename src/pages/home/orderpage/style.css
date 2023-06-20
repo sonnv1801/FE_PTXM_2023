@@ -1,0 +1,109 @@
+/* style.css */
+
+.order-page {
+  font-family: Arial, sans-serif;
+  margin: 50px auto;
+
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-page h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.order-page p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.order-list {
+  margin-top: 20px;
+}
+
+.order-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-list th,
+.order-list td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.order-list th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.order-list td {
+  vertical-align: middle;
+}
+
+.order-list .product-list {
+  margin: 10px 0;
+}
+
+.order-list .product-list td {
+  padding: 5px;
+}
+
+.order-list .product-list th:first-child,
+.order-list .product-list td:first-child {
+  border-left: none;
+}
+
+.order-list .product-list th:last-child,
+.order-list .product-list td:last-child {
+  border-right: none;
+}
+
+.order-list .history-list {
+  margin: 10px 0;
+}
+
+.order-list .history-list td {
+  padding: 5px;
+}
+
+.order-list .history-list th:first-child,
+.order-list .history-list td:first-child {
+  border-left: none;
+}
+
+.order-list .history-list th:last-child,
+.order-list .history-list td:last-child {
+  border-right: none;
+}
+
+.order-list .history-list tr:last-child td {
+  border-bottom: none;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}

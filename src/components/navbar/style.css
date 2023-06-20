@@ -1,0 +1,179 @@
+.nav-container {
+  background: #ffffff; /*tô màu cho menu cha*/
+  border: 1px solid #abb8c3;
+  box-shadow: 0 3px 6px #00000029;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  right: 0;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+.nav-container ul {
+  display: flex;
+  margin: 0;
+}
+.nav-container > ul li {
+  list-style: none; /* bỏ dấu chấm mặc định của li */
+  /* kẻ đường bên trái và bên phải của li */
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #333;
+}
+.nav-container > ul li a {
+  display: block;
+  line-height: 100px;
+  padding: 0 25px;
+  color: #000000;
+  text-decoration: none;
+}
+.nav-container ul li:first-child {
+  border-left: none; /* bỏ đường kè trái của phần tử đầu tiên */
+}
+.nav-container > ul li:first-child a {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+/* Khi hover đến li, tô màu cho thẻ a */
+
+/*menu con*/
+/*Ẩn các menu con cấp 1,2,3*/
+.nav-container ul li .sub-menu-lv2 {
+  display: none;
+  min-width: 350px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 3px 6px #00000029;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.nav-container ul li .sub-menu-lv3 {
+  right: 106px;
+  display: none;
+  max-width: 450px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 3px 6px #00000029;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.sub-menu-lv3 img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.sub-menu-lv3 p {
+  font-size: 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.sub-menu-lv3 b {
+  font-size: 10px;
+  margin: 15px;
+  text-transform: uppercase;
+}
+
+.sub-menu-lv3 h6 {
+  font-size: 16px;
+  color: #0b8dbe;
+  margin: 0.4rem;
+}
+.sub-menu-lv3 button {
+  height: 36px;
+  float: right;
+}
+.sub-menu-lv3 span {
+  display: block;
+  text-align: center;
+  padding: 1rem;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sub-menu-lv3 span:hover {
+  color: #0693e3;
+}
+
+.sub-menu-lv3 img {
+  position: relative;
+}
+
+.sub-menu-lv3 .close-prd {
+  position: absolute;
+
+  cursor: pointer;
+  color: gray;
+}
+
+.sub-menu-lv3 .close-prd:hover {
+  color: black;
+}
+
+.sub-menu-lv2 span {
+  display: block;
+  text-align: center;
+  /* padding: 1rem; */
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sub-menu-lv2 span:hover {
+  color: #0693e3;
+}
+.nav-container li > ul li {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: #999;
+  text-align: left;
+}
+.nav-container li > ul li:first-child a {
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+.nav-container li > ul li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.nav-container li > ul li:last-child a {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/*khi hover thì hiện menu con*/
+.nav-container li:hover > .sub-menu-lv2 {
+  display: block;
+}
+
+.nav-container li:hover > .sub-menu-lv3 {
+  display: block;
+}
+/*Hiển thị menu con cấp 2,3,4 bên cạnh phải*/
+.nav-container > ul li > ul li > ul {
+  margin-left: 352px;
+  margin-top: -50px;
+}
+
+.menu-right {
+  float: right;
+}
+
+.menu-right p {
+  margin: 0;
+  padding: 0 10px;
+}
+
+#cart-.nav-container svg {
+  background: #8080802b;
+  border-radius: 50%;
+  opacity: 0.7;
+  color: black;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.7rem;
+  border: 1px solid;
+}
