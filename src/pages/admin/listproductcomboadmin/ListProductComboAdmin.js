@@ -111,6 +111,7 @@ function ListProductComboAdmin() {
           status: "",
           products: [],
         });
+        toast.success("Thêm thành công sản phẩm");
         handleCloseAdd();
       } catch (error) {
         console.error(error);
@@ -294,7 +295,8 @@ function ListProductComboAdmin() {
                                       {`${product.oldPrice.toLocaleString()}đ`}
                                     </div>
                                     <div className="col-2">
-                                      {product.remainingQuantity}
+                                      {product.remainingQuantity +
+                                        product.quantity}
                                     </div>
                                   </div>
                                 </div>
