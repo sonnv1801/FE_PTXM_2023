@@ -102,7 +102,7 @@ export const updateProductSupplier = (id, item, navigate) => {
         });
         setTimeout(() => {
           navigate("/prducts-supplier");
-        }, 1000);
+        }, 500);
       })
       .catch((err) => console.log(err));
   };

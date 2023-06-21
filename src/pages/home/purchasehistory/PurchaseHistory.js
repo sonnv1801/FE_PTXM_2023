@@ -139,13 +139,13 @@ const PurchaseHistory = ({ customerId }) => {
                   <label>Sản phẩm</label>
                 </div>
                 <div className="col-2">
+                  <label>Số lượng sản phẩm có trong Combo</label>
+                </div>
+                <div className="col-2">
                   <label>Số lượng Combo</label>
                 </div>
                 <div className="col-2">
-                  <label>Số Phẩm Trong Combo</label>
-                </div>
-                <div className="col-2">
-                  <label>Hành Động</label>
+                  <label>Giá Mỗi Combo</label>
                 </div>
                 <div className="col-2">
                   <label>Tổng tiền</label>
@@ -172,24 +172,20 @@ const PurchaseHistory = ({ customerId }) => {
                             <label>{combo.comboName}</label>
                           </div>
                           <div className="col-2">
-                            <label>{combo.quantityCombo}</label>
-                          </div>
-                          <div className="col-2">
                             <label>{combo.quantity}</label>
                           </div>
                           <div className="col-2">
-                            <Button
-                              style={{ color: "white", background: "blue" }}
-                              variant="text"
-                              onClick={() => handleComboClick(combo)}
-                            >
-                              Xem Thêm
-                            </Button>
+                            <label>{combo.quantityCombo}</label>
                           </div>
                           <div className="col-2">
-                            <label>{`${numeral(combo.totalPrice).format(
+                            <label>{`${numeral(combo.subtotal).format(
                               "0,0"
                             )}đ`}</label>
+                          </div>
+                          <div className="col-2">
+                            <label>{`${numeral(
+                              combo.subtotal * combo.quantityCombo
+                            ).format("0,0")}đ`}</label>
                           </div>
                         </div>
                       </div>

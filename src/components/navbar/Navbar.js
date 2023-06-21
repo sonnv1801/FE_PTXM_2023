@@ -29,15 +29,29 @@ const Navbar = () => {
     (state) => state.defaultReducer.listSupplier
   );
   const [cartCombo, setCartCombo] = useState([]);
+  const [carts, setCarts] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("orderData"));
-
-    if (data) {
-      setCartCombo(data);
+    // Lấy dữ liệu từ localStorage
+    const storedCartCombo = localStorage.getItem("orderData");
+    if (storedCartCombo) {
+      const parsedCartCombo = JSON.parse(storedCartCombo);
+      setCartCombo(parsedCartCombo);
     }
   }, []);
-  const totalOrderPrice = JSON.parse(localStorage.getItem("totalOrderPrice"));
+  useEffect(() => {
+    const storedCartCombo = localStorage.getItem("carts");
+    if (storedCartCombo) {
+      const parsedCartCombo = JSON.parse(storedCartCombo);
+      if (Array.isArray(parsedCartCombo)) {
+        setCarts(parsedCartCombo);
+      } else {
+        setCarts([]);
+      }
+    }
+  }, []);
+
+  console.log(carts, "carts");
 
   const listTypeCombo = useSelector(
     (state) => state.defaultReducer.listTypeComBo
@@ -79,20 +93,13 @@ const Navbar = () => {
 
   console.log(listSupplier, "listSupplier");
   // const cart = JSON.parse(localStorage.getItem("carts"));
-  const cart = useSelector((state) => state.defaultReducer.cart);
 
-  const renderAmount = () => {
-    let totalPrice = totalOrderPrice; // Lưu giá trị tổng tiền ban đầu
-    return cart?.reduce((total, item) => {
-      return (total += item.newPrice * item.quantity_cart);
-    }, totalPrice); // Thêm tổng tiền ban đầu vào tổng tiền mới tính
-  };
   const renderQuantity = () => {
     const comboQuantity = cartCombo.reduce((sum, item) => {
       return (sum += item.quantityCombo);
     }, 0);
 
-    const productQuantity = cart.reduce((sum, item) => {
+    const productQuantity = carts?.reduce((sum, item) => {
       return (sum += item.quantity_cart);
     }, 0);
 
@@ -117,6 +124,33 @@ const Navbar = () => {
 
       return updatedCartCombo;
     });
+    setTimeout(() => {
+      refreshPage();
+    }, 500);
+  };
+
+  const handleRemoveProductCarts = (itemIndex) => {
+    setCarts((prevCartCombo) => {
+      const updatedCartCombo = prevCartCombo.filter(
+        (item, index) => index !== itemIndex
+      );
+
+      // Cập nhật tổng tiền khi xóa sản phẩm
+      const newTotalAmount = updatedCartCombo.reduce(
+        (total, item) => total + item.quantity_cart * item.newPrice,
+        0
+      );
+
+      setCarts(updatedCartCombo);
+
+      // Lưu dữ liệu đã được cập nhật vào localStorage
+      localStorage.setItem("carts", JSON.stringify(updatedCartCombo));
+
+      return updatedCartCombo;
+    });
+    setTimeout(() => {
+      refreshPage();
+    }, 500);
   };
 
   return (
@@ -200,99 +234,114 @@ const Navbar = () => {
                   Giỏ hàng
                 </h1>
                 <div>
-                  {cart?.length === 0 ? (
-                    ""
-                  ) : (
+                  {carts.length || cartCombo.length > 0 ? (
                     <>
-                      <div className="row" style={{ padding: "1rem" }}>
-                        {cart?.map((item, index) => (
-                          <>
-                            <div className="col-2">
-                              <img src={item?.image} alt={item?.title} />
-                              <CloseIcon
-                                className="close-prd"
-                                onClick={() => {
-                                  dispatch(deleteCart(item));
-                                }}
-                              />
-                            </div>
-                            <div className="col-6">
-                              <p>
-                                <b
-                                  style={{
-                                    margin: "1rem",
-                                    fontSize: "0.6rem",
-                                  }}
-                                >
-                                  X{item?.quantity_cart}
-                                </b>
-                                {item?.title}
-                              </p>
-                              <b>{item?.code}</b>
-                            </div>
-                            <div className="col-4">
-                              <h6>{item?.status}</h6>
-                              <h6>{`${numeral(item?.newPrice).format(
-                                "0,0"
-                              )}đ`}</h6>
-                            </div>
-                            <hr style={{ margin: "1rem 0" }} />
-                          </>
-                        ))}
-                      </div>
+                      {carts?.length === 0 ? (
+                        ""
+                      ) : (
+                        <>
+                          <div className="row" style={{ padding: "1rem" }}>
+                            {carts?.map((item, index) => (
+                              <>
+                                <div className="col-2">
+                                  <img src={item?.image} alt={item?.title} />
+                                  <CloseIcon
+                                    className="close-prd"
+                                    onClick={() =>
+                                      handleRemoveProductCarts(index)
+                                    }
+                                  />
+                                </div>
+                                <div className="col-6">
+                                  <p>
+                                    <b
+                                      style={{
+                                        margin: "1rem",
+                                        fontSize: "0.6rem",
+                                      }}
+                                    >
+                                      X{item?.quantity_cart}
+                                    </b>
+                                    {item?.title}
+                                  </p>
+                                  <b>{item?.code}</b>
+                                </div>
+                                <div className="col-4">
+                                  <h6>{item?.status}</h6>
+                                  <h6>{`${numeral(item?.newPrice).format(
+                                    "0,0"
+                                  )}đ`}</h6>
+                                </div>
+                                <hr style={{ margin: "1rem 0" }} />
+                              </>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                      {cartCombo?.length === 0 ? (
+                        ""
+                      ) : (
+                        <>
+                          <div className="row" style={{ padding: "1rem" }}>
+                            {cartCombo.map((item, index) => (
+                              <React.Fragment key={index}>
+                                <div className="col-2">
+                                  <img src={item.image} alt={item.comboName} />
+                                  <CloseIcon
+                                    className="close-prd"
+                                    onClick={() => handleRemoveProduct(index)}
+                                  />
+                                </div>
+                                <div className="col-6">
+                                  <p>
+                                    <b>Tên Combo</b>
+                                  </p>
+                                  <h6>
+                                    <b> X{item.quantityCombo}</b>
+                                    {item.comboName}
+                                  </h6>
+                                </div>
+                                <div className="col-4">
+                                  <h6>Còn Hàng</h6>
+                                  <h6>{`${numeral(item.subtotal).format(
+                                    "0,0"
+                                  )}đ`}</h6>
+                                </div>
+                                <hr style={{ margin: "1rem 0" }} />
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </>
-                  )}
-                  {cartCombo?.length === 0 ? (
-                    ""
                   ) : (
-                    <>
-                      <div className="row" style={{ padding: "1rem" }}>
-                        {cartCombo.map((item, index) => (
-                          <React.Fragment key={index}>
-                            <div className="col-2">
-                              <img src={item.image} alt={item.comboName} />
-                              <CloseIcon
-                                className="close-prd"
-                                onClick={() => handleRemoveProduct(index)}
-                              />
-                            </div>
-                            <div className="col-6">
-                              <p>
-                                <b>Tên Combo</b>
-                              </p>
-                              <h6>{item.comboName}</h6>
-                            </div>
-                            <div className="col-4">
-                              <h6>Tổng Tiền</h6>
-                              <h6>{`${numeral(item.subtotal).format(
-                                "0,0"
-                              )}đ`}</h6>
-                            </div>
-                            <hr style={{ margin: "1rem 0" }} />
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </>
+                    <p className="text-center">Hiện tại chưa có sản phẩm nào</p>
                   )}
                 </div>
-                <div className="row">
-                  {/* <div className="col-6">
+                {carts.length || cartCombo.length > 0 ? (
+                  <>
+                    <div className="row">
+                      {/* <div className="col-6">
                    <span>Giỏ Hàng</span>
                  </div> */}
-                  {/* <div className="col-6">
+                      {/* <div className="col-6">
                    <span>{renderAmount()}</span>
                  </div> */}
-                  <div className="col-12" style={{ margin: "1rem" }}>
-                    <Link to="/shop/product-dt/cart">
-                      <Button
-                        variant="contained"
-                        endIcon={<ArrowForwardIosIcon />}
-                      >
-                        Thanh toán
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
+                      <div className="col-12" style={{ margin: "1rem" }}>
+                        <Link to="/shop/product-dt/cart">
+                          <Button
+                            variant="contained"
+                            endIcon={<ArrowForwardIosIcon />}
+                          >
+                            Thanh toán
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             </li>
 

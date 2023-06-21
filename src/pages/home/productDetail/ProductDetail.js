@@ -6,15 +6,15 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-
 import AddIcon from "@mui/icons-material/Add";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Tag } from "../../../components/tag/Tag";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addCart, getDetail } from "../../../redux/actions/product.action";
+import { getDetail } from "../../../redux/actions/product.action";
 import numeral from "numeral";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const ProductDetail = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ export const ProductDetail = () => {
       window.location.reload(false);
     }, 100);
   }
+
   const id = location.pathname.split("/")[3];
   useEffect(() => {
     dispatch(getDetail(id));
@@ -34,57 +35,77 @@ export const ProductDetail = () => {
     (state) => state.defaultReducer.productDetail
   );
 
-  const handleAddCart = (e) => {
-    const newCart = {
-      id: productDetail?._id,
-      code: productDetail?.code,
-      status: productDetail?.status,
-      title: productDetail?.title,
-      image: productDetail?.image,
-      newPrice: productDetail?.newPrice,
-      quantity_cart: quantity, // Sử dụng số lượng từ state
-    };
-    e.preventDefault();
+  const handleAddToCart = () => {
+    const existingItems = JSON.parse(localStorage.getItem("carts")) || [];
+    const existingItem = existingItems.find((item) => item.id === id);
 
-    dispatch(addCart(newCart));
+    if (existingItem) {
+      existingItem.quantity_cart += quantity;
+    } else {
+      existingItems.push({
+        id: productDetail?._id,
+        code: productDetail?.code,
+        status: productDetail?.status,
+        title: productDetail?.title,
+        image: productDetail?.image,
+        newPrice: productDetail?.newPrice,
+        quantity_cart: quantity,
+      });
+    }
+    toast.success(
+      `Thêm thành công sản phẩm (${productDetail?.title}) với số lượng (${quantity}) vào giỏ`,
+      {
+        position: toast.POSITION.TOP_CENTER,
+      }
+    );
+    localStorage.setItem("carts", JSON.stringify(existingItems));
+    setTimeout(() => {
+      setTimeout(() => {
+        refreshPage();
+      }, 500);
+    }, 500);
   };
 
-  const increaseQuantity = () => {
+  const handleQuantityIncrease = () => {
     setQuantity(quantity + 1);
   };
 
-  const decreaseQuantity = () => {
+  const handleQuantityDecrease = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
 
+  if (!productDetail) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="prd-dt-container container">
       <div className="breadcrumbs-prd">
-        <CustomizedBreadcrumbs name={productDetail?.title} />
+        <CustomizedBreadcrumbs name={productDetail.title} />
       </div>
       <div className="body-prd-dt">
         <div className="sub-body-prd">
           <div className="row">
             <div className="col-6">
-              <img src={productDetail?.image} alt="..." />
+              <img src={productDetail.image} alt="..." />
             </div>
             <div className="col-6">
               <div className="body-ds">
-                <h2>{productDetail?.title}</h2>
+                <h2>{productDetail.title}</h2>
               </div>
-              <div className="prd-dt-code">{productDetail?.code}</div>
+              <div className="prd-dt-code">{productDetail.code}</div>
               <div className="item-prd">
                 <div className="row">
                   <div className="col-6">
                     <span>Đơn giá</span>
-                    <h6>{`${numeral(productDetail?.newPrice).format(
+                    <h6>{`${numeral(productDetail.newPrice).format(
                       "0,0"
                     )}đ`}</h6>
                   </div>
                   <div className="col-6">
-                    <span>{productDetail?.status}</span>
+                    <span>{productDetail.status}</span>
                     <h6>Còn hàng</h6>
                   </div>
                 </div>
@@ -97,30 +118,34 @@ export const ProductDetail = () => {
               <div className="action-prd-dt">
                 <div className="btn-quantity">
                   <IconButton
-                    aria-label="delete"
+                    aria-label="decrease"
                     size="large"
-                    onClick={decreaseQuantity}
+                    onClick={handleQuantityDecrease}
                   >
                     <RemoveIcon />
                   </IconButton>
                   <span>{quantity}</span>
                   <IconButton
-                    aria-label="delete"
+                    aria-label="increase"
                     size="large"
-                    onClick={increaseQuantity}
+                    onClick={handleQuantityIncrease}
                   >
                     <AddIcon />
                   </IconButton>
                 </div>
               </div>
               <div className="action-prd-dt-btn">
-                <Button variant="outlined" endIcon={<ArrowRightIcon />}>
+                <Button
+                  variant="outlined"
+                  endIcon={<ArrowRightIcon />}
+                  onClick={handleAddToCart}
+                >
                   Mua ngay
                 </Button>
                 <Button
                   variant="outlined"
                   endIcon={<ArrowRightIcon />}
-                  onClick={handleAddCart}
+                  onClick={handleAddToCart}
                 >
                   Thêm vào giỏ
                 </Button>
@@ -142,7 +167,7 @@ export const ProductDetail = () => {
                         src="https://kimthanh.online/wp-content/uploads/2023/04/fast-150x150.jpg"
                         alt="..."
                       />
-                      <p>Giao hàng nhanh 2 -3 ngày</p>
+                      <p>Giao hàng nhanh 2 - 3 ngày</p>
                     </div>
                   </div>
                 </div>

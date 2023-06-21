@@ -23,7 +23,9 @@ import numeral from "numeral";
 export const CardHorizontal = (cart) => {
   const dispatch = useDispatch();
   const [cartCombo, setCartCombo] = useState([]);
+  const [carts, setCarts] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [totalAmountCarts, setTotalAmountCarts] = useState(0);
   const user = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -43,6 +45,29 @@ export const CardHorizontal = (cart) => {
     }
   }, []);
 
+  useEffect(() => {
+    // Lấy dữ liệu từ localStorage
+    const storedCartCombo = localStorage.getItem("carts");
+    if (storedCartCombo) {
+      const parsedCartCombo = JSON.parse(storedCartCombo);
+
+      // Tính tổng tiền ban đầu từ các sản phẩm ban đầu
+      const initialTotalAmount = parsedCartCombo.reduce(
+        (total, item) => total + item.newPrice * item.quantity_cart,
+        0
+      );
+
+      setCarts(parsedCartCombo);
+      setTotalAmountCarts(initialTotalAmount);
+    }
+  }, []);
+
+  function refreshPage() {
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 100);
+  }
+
   const handleRemoveProduct = (itemIndex) => {
     setCartCombo((prevCartCombo) => {
       const updatedCartCombo = prevCartCombo.filter(
@@ -61,6 +86,32 @@ export const CardHorizontal = (cart) => {
 
       return updatedCartCombo;
     });
+    setTimeout(() => {
+      refreshPage();
+    }, 500);
+  };
+
+  const handleRemoveProductCarts = (itemIndex) => {
+    setCarts((prevCartCombo) => {
+      const updatedCartCombo = prevCartCombo.filter(
+        (item, index) => index !== itemIndex
+      );
+
+      // Cập nhật tổng tiền khi xóa sản phẩm
+      const newTotalAmount = updatedCartCombo.reduce(
+        (total, item) => total + item.quantity_cart * item.newPrice,
+        0
+      );
+      setTotalAmountCarts(newTotalAmount);
+
+      // Lưu dữ liệu đã được cập nhật vào localStorage
+      localStorage.setItem("carts", JSON.stringify(updatedCartCombo));
+
+      return updatedCartCombo;
+    });
+    setTimeout(() => {
+      refreshPage();
+    }, 500);
   };
 
   const handleQuantityChange = (comboIndex, increment) => {
@@ -95,31 +146,57 @@ export const CardHorizontal = (cart) => {
 
       return updatedCartCombo;
     });
+    setTimeout(() => {
+      refreshPage();
+    }, 500);
   };
 
-  const renderAmount = () => {
-    return totalAmount; // Hiển thị tổng tiền với 2 chữ số thập phân
+  const handleQuantityChangeCarts = (itemIndex, increment) => {
+    setCarts((prevCart) => {
+      const updatedCart = [...prevCart];
+      const item = updatedCart[itemIndex];
+
+      if (!item.quantity_cart) {
+        item.quantity_cart = 0;
+      }
+
+      if (increment) {
+        // Tăng số lượng sản phẩm lên 1
+        item.quantity_cart += 1;
+      } else {
+        // Giảm số lượng sản phẩm đi 1, nhưng không nhỏ hơn 0
+        item.quantity_cart = Math.max(0, item.quantity_cart - 1);
+      }
+
+      // Cập nhật tổng tiền của sản phẩm dựa trên số lượng và giá tiền mới
+      item.totalPrice = item.quantity_cart * item.newPrice;
+
+      // Cập nhật tổng tiền khi thay đổi số lượng
+      const newTotalAmount = updatedCart.reduce(
+        (total, item) => total + item.quantity_cart * item.newPrice,
+        0
+      );
+      setTotalAmountCarts(newTotalAmount);
+
+      // Lưu dữ liệu đã được cập nhật vào localStorage
+      localStorage.setItem("carts", JSON.stringify(updatedCart));
+
+      return updatedCart;
+    });
+    setTimeout(() => {
+      refreshPage();
+    }, 500);
   };
 
-  let subTotal = 0;
-  cart?.cart?.forEach((item) => {
-    subTotal += item.newPrice * item.quantity_cart;
-  });
-
-  const renderAmountPT = () => {
-    return cart?.cart?.reduce((total, item) => {
-      return (total += item.newPrice * item.quantity_cart);
-    }, 0);
-  };
   // Tính tổng tiền cuối cùng từ cả hai nguồn dữ liệu
-  const grandTotal = subTotal + totalAmount;
+  const grandTotal = totalAmountCarts + totalAmount;
 
   const renderQuantity = () => {
     const comboQuantity = cartCombo.reduce((sum, item) => {
       return (sum += item.quantityCombo);
     }, 0);
 
-    const productQuantity = cart?.cart?.reduce((sum, item) => {
+    const productQuantity = carts?.reduce((sum, item) => {
       return (sum += item.quantity_cart);
     }, 0);
 
@@ -253,6 +330,9 @@ export const CardHorizontal = (cart) => {
             });
             navigate("/history");
             // window.location.href = "/thanh-cong";
+            setTimeout(() => {
+              refreshPage();
+            }, 500);
           })
           .catch((error) => {
             // Xử lý lỗi (nếu có)
@@ -291,7 +371,7 @@ export const CardHorizontal = (cart) => {
             Số lượng có trong Giỏ {renderQuantity()}
           </p>
           <div className="body-card">
-            {cart?.cart?.map((item, index) => (
+            {carts?.map((item, index) => (
               <div
                 className="row"
                 style={{ textAlign: "center", marginBotto: "1rem" }}
@@ -302,9 +382,7 @@ export const CardHorizontal = (cart) => {
                     <img src={item?.image} alt={item?.title} />
                     <CloseIcon
                       className="close-prd"
-                      onClick={() => {
-                        dispatch(deleteCart(item));
-                      }}
+                      onClick={() => handleRemoveProductCarts(index)}
                     />
                   </div>
                 </div>
@@ -319,9 +397,7 @@ export const CardHorizontal = (cart) => {
                         aria-label="delete"
                         size="large"
                         className="hover-card"
-                        onClick={() => {
-                          dispatch(numberQuantity(item, false));
-                        }}
+                        onClick={() => handleQuantityChangeCarts(index, false)}
                       >
                         <RemoveIcon />
                       </IconButton>
@@ -330,9 +406,7 @@ export const CardHorizontal = (cart) => {
                         aria-label="delete"
                         size="large"
                         className="hover-card"
-                        onClick={() => {
-                          dispatch(numberQuantity(item, true));
-                        }}
+                        onClick={() => handleQuantityChangeCarts(index, true)}
                       >
                         <AddIcon />
                       </IconButton>
@@ -341,9 +415,12 @@ export const CardHorizontal = (cart) => {
                 </div>
                 <div className="col-3">
                   <b>
-                    {`${numeral(item.newPrice * item.quantity_cart).format(
-                      "0,0"
-                    )}đ`}
+                    {" "}
+                    {item.quantity_cart === 1
+                      ? `${numeral(item.newPrice).format("0,0")}đ`
+                      : `${numeral(item.newPrice * item.quantity_cart).format(
+                          "0,0"
+                        )}đ`}
                   </b>
                 </div>
                 <hr style={{ margin: "1rem 0" }} />
@@ -399,7 +476,9 @@ export const CardHorizontal = (cart) => {
                       <b>
                         {item.quantityCombo === 1
                           ? `${numeral(item.subtotal).format("0,0")}đ`
-                          : `${numeral(item.totalPrice).format("0,0")}đ`}
+                          : `${numeral(
+                              item.subtotal * item.quantityCombo
+                            ).format("0,0")}đ`}
                       </b>
                     </b>
                   </b>
@@ -415,11 +494,11 @@ export const CardHorizontal = (cart) => {
               <div className="col-6">
                 <div className="sub-total">
                   <p>Tạm tính Tiền Phụ Tùng: </p>
-                  <b>{`${numeral(renderAmountPT()).format("0,0")}đ`}</b>
+                  <b>{`${numeral(totalAmountCarts).format("0,0")}đ`}</b>
                 </div>
                 <div className="sub-total">
                   <p>Tạm tính Tiền Combo: </p>
-                  <b>{`${numeral(renderAmount()).format("0,0")}đ`}</b>
+                  <b>{`${numeral(totalAmount).format("0,0")}đ`}</b>
                 </div>
                 <div className="sub-total">
                   <p>Tổng: </p>

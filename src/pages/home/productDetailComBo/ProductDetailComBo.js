@@ -22,6 +22,12 @@ export const ProductDetailComBo = () => {
     dispatch(getDetailComBo(id));
   }, [dispatch, id]);
 
+  function refreshPage() {
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 100);
+  }
+
   const productDetailComBo = useSelector(
     (state) => state.defaultReducer.productDetailComBo
   );
@@ -105,6 +111,7 @@ export const ProductDetailComBo = () => {
     updatedQuantities[index] += 1;
     setQuantities(updatedQuantities);
   };
+
   const handlePlaceOrder = () => {
     const selectedItems = selectedProducts.map((productId, index) => {
       const product = productDetailComBo?.products[index];
@@ -136,9 +143,33 @@ export const ProductDetailComBo = () => {
 
     if (existingOrderData) {
       dataToStore = JSON.parse(existingOrderData);
+
+      // Kiểm tra nếu combo đã tồn tại trong orderData
+      const existingComboIndex = dataToStore.findIndex(
+        (combo) =>
+          combo.comboName === comboOrder.comboName &&
+          combo.products.length === selectedItems.length &&
+          combo.products.every((product, index) => {
+            const selectedProduct = selectedItems[index];
+            return (
+              product.productId === selectedProduct.productId &&
+              product.quantity === selectedProduct.quantity
+            );
+          })
+      );
+
+      if (existingComboIndex !== -1) {
+        // Tăng quantityCombo lên nếu combo đã tồn tại
+        dataToStore[existingComboIndex].quantityCombo += 1;
+      } else {
+        // Thêm mới combo nếu không tồn tại
+        dataToStore.push(comboOrder);
+      }
+    } else {
+      // Thêm mới combo nếu orderData chưa tồn tại
+      dataToStore.push(comboOrder);
     }
 
-    dataToStore.push(comboOrder);
     localStorage.setItem("orderData", JSON.stringify(dataToStore));
 
     const totalOrderPrice = dataToStore.reduce(
@@ -149,6 +180,11 @@ export const ProductDetailComBo = () => {
     localStorage.setItem("totalOrderPrice", totalOrderPrice.toString());
     toast.success("Thêm thành công sản phẩm", {
       position: toast.POSITION.TOP_CENTER,
+    });
+    setTimeout(() => {
+      setTimeout(() => {
+        refreshPage();
+      }, 500);
     });
   };
 

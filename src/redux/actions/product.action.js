@@ -141,7 +141,7 @@ export const updateProduct = (id, item, navigate) => {
         });
         setTimeout(() => {
           navigate("/list-products-admin");
-        }, 1000);
+        }, 500);
       })
       .catch((err) => console.log(err));
   };
