@@ -94,7 +94,9 @@ export const OrderCustomer = () => {
                         <p>Số lượng đặt: {combo.quantityCombo}</p>
                         <p>
                           Tổng tiền:{" "}
-                          {`${numeral(combo.totalPrice).format("0,0")}đ`}{" "}
+                          {`${numeral(
+                            combo.quantityCombo * combo.subtotal
+                          ).format("0,0")}đ`}{" "}
                         </p>
                         <button
                           style={{ background: "blue" }}
