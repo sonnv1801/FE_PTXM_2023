@@ -13,7 +13,17 @@
 }
 
 .body-history .sub-body-history {
-  padding: 1.5rem;
+  padding: 0.5rem 1.5rem;
+}
+
+.sub-body-history .title-history {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.sub-body-history .title-history button {
+  height: 40px;
 }
 
 .sub-body-history .title-history h2 {

@@ -1,17 +1,9 @@
-.main {
-  display: flex;
-  /* align-items: center; */
-  justify-content: center;
-  /* background-color: #ff4800; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+/*  */
 
-.login {
+.main-login .login {
+  margin: 0 auto;
   width: 430px;
-  height: 400px;
+  height: 100%;
   background: rgb(228, 225, 225);
   border-radius: 1rem;
   /* margin: 150px 0 50px 150px; */
@@ -19,23 +11,20 @@
   opacity: 0.85;
 }
 
-.login .title {
-  color: #212529;
+.main-login .login .title {
+  color: blue;
   font-size: 40px;
   font-weight: bold;
   margin: 20px 0px 10px;
   text-align: center;
   font-family: math;
-
   font-style: oblique;
+  font-weight: bold;
 }
 
-.login .title-input {
-  font-family: var(--main-font);
-  font-size: var(--main-fsize);
-  margin-left: 30px;
+.main-login .login .title-input {
   margin-bottom: 5px;
-  color: #ff4800;
+  color: blue;
   line-height: 24px;
   font-family: math;
   font-size: 20px;
@@ -46,27 +35,29 @@
   margin: 0 30px;
 }
 
-.login .d-flex.mb-5.align-items-center {
+.main-login .login .d-flex.mb-5.align-items-center {
   justify-content: right;
   margin-right: 30px;
   font-family: var(--main-font);
 }
 
-.main .login .btn.btn-danger {
+.main-login .login .btn.btn-danger {
   width: 50%;
   margin: 0 auto;
   display: inherit;
   margin-top: 20px;
+  background-color: blue;
+  border: none;
 }
 
-.login .btn-primary:hover {
+.main-login .login .btn-primary:hover {
   opacity: 0.5;
   transition: 0.3s;
   background-color: white;
   border: 1px solid black;
 }
 
-.login span#basic-addon1 {
+.main-login .login span#basic-addon1 {
   position: absolute;
   right: 0;
   border: none;
@@ -80,7 +71,7 @@
   border-radius: 4px;
 }
 
-.main .login a.forgot-pass {
+.main-login .login a.forgot-pass {
   text-decoration: none;
   color: black;
   margin-right: 5px;
@@ -88,7 +79,7 @@
   font-style: oblique;
 }
 
-.login .forgot {
+.main-login .login .forgot {
   float: right;
   margin: 40px;
   text-align: center;
@@ -98,7 +89,7 @@
   cursor: pointer;
 }
 
-.main .login a {
+.main-login .login a {
   text-decoration: none;
   display: block;
 }

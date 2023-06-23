@@ -20,6 +20,7 @@ import { deleteCart, numberQuantity } from "../../redux/actions/product.action";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import numeral from "numeral";
+import Swal from "sweetalert2";
 export const CardHorizontal = (cart) => {
   const dispatch = useDispatch();
   const [cartCombo, setCartCombo] = useState([]);
@@ -27,6 +28,7 @@ export const CardHorizontal = (cart) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalAmountCarts, setTotalAmountCarts] = useState(0);
   const user = JSON.parse(localStorage.getItem("token"));
+  const [orderData, setOrderData] = useState([]);
 
   useEffect(() => {
     // Lấy dữ liệu từ localStorage
@@ -226,7 +228,7 @@ export const CardHorizontal = (cart) => {
     const value = name === "image" ? e.target.files[0] : e.target.value;
     setData({ ...data, [name]: value });
   };
-  function handlePurchase() {
+  async function handlePurchase() {
     if (
       data.fullname !== "" &&
       data.phone !== "" &&
@@ -246,9 +248,6 @@ export const CardHorizontal = (cart) => {
         const orderData = storedOrderData ? JSON.parse(storedOrderData) : [];
         const user = JSON.parse(storedToken);
 
-        // Tính tổng tiền của đơn hàng
-        let totalOrderPrice = 0;
-
         // Tạo một đối tượng mới để chứa các đơn hàng và tổng tiền
         const order = {
           products: [],
@@ -266,7 +265,6 @@ export const CardHorizontal = (cart) => {
         order.products = carts.map((cart) => ({
           id: cart.id,
           code: cart.code,
-          status: cart.status,
           title: cart.title,
           image: cart.image,
           newPrice: cart.newPrice,
@@ -275,6 +273,7 @@ export const CardHorizontal = (cart) => {
 
         // Thêm dữ liệu từ orderData vào order
         order.combos = orderData.map((data) => ({
+          _id: data._id,
           quantityCombo: data.quantityCombo,
           image: data.image,
           comboName: data.comboName,
@@ -294,6 +293,8 @@ export const CardHorizontal = (cart) => {
         }));
 
         // Tính tổng tiền của đơn hàng
+        let totalOrderPrice = 0;
+
         totalOrderPrice = order.combos.reduce(
           (total, combo) =>
             total +
@@ -313,35 +314,71 @@ export const CardHorizontal = (cart) => {
         // Cập nhật tổng tiền của đơn hàng
         order.totalOrderPrice = totalOrderPrice;
 
-        // Gửi yêu cầu POST đến backend server với đơn hàng đã được map
-        axios
-          .post("https://phutungxemay.onrender.com/v1/ordercombo", order)
-          .then((response) => {
-            // Xử lý kết quả trả về từ backend (nếu cần)
-            console.log("Yêu cầu POST thành công:", response.data);
+        try {
+          // Giảm số lượng combo
+          for (const combo of order.combos) {
+            const comboResponse = await axios.put(
+              `https://phutungxemay.onrender.com/v1/combo/combo/${combo._id}/reduce`,
+              {
+                quantityCombo: combo.quantityCombo,
+                products: combo.products.map((product) => ({
+                  productId: product.productId,
+                  quantity: product.quantity,
+                })),
+              }
+            );
 
-            // Xóa dữ liệu trong localStorage sau khi đã thành công
-            localStorage.removeItem("carts");
-            localStorage.removeItem("orderData");
+            console.log(
+              "Số lượng combo đã giảm thành công:",
+              comboResponse.data
+            );
+          }
 
-            // Hiển thị thông báo hoặc chuyển hướng người dùng tới trang thành công
-            toast.success("Cảm ơn bạn đã mua hàng!", {
-              position: toast.POSITION.TOP_CENTER,
-            });
-            navigate("/history");
-            // window.location.href = "/thanh-cong";
-            setTimeout(() => {
-              refreshPage();
-            }, 500);
-          })
-          .catch((error) => {
-            // Xử lý lỗi (nếu có)
-            console.error("Có lỗi xảy ra khi gửi yêu cầu POST:", error);
-            toast.error("Có lỗi xảy ra khi mua hàng!", {
-              position: toast.POSITION.TOP_CENTER,
-            });
-            // window.location.href = "/loi";
+          // Tăng số lượng sản phẩm đã mua
+          for (const product of order.products) {
+            const productResponse = await axios.post(
+              `https://phutungxemay.onrender.com/v1/order/products/buy/${product.id}`,
+              {
+                quantity: product.quantity_cart,
+              }
+            );
+
+            console.log(
+              "Số lượng sản phẩm đã mua đã được cập nhật:",
+              productResponse.data
+            );
+          }
+
+          // Gửi yêu cầu POST đến backend server với đơn hàng đã được map
+          const response = await axios.post(
+            "https://phutungxemay.onrender.com/v1/ordercombo",
+            order
+          );
+
+          // Xử lý kết quả trả về từ backend (nếu cần)
+          console.log("Yêu cầu POST thành công:", response.data);
+
+          // Xóa dữ liệu trong localStorage sau khi đã thành công
+          localStorage.removeItem("carts");
+          localStorage.removeItem("orderData");
+
+          // Hiển thị thông báo hoặc chuyển hướng người dùng tới trang thành công
+          toast.success("Cảm ơn bạn đã mua hàng!", {
+            position: toast.POSITION.TOP_CENTER,
           });
+          navigate("/history");
+          // window.location.href = "/thanh-cong";
+          setTimeout(() => {
+            refreshPage();
+          }, 500);
+        } catch (error) {
+          // Xử lý lỗi (nếu có)
+          console.error("Có lỗi xảy ra khi mua hàng:", error);
+          toast.error("Có lỗi xảy ra khi mua hàng!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          // window.location.href = "/loi";
+        }
       } else {
         // Hiển thị thông báo lỗi hoặc chuyển hướng người dùng tới trang lỗi
         toast.error("Không tìm thấy đơn hàng, mua thêm nha", {
@@ -355,6 +392,52 @@ export const CardHorizontal = (cart) => {
       });
     }
   }
+
+  const [showProducts, setShowProducts] = useState([]);
+
+  const handleToggleProducts = (index) => {
+    setShowProducts((prevShowProducts) => {
+      const updatedShowProducts = [...prevShowProducts];
+      updatedShowProducts[index] = !updatedShowProducts[index];
+      return updatedShowProducts;
+    });
+  };
+  const handleRemoveProductFromOrder = (comboIndex, productIndex) => {
+    setCartCombo((prevCartCombo) => {
+      const updatedCartCombo = [...prevCartCombo];
+      const combo = updatedCartCombo[comboIndex];
+
+      // Kiểm tra nếu chỉ còn 1 sản phẩm trong combo, không cho phép xóa
+      if (combo.products.length === 1) {
+        Swal.fire("Không thể xóa sản phẩm cuối cùng trong combo!", "error");
+        return updatedCartCombo;
+      }
+
+      // Xóa sản phẩm khỏi combo
+      combo.products = combo.products
+        .slice(0, productIndex)
+        .concat(combo.products.slice(productIndex + 1));
+
+      // Tính lại tổng tiền và tổng giá cho combo
+      combo.subtotal = combo.products.reduce(
+        (subtotal, product) => subtotal + product.price * product.quantity,
+        0
+      );
+      combo.totalPrice = combo.subtotal * combo.quantityCombo;
+
+      // Cập nhật tổng tiền khi xóa sản phẩm
+      const newTotalAmount = updatedCartCombo.reduce(
+        (total, item) => total + item.totalPrice,
+        0
+      );
+      setTotalAmount(newTotalAmount);
+
+      // Lưu dữ liệu đã được cập nhật vào localStorage
+      localStorage.setItem("orderData", JSON.stringify(updatedCartCombo));
+
+      return updatedCartCombo;
+    });
+  };
 
   return (
     <div className="row">
@@ -387,7 +470,10 @@ export const CardHorizontal = (cart) => {
                   </div>
                 </div>
                 <div className="col-4">
-                  <div>{item?.title} </div>
+                  <Link to={`/shop/product-dt/${item.id}`} key={item.id}>
+                    <div>{item.title}</div>
+                  </Link>
+
                   <span>{item?.code} </span>
                 </div>
                 <div className="col-3">
@@ -427,64 +513,116 @@ export const CardHorizontal = (cart) => {
               </div>
             ))}
           </div>
+
           <div className="body-card">
             {cartCombo?.map((item, index) => (
-              <div
-                className="row"
-                style={{ textAlign: "center", marginBotto: "1rem" }}
-                key={index}
-              >
-                <div className="col-2">
-                  <div className="img-card">
-                    <img src={item?.image} alt={item?.comboName} />
-                    <CloseIcon
-                      className="close-prd"
-                      onClick={() => handleRemoveProduct(index)}
-                    />
-                  </div>
-                </div>
-                <div className="col-4">
-                  <div>{item?.comboName} </div>
-                  <span>Số sản phẩm {item?.quantity} </span>
-                </div>
-                <div className="col-3">
-                  <div className="action-prd-dt">
-                    <div className="btn-quantity">
-                      <IconButton
-                        aria-label="delete"
-                        size="large"
-                        className="hover-card"
-                        onClick={() => handleQuantityChange(index, false)}
-                      >
-                        <RemoveIcon />
-                      </IconButton>
-                      <span>{item?.quantityCombo} </span>
-                      <IconButton
-                        aria-label="delete"
-                        size="large"
-                        className="hover-card"
-                        onClick={() => handleQuantityChange(index, true)}
-                      >
-                        <AddIcon />
-                      </IconButton>
+              <>
+                <div
+                  className="row"
+                  style={{ textAlign: "center", marginBotto: "1rem" }}
+                  key={index}
+                >
+                  <div className="col-2">
+                    <div className="img-card">
+                      <img src={item?.image} alt={item?.comboName} />
+                      <CloseIcon
+                        className="close-prd"
+                        onClick={() => handleRemoveProduct(index)}
+                      />
                     </div>
                   </div>
-                </div>
-                <div className="col-3">
-                  <b>
+                  <div className="col-4">
+                    <div>{item?.comboName} </div>
+                    <span>Số sản phẩm {item?.quantity} </span>
+                  </div>
+                  <div className="col-3">
+                    <div className="action-prd-dt">
+                      <div className="btn-quantity">
+                        <IconButton
+                          aria-label="delete"
+                          size="large"
+                          className="hover-card"
+                          onClick={() => handleQuantityChange(index, false)}
+                        >
+                          <RemoveIcon />
+                        </IconButton>
+                        <span>{item?.quantityCombo} </span>
+                        <IconButton
+                          aria-label="delete"
+                          size="large"
+                          className="hover-card"
+                          onClick={() => handleQuantityChange(index, true)}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-3">
                     <b>
                       <b>
-                        {item.quantityCombo === 1
-                          ? `${numeral(item.subtotal).format("0,0")}đ`
-                          : `${numeral(
-                              item.subtotal * item.quantityCombo
-                            ).format("0,0")}đ`}
+                        <b>
+                          {item.quantityCombo === 1
+                            ? `${numeral(item.subtotal).format("0,0")}đ`
+                            : `${numeral(
+                                item.subtotal * item.quantityCombo
+                              ).format("0,0")}đ`}
+                        </b>
                       </b>
                     </b>
-                  </b>
+                  </div>
+                  <hr style={{ margin: "1rem 0" }} />
                 </div>
-                <hr style={{ margin: "1rem 0" }} />
-              </div>
+
+                {showProducts[index] &&
+                  // Hiển thị sản phẩm khi showProducts[index] là true
+                  item.products.map((product, productIndex) => (
+                    <div
+                      className="row"
+                      style={{
+                        textAlign: "center",
+                        marginBotto: "1rem",
+                        padding: "1rem",
+                      }}
+                      key={productIndex}
+                    >
+                      {/* chỗ này viết xóa từng sản phẩm theo order */}
+                      <div className="col-2">
+                        <div className="img-card">
+                          <img src={product?.image} alt={item?.comboName} />
+                          <CloseIcon
+                            className="close-prd"
+                            onClick={() =>
+                              handleRemoveProductFromOrder(index, productIndex)
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="col-4">
+                        <div>{product?.name}</div>
+                        <span>Số sản phẩm {product?.quantity}</span>
+                      </div>
+                      <div className="col-3">
+                        Giá: {numeral(product?.price).format("0,0")}đ
+                      </div>
+                      <div className="col-3">
+                        Tổng: {numeral(product?.total).format("0,0")}đ
+                      </div>
+                      <hr style={{ margin: "1rem 0" }} />
+                    </div>
+                  ))}
+
+                <div style={{ display: "flex", justifyContent: "right" }}>
+                  <button
+                    onClick={() => handleToggleProducts(index)}
+                    id="btn-htt"
+                  >
+                    {showProducts[index]
+                      ? "Ẩn sản phẩm"
+                      : "Hiển thị sản phẩm combo"}
+                  </button>
+                </div>
+              </>
             ))}
           </div>
 

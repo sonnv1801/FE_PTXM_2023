@@ -246,7 +246,11 @@ function ListProductAdmin() {
           />
         </ModalBody>
         <ModalFooter>
-          <Button variant="success" onClick={handleSubmit}>
+          <Button
+            style={{ background: "#0d6efd" }}
+            variant="success"
+            onClick={handleSubmit}
+          >
             Thêm Sản Phẩm
           </Button>
         </ModalFooter>

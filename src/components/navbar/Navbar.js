@@ -22,6 +22,11 @@ import { getAllTypeProductCombo } from "../../redux/actions/typecombo.action";
 import { getSupplier } from "../../redux/actions/supplier.action";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import numeral from "numeral";
+import CartEPT from "../../assets/empty-cart.png";
+import Logo from "../../assets/logo1.png";
+import ApprovalIcon from "@mui/icons-material/Approval";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 const Navbar = () => {
   const dispatch = useDispatch();
   const listTypePhuTung = useSelector((state) => state.defaultReducer.listType);
@@ -91,7 +96,6 @@ const Navbar = () => {
     dispatch(getSupplier());
   }, []);
 
-  console.log(listSupplier, "listSupplier");
   // const cart = JSON.parse(localStorage.getItem("carts"));
 
   const renderQuantity = () => {
@@ -162,7 +166,7 @@ const Navbar = () => {
           <ul>
             <li>
               <Link to="/" title="Trang chủ">
-                Trang chủ
+                <img src={Logo} alt="logo" style={{ width: "100px" }} />
               </Link>
             </li>
             <li>
@@ -200,7 +204,12 @@ const Navbar = () => {
                 </div>
               </div>
             </li>
-            <p
+            <li>
+              <Link to="/contact" title="Liên Hệ">
+                Liên Hệ
+              </Link>
+            </li>
+            {/* <p
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -222,7 +231,7 @@ const Navbar = () => {
                   ))}
                 </Dropdown.Menu>
               </Dropdown>
-            </p>
+            </p> */}
           </ul>
           <ul>
             <li>
@@ -230,9 +239,6 @@ const Navbar = () => {
                 <ShoppingCartOutlinedIcon /> {renderQuantity()}
               </a>
               <div className="sub-menu-lv3">
-                <h1 style={{ textAlign: "center", margin: "1rem" }}>
-                  Giỏ hàng
-                </h1>
                 <div>
                   {carts.length || cartCombo.length > 0 ? (
                     <>
@@ -256,18 +262,19 @@ const Navbar = () => {
                                   <p>
                                     <b
                                       style={{
-                                        margin: "1rem",
+                                        marginRight: "0.5rem",
+                                        marginLeft: "0.5rem",
                                         fontSize: "0.6rem",
                                       }}
                                     >
-                                      X{item?.quantity_cart}
+                                      {item?.quantity_cart}X
                                     </b>
                                     {item?.title}
                                   </p>
                                   <b>{item?.code}</b>
                                 </div>
                                 <div className="col-4">
-                                  <h6>{item?.status}</h6>
+                                  <h6>Còn Hàng</h6>
                                   <h6>{`${numeral(item?.newPrice).format(
                                     "0,0"
                                   )}đ`}</h6>
@@ -282,7 +289,7 @@ const Navbar = () => {
                         ""
                       ) : (
                         <>
-                          <div className="row" style={{ padding: "1rem" }}>
+                          <div className="row" style={{ padding: "0 1rem" }}>
                             {cartCombo.map((item, index) => (
                               <React.Fragment key={index}>
                                 <div className="col-2">
@@ -292,14 +299,22 @@ const Navbar = () => {
                                     onClick={() => handleRemoveProduct(index)}
                                   />
                                 </div>
+
                                 <div className="col-6">
                                   <p>
-                                    <b>Tên Combo</b>
-                                  </p>
-                                  <h6>
-                                    <b> X{item.quantityCombo}</b>
+                                    <b
+                                      style={{
+                                        marginRight: "0.5rem",
+                                        marginLeft: "0.5rem",
+                                        fontSize: "0.6rem",
+                                      }}
+                                    >
+                                      {" "}
+                                      X{item.quantityCombo}
+                                    </b>
                                     {item.comboName}
-                                  </h6>
+                                  </p>
+                                  <b>{item?.code}</b>
                                 </div>
                                 <div className="col-4">
                                   <h6>Còn Hàng</h6>
@@ -315,19 +330,20 @@ const Navbar = () => {
                       )}
                     </>
                   ) : (
-                    <p className="text-center">Hiện tại chưa có sản phẩm nào</p>
+                    <>
+                      <div style={{ padding: "25px 10rem" }}>
+                        <img src={CartEPT} alt="" />
+                      </div>
+                      <p className="text-center">
+                        Hiện tại chưa có sản phẩm nào
+                      </p>
+                    </>
                   )}
                 </div>
                 {carts.length || cartCombo.length > 0 ? (
                   <>
                     <div className="row">
-                      {/* <div className="col-6">
-                   <span>Giỏ Hàng</span>
-                 </div> */}
-                      {/* <div className="col-6">
-                   <span>{renderAmount()}</span>
-                 </div> */}
-                      <div className="col-12" style={{ margin: "1rem" }}>
+                      <div className="col-12">
                         <Link to="/shop/product-dt/cart">
                           <Button
                             variant="contained"
@@ -356,10 +372,7 @@ const Navbar = () => {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
-                    />
+                    <Avatar alt="Remy Sharp" src={user?.image} />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -395,32 +408,15 @@ const Navbar = () => {
                       >
                         <MenuItem>
                           <Typography textAlign="center">
-                            Đơn hàng của bạn!
-                          </Typography>
-                        </MenuItem>
-                      </Link>
-                      <Link
-                        to="/orderpage"
-                        style={{ color: "black", textDecoration: "none" }}
-                      >
-                        <MenuItem>
-                          <Typography textAlign="center">
-                            Đơn hàng nhà cung cấp!
-                          </Typography>
-                        </MenuItem>
-                      </Link>
-                      <Link
-                        to="/cart-supplier"
-                        style={{ color: "black", textDecoration: "none" }}
-                      >
-                        <MenuItem>
-                          <Typography textAlign="center">
-                            Lên Đơn Hàng
+                            <ApprovalIcon /> Đơn hàng của bạn!
                           </Typography>
                         </MenuItem>
                       </Link>
                       <MenuItem onClick={handlelogout}>
-                        <Typography textAlign="center">Đăng xuất</Typography>
+                        <Typography textAlign="center">
+                          {" "}
+                          <LogoutIcon /> Đăng xuất
+                        </Typography>
                       </MenuItem>
                     </>
                   )}
@@ -428,9 +424,14 @@ const Navbar = () => {
                     <Link
                       to="/admin"
                       style={{ color: "black", textDecoration: "none" }}
+                      onClick={refreshPage}
                     >
                       <MenuItem>
-                        <Typography textAlign="center">Admin</Typography>
+                        <Typography textAlign="center">
+                          {" "}
+                          <AdminPanelSettingsIcon />
+                          Admin
+                        </Typography>
                       </MenuItem>
                     </Link>
                   ) : (

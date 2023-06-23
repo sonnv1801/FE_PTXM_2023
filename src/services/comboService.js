@@ -8,4 +8,7 @@ export class ComBoService {
   getDetailComBo(id) {
     return Axios.get(`${API}/${id}`);
   }
+  getAllProductCombos() {
+    return Axios.get(`${API}`);
+  }
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { CartMini } from "../../../components/cartmini/CartMini";
 import ImgMediaCard from "../../../components/imgMediaCard/ImgMediaCard";
+import ImgMediaCardComBo from "../../../components/imgMediaCard/ImgMediaCardComBo";
 import { TitleStore } from "../../../components/titlestore/TitleStore";
 import { getComBoByTypeLink } from "../../../redux/actions/combo.action";
 import { getProductByTypes } from "../../../redux/actions/product.action";
@@ -47,14 +48,14 @@ export const ShopCombo = () => {
       </div>
       <hr />
       <div className="title-product-store">
-        <TitleStore />
+        <TitleStore type={type} />
       </div>
       <div className="products-body">
         <div className="row">
           {listComboByTypeLink.map((item, index) => (
             <div className="col-3">
               <Link to={`/shop/product-dt-combo/${item?._id}`}>
-                <ImgMediaCard item={item} key={index} />
+                <ImgMediaCardComBo item={item} key={index} />
               </Link>
             </div>
           ))}

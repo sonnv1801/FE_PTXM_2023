@@ -36,55 +36,71 @@ function Login() {
 
   return (
     <>
-      <div className="main">
-        <form className="login" action="#" id="form-1" onSubmit={handleLogin}>
-          <p style={{ color: "red", textAlign: "center", marginTop: "10px" }}>
-            {messerr === false
-              ? ``
-              : `Vui Lòng kiểm tra lại Username Và Mật khẩu!`}
-          </p>
+      <div className="main-login">
+        <div style={{ padding: "1rem" }}>
+          <form className="login" action="#" id="form-1" onSubmit={handleLogin}>
+            <div style={{ padding: "1rem" }}>
+              <p style={{ color: "red", textAlign: "center" }}>
+                {messerr === false
+                  ? ``
+                  : `Vui Lòng kiểm tra lại Username Và Mật khẩu!`}
+              </p>
+              <div className="title" style={{ marginLeft: "0" }}>
+                Đăng Nhập!
+              </div>
+              <p className="title-input">Tên đăng nhập</p>
+              <div className="input-group-h mb-3">
+                <input
+                  type="text"
+                  for="fullname"
+                  className="form-control input-form-h"
+                  placeholder="Nhập tài khoản..."
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setUsername(e.target.value)}
+                  style={{ padding: "0.5rem" }}
+                />
+              </div>
 
-          <div className="title">Wellcome!</div>
-          <p className="title-input">Tên đăng nhập</p>
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              for="fullname"
-              className="form-control input-form"
-              placeholder="Nhập vào nè!"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-
-          <p className="title-input">Mật khẩu</p>
-          <div className="input-group mb-3">
-            <input
-              type={showPassword ? "text" : "password"}
-              for="password"
-              onChange={(e) => setPassword(e.target.value)}
-              name="password"
-              className="form-control input-form"
-              placeholder="Nhập mật khẩu bạn ơi!"
-              id="form-password"
-            />
-            <span
-              className="input-group-text"
-              id="basic-addon1"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? (
-                <i className="fa fa-eye"></i>
-              ) : (
-                <i class="fa fa-eye-slash"></i>
-              )}
-            </span>
-          </div>
-          <button type="submit" className="btn btn-danger">
-            ĐĂNG NHẬP
-          </button>
-        </form>
+              <div style={{ position: "relative" }}>
+                <p className="title-input">Mật khẩu</p>
+                <div className="input-group-h mb-3">
+                  <input
+                    style={{ padding: "0.5rem" }}
+                    type={showPassword ? "text" : "password"}
+                    for="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    className="form-control input-form-h"
+                    placeholder="Nhập mật khẩu..."
+                    id="form-password"
+                  />
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "26px",
+                      margin: "0",
+                      background: "#ffffff00",
+                      cursor: "pointer",
+                    }}
+                    className="input-group-h-text"
+                    id="basic-addon1"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <i className="fa fa-eye"></i>
+                    ) : (
+                      <i class="fa fa-eye-slash"></i>
+                    )}
+                  </span>
+                </div>
+              </div>
+              <button type="submit" className="btn btn-danger">
+                ĐĂNG NHẬP
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

@@ -33,7 +33,7 @@ export const ProductDetailComBo = () => {
   );
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [quantities, setQuantities] = useState([]);
-  const [selectAll, setSelectAll] = useState(true);
+  const [selectAll, setSelectAll] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
 
   useEffect(() => {
@@ -48,8 +48,11 @@ export const ProductDetailComBo = () => {
 
   useEffect(() => {
     const allProductIds = productDetailComBo?.products?.map((item) => item._id);
-    setSelectedProducts(allProductIds || []);
-    setQuantities(Array(allProductIds?.length).fill(1));
+    const availableProductIds = productDetailComBo?.products
+      .filter((item) => item.quantity > 0)
+      .map((item) => item._id);
+    setSelectedProducts(availableProductIds || []);
+    setQuantities(Array(availableProductIds?.length).fill(1));
   }, [productDetailComBo]);
 
   useEffect(() => {
@@ -67,36 +70,50 @@ export const ProductDetailComBo = () => {
     setSubtotal(updatedSubtotal);
   }, [selectedProducts, quantities, productDetailComBo]);
   const handleProductSelection = (productId) => {
+    const product = productDetailComBo?.products?.find(
+      (item) => item._id === productId
+    );
+
     if (productId === "all") {
+      // Select all available products or deselect all if all are already selected
       if (selectAll) {
         setSelectedProducts([]);
         setQuantities([]);
         setSelectAll(false);
       } else {
-        const allProductIds = productDetailComBo?.products?.map(
-          (item) => item._id
-        );
-        setSelectedProducts(allProductIds);
-        setQuantities(Array(allProductIds.length).fill(1));
+        const availableProductIds = productDetailComBo?.products
+          .filter((item) => item.quantity > 0)
+          .map((item) => item._id);
+
+        setSelectedProducts(availableProductIds);
+        setQuantities(Array(availableProductIds.length).fill(1));
         setSelectAll(true);
       }
     } else {
-      const index = selectedProducts.indexOf(productId);
-      if (index === -1) {
-        setSelectedProducts((prevSelectedProducts) => [
-          ...prevSelectedProducts,
-          productId,
-        ]);
-        setQuantities((prevQuantities) => [...prevQuantities, 1]);
+      if (product?.quantity > 0) {
+        // Product is available, update the selected products and quantities
+        const index = selectedProducts.indexOf(productId);
+
+        if (index === -1) {
+          setSelectedProducts((prevSelectedProducts) => [
+            ...prevSelectedProducts,
+            productId,
+          ]);
+          setQuantities((prevQuantities) => [...prevQuantities, 1]);
+        } else {
+          const updatedSelection = selectedProducts.filter(
+            (id) => id !== productId
+          );
+          const updatedQuantities = quantities.filter((_, i) => i !== index);
+          setSelectedProducts(updatedSelection);
+          setQuantities(updatedQuantities);
+        }
+        setSelectAll(false);
       } else {
-        const updatedSelection = selectedProducts.filter(
-          (id) => id !== productId
-        );
-        const updatedQuantities = quantities.filter((_, i) => i !== index);
-        setSelectedProducts(updatedSelection);
-        setQuantities(updatedQuantities);
+        toast.error("Sản phẩm này đã hết hàng. Vui lòng chọn sản phẩm khác.", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
-      setSelectAll(false);
     }
   };
 
@@ -123,13 +140,14 @@ export const ProductDetailComBo = () => {
         name: product?.name,
         productCode: product?.productCode,
         price: product?.price,
-        image: productDetailComBo?.image,
-        title: productDetailComBo?.title,
+        image: product?.image,
+        title: product?.name,
         total,
       };
     });
 
     const comboOrder = {
+      _id: productDetailComBo?._id, // Thêm _id của combo vào comboOrder
       quantityCombo: 1,
       image: productDetailComBo?.image,
       comboName: productDetailComBo?.title,
@@ -242,7 +260,7 @@ export const ProductDetailComBo = () => {
                 </div>
                 <div className="prd-combos">
                   {productDetailComBo?.products?.map((item, index) => (
-                    <div className="row" key={item._id.$oid}>
+                    <div className="row" key={item._id}>
                       <div className="col-2">
                         <span>
                           <input
@@ -251,6 +269,16 @@ export const ProductDetailComBo = () => {
                             onChange={() => handleProductSelection(item._id)}
                           />
                           Sản phẩm {index + 1}
+                          <img
+                            src={item?.image}
+                            alt={item?.name}
+                            style={{ width: "50px" }}
+                          />
+                          <p>
+                            {item?.quantity === 0
+                              ? "Hết Hàng"
+                              : `${item?.quantity} Cái`}
+                          </p>
                         </span>
                       </div>
                       <div className="col-2">

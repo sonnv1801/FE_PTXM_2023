@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -25,9 +25,11 @@ import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useDispatch, useSelector } from "react-redux";
+import { getSupplier } from "../../../redux/actions/supplier.action";
 export default function Menu() {
   const [open, setOpen] = React.useState({});
-
+  const dispatch = useDispatch();
   const handleClick = (item) => {
     setOpen((prevOpen) => ({
       ...prevOpen,
@@ -36,6 +38,10 @@ export default function Menu() {
   };
 
   const user = JSON.parse(localStorage.getItem("token"));
+
+  useEffect(() => {
+    dispatch(getSupplier());
+  }, []);
   const navigate = useNavigate();
   const handlelogout = () => {
     localStorage.removeItem("token");
@@ -44,6 +50,10 @@ export default function Menu() {
       position: toast.POSITION.TOP_RIGHT,
     });
   };
+
+  const listSupplier = useSelector(
+    (state) => state.defaultReducer.listSupplier
+  );
 
   return (
     <List
@@ -73,14 +83,14 @@ export default function Menu() {
               <ListItemText primary="Loại Phụ Tùng" />
             </ListItemButton>
           </Link>
-          <Link to="/list-products-admin">
+          {/* <Link to="/list-products-admin">
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemIcon>
                 <DnsIcon />
               </ListItemIcon>
               <ListItemText primary="Sản Phẩm Phụ Tùng" />
             </ListItemButton>
-          </Link>
+          </Link> */}
         </List>
       </Collapse>
       <ListItemButton onClick={() => handleClick("combo")}>
@@ -169,6 +179,64 @@ export default function Menu() {
                 <DnsIcon />
               </ListItemIcon>
               <ListItemText primary="Sản Phẩm Nhà Cung Cấp" />
+            </ListItemButton>
+          </Link>
+        </List>
+      </Collapse>
+
+      <ListItemButton onClick={() => handleClick("mua-nha-cung-cap")}>
+        <ListItemIcon>
+          <AirportShuttleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Mua Hàng Từ Nhà Cung Cấp" />
+        {open["mua-nha-cung-cap"] ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open["mua-nha-cung-cap"]} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {listSupplier?.map((item, index) => (
+            <Link to={`/shopsupplier/${item.link}`}>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <ChecklistIcon />
+                </ListItemIcon>
+                <ListItemText primary={item?.name} />
+              </ListItemButton>
+            </Link>
+          ))}
+        </List>
+      </Collapse>
+
+      <ListItemButton onClick={() => handleClick("quan-ly-kho-cung-cap")}>
+        <ListItemIcon>
+          <AirportShuttleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Quản Lý Đơn Hàng Cung Cấp Của Tôi" />
+        {open["quan-ly-kho-cung-cap"] ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open["quan-ly-kho-cung-cap"]} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <Link to="/orderpage">
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <ChecklistIcon />
+              </ListItemIcon>
+              <ListItemText primary="Đơn Hàng Đã Đặt" />
+            </ListItemButton>
+          </Link>
+          <Link to="/cart-supplier">
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <ChecklistIcon />
+              </ListItemIcon>
+              <ListItemText primary="Lên Đơn" />
+            </ListItemButton>
+          </Link>
+          <Link to="/statistics">
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <ChecklistIcon />
+              </ListItemIcon>
+              <ListItemText primary="Thống Kê" />
             </ListItemButton>
           </Link>
         </List>

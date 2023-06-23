@@ -25,6 +25,7 @@ import {
   getProductSupplier,
 } from "../../../redux/actions/productSupplier.action";
 import { getSupplier } from "../../../redux/actions/supplier.action";
+import { getAllTypeProduct } from "../../../redux/actions/type.action";
 function ListProductSupplier() {
   const [showadd, setShowadd] = useState(false);
   const currentUser = JSON.parse(localStorage.getItem("token"));
@@ -43,6 +44,7 @@ function ListProductSupplier() {
     wholesalePrice: "",
     quantity: "",
     link: "",
+    type: "",
   });
 
   console.log(data, "data");
@@ -77,6 +79,7 @@ function ListProductSupplier() {
         formData.append("wholesalePrice", data.wholesalePrice);
         formData.append("quantity", data.quantity);
         formData.append("link", data.link);
+        formData.append("type", data.type);
 
         dispatch(addProductSuppliers(formData, currentUser?.accessToken));
         setShowadd(false);
@@ -101,6 +104,10 @@ function ListProductSupplier() {
   };
 
   const dispatch = useDispatch();
+  const listTypes = useSelector((state) => state.defaultReducer.listType);
+  useEffect(() => {
+    dispatch(getAllTypeProduct());
+  }, []);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -231,7 +238,7 @@ function ListProductSupplier() {
               onChange={handleChange("agentCode")}
               placeholder="Nhập mã đại lý..."
             />
-            <Form.Label>Loại sản phẩm: </Form.Label>
+            <Form.Label>Nhà Cung Cấp: </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={handleChange("supplier")}
@@ -241,7 +248,9 @@ function ListProductSupplier() {
                 <option value={item?.name}>{item.name}</option>
               ))}
             </Form.Select>
-            <Form.Label>Link sản phẩm: </Form.Label>
+            <Form.Label>
+              Chọn Link tương ứng với nhà cung cấp sản phẩm:
+            </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={handleChange("link")}
@@ -249,6 +258,16 @@ function ListProductSupplier() {
               <option>Chọn link sản phẩm</option>
               {listSupplier?.map((item, index) => (
                 <option value={item?.link}>{item.link}</option>
+              ))}
+            </Form.Select>
+            <Form.Label>Loại Sản Phẩm: </Form.Label>
+            <Form.Select
+              aria-label="Default select example"
+              onChange={handleChange("type")}
+            >
+              <option>Chọn loại sản phẩm</option>
+              {listTypes?.map((item, index) => (
+                <option value={item?.name}>{item.name}</option>
               ))}
             </Form.Select>
             {/* <Form.Label>Mô tả sản phẩm: </Form.Label>

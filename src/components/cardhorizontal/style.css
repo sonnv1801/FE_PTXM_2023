@@ -66,3 +66,11 @@
   background: #0b8dbe;
   color: white;
 }
+
+#btn-htt {
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+  color: white;
+  background: blue;
+  font-weight: 600;
+}

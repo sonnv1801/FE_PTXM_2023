@@ -1,0 +1,130 @@
+footer {
+  margin-top: 2rem;
+}
+.bg-light {
+  background-image: url("https://www.seekpng.com/png/detail/977-9771328_wave-footer-illustration.png");
+  /* background-image: url('https://www.pngfind.com/pngs/m/58-588994_red-abstract-lines-png-clipart-red-abstract-background.png'); */
+  border-top: 1px solid lightgray;
+  background-size: cover;
+}
+b {
+  font-size: 16px;
+}
+.bg-light .container {
+  margin-top: 1rem;
+}
+.bg-light .text-center {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #007eaf;
+}
+.privacy-policy ul li {
+  font-size: 16px;
+  padding: 0.3rem 0px;
+}
+
+.privacy-policy ul li a {
+  text-decoration: none;
+}
+
+.privacy-policy ul li a:hover {
+  color: #007eaf;
+}
+
+.support-sw ul li {
+  padding: 0.3rem 0px;
+  font-size: 1.2rem;
+  letter-spacing: 1.1px;
+}
+
+.support-sw ul li a {
+  text-decoration: none;
+}
+
+.support-sw ul li a:hover {
+  color: #007eaf;
+}
+
+.support-sw .support-footer {
+  background: #d70018;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 9px;
+}
+.support-sw .support-footer:hover {
+  background-color: #334168;
+  transition: 0.5s ease;
+}
+
+.support-sw .support-footer a p {
+  color: white;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.support-sw .support-footer a strong {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.location-footer .icon-location {
+  margin-right: 0.7rem;
+  color: #007eaf;
+  font-size: 1rem;
+}
+
+.location-footer .tabs-scroll {
+  overflow-y: auto;
+  height: 250px;
+}
+
+.location-footer .tabs-scroll p:hover {
+  color: #007eaf;
+  cursor: pointer;
+}
+
+.social .body-social a {
+  text-decoration: none;
+  width: 100%;
+}
+
+.social .body-social a:hover {
+  background: #d2d3d3;
+  transition: 0.5s ease;
+}
+
+.social .body-social a .icon-social {
+  margin-right: 1rem;
+}
+
+.social .body-social a .icon-fb {
+  color: blue;
+}
+
+.social .body-social a .icon-yt {
+  color: red;
+}
+
+.social .body-social a .icon-tw {
+  color: #007eaf;
+}
+.social .body-social .btn-link {
+  display: flex;
+}
+.copy-right a {
+  margin-left: 0.8rem;
+  color: #007eaf !important;
+  text-decoration: none;
+}
+.tab-content p {
+  text-align: center;
+  font-size: 17px;
+  margin: 1rem;
+  color: #334168;
+}
+
+.tab-content p:hover {
+  color: #007eaf;
+}

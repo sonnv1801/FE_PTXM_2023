@@ -90,7 +90,7 @@ export const CartPage = () => {
     <div className="cart-page">
       <h1>
         Đơn Hàng Của Bạn
-        <Link to="/">
+        <Link to="/admin">
           <Button
             variant="outlined"
             endIcon={<ArrowRightIcon />}

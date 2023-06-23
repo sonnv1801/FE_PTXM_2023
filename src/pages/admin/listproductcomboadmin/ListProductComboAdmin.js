@@ -68,6 +68,7 @@ function ListProductComboAdmin() {
       products: [
         ...formData.products,
         {
+          image: "",
           name: "",
           productCode: "",
           price: 0,
@@ -185,11 +186,11 @@ function ListProductComboAdmin() {
           <table className="table">
             <thead classNane="table-dark">
               <tr>
-                <th>STT</th>
                 <th>Ảnh</th>
                 <th>Tên Sản phẩm</th>
                 <th>Mặt hàng</th>
                 <th>Giá</th>
+                <th>Số lượng Combo</th>
                 <th>Sửa</th>
               </tr>
             </thead>
@@ -208,17 +209,22 @@ function ListProductComboAdmin() {
                     <React.Fragment key={index}>
                       <tr>
                         {/* Render other combo data */}
-                        <td>{index}</td>
+
                         <td>
-                          <img src={combo.image} alt={combo.title} />
+                          <img
+                            src={combo.image}
+                            alt={combo.title}
+                            style={{ width: "100%", padding: "1rem" }}
+                          />
                         </td>
                         <td>{combo.title}</td>
                         <td>{combo.type}</td>
                         <td>
-                          <p>{`${combo.newPrice.toLocaleString()}đ`}</p>
+                          <p>{`${combo.newPrice?.toLocaleString()}đ`}</p>
                         </td>
+                        <td>{combo.quantity}</td>
                         <td>
-                          <Link to={`/list-products-admin/${combo._id}`}>
+                          <Link to={`/edit-combos/${combo._id}`}>
                             <button className="btn btn-success">
                               <i className="fa fa-edit"></i>
                             </button>
@@ -270,7 +276,7 @@ function ListProductComboAdmin() {
                             <ul>
                               <div id="prducts-combos-title">
                                 <div className="row">
-                                  <div className="col-2">#</div>
+                                  <div className="col-2">Hình Ảnh</div>
                                   <div className="col-2">Tên sản phẩm</div>
                                   <div className="col-2">Mã sản phẩm</div>
                                   <div className="col-2">Giá mới</div>
@@ -284,19 +290,25 @@ function ListProductComboAdmin() {
                                 <div id="prducts-combos">
                                   <div className="row">
                                     <div className="col-2">
-                                      {productIndex + 1}
+                                      <img
+                                        style={{
+                                          width: "100%",
+                                          padding: "1rem",
+                                        }}
+                                        src={product.image}
+                                        alt={product.name}
+                                      />
                                     </div>
                                     <div className="col-2">{product.name}</div>
                                     <div className="col-2">
                                       {product.productCode}
                                     </div>
-                                    <div className="col-2">{`${product.price.toLocaleString()}đ`}</div>
+                                    <div className="col-2">{`${product.price?.toLocaleString()}đ`}</div>
                                     <div className="col-2">
-                                      {`${product.oldPrice.toLocaleString()}đ`}
+                                      {`${product.oldPrice?.toLocaleString()}đ`}
                                     </div>
                                     <div className="col-2">
-                                      {product.remainingQuantity +
-                                        product.quantity}
+                                      {product.quantity}
                                     </div>
                                   </div>
                                 </div>
@@ -329,6 +341,7 @@ function ListProductComboAdmin() {
               // value={formData.title}
               onChange={handleInputChange}
             />
+
             <Form.Label htmlFor="type">Loại sản phẩm: </Form.Label>
             <Form.Select
               id="type"
@@ -394,6 +407,16 @@ function ListProductComboAdmin() {
                     // value={product.name}
                     onChange={(e) =>
                       handleProductChange(index, "name", e.target.value)
+                    }
+                  />
+                  <Form.Label htmlFor={`image-${index}`}>Hình Ảnh</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Nhập link hình ảnh sản phẩm..."
+                    id={`image-${index}`}
+                    // value={product.name}
+                    onChange={(e) =>
+                      handleProductChange(index, "image", e.target.value)
                     }
                   />
                 </div>
@@ -503,10 +526,18 @@ function ListProductComboAdmin() {
           </ModalBody>
         ))}
         <ModalFooter>
-          <Button variant="primary" onClick={handleAddProduct}>
+          <Button
+            variant="primary"
+            style={{ background: "#0d6efd" }}
+            onClick={handleAddProduct}
+          >
             Thêm Sản Phẩm
           </Button>
-          <Button variant="success" onClick={handleSubmit}>
+          <Button
+            variant="success"
+            style={{ background: "#198754" }}
+            onClick={handleSubmit}
+          >
             Tạo Sản Phẩm
           </Button>
         </ModalFooter>

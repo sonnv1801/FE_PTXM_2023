@@ -8,6 +8,7 @@ import { Shop } from "./pages/home/shop/Shop";
 import { ProductDetailComBo } from "./pages/home/productDetailComBo/ProductDetailComBo";
 import { ProductDetailSupplier } from "./pages/home/productDetailSupplier/ProductDetailSupplier";
 import Login from "./pages/home/login/Login";
+import Contact from "./pages/home/contact/Contact"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ShopCombo } from "./pages/home/shopCombo/ShopCombo";
@@ -28,6 +29,10 @@ import { OrderCustomer } from "./pages/admin/ordercustomer/OrderCustomer";
 import TypeSupplier from "./pages/admin/typesupplier/TypeSupplier";
 import ListProductSupplier from "./pages/admin/listproductsupplier/ListProductSupplier";
 import UpdateProductSupplier from "./pages/admin/updateproductsupplier/UpdateProductSupplier";
+import Statistics from "./pages/admin/statistics/Statistics";
+import PrintInvoice from "./pages/home/printInvoice/PrintInvoice";
+import Footer from "./pages/home/footer/Footer";
+import EditComboPage from "./pages/admin/editcombopage/EditComboPage";
 function App() {
   const user = JSON.parse(localStorage.getItem("token"));
   return (
@@ -39,7 +44,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/shop/:id" element={<Shop />} />
           <Route path="/shopcombo/:id" element={<ShopCombo />} />
-          <Route path="/shopsupplier/:id" element={<ShopSupplier />} />
+          <Route path="/contact" element={<Contact/>}/>
+          {/* <Route path="/shopsupplier/:id" element={<ShopSupplier />} /> */}
           <Route path="/shop/product-dt/:id" element={<ProductDetail />} />
           <Route path="/shop/product-dt/cart" element={<Cart />} />
           <Route
@@ -50,7 +56,7 @@ function App() {
             path="/shop/product-dt-supplier/:id"
             element={<ProductDetailSupplier />}
           />
-          <Route path="/cart-supplier" element={<CartPage />} />
+          {/* <Route path="/cart-supplier" element={<CartPage />} /> */}
           <Route path="/login" element={<Login />} />
 
           <Route path="/" element={<HomePage />} />
@@ -62,7 +68,8 @@ function App() {
           ) : (
             <>
               <Route path="/history" element={<PurchaseHistory />} />
-              <Route path="/orderpage" element={<OrderPage />} />
+              <Route path="/printInvoice" element={<PrintInvoice />} />
+              {/* <Route path="/orderpage" element={<OrderPage />} /> */}
             </>
           )}
 
@@ -70,6 +77,10 @@ function App() {
 
           {user?.role === true ? (
             <>
+              <Route path="/cart-supplier" element={<CartPage />} />
+              <Route path="/statistics" element={<Statistics />} />
+              <Route path="/shopsupplier/:id" element={<ShopSupplier />} />
+              <Route path="/orderpage" element={<OrderPage />} />
               <Route path="/admin" element={<HomePageAdmin />} />
               <Route path="/delivery" element={<Delivery />} />
               <Route path="/list-types" element={<Type />} />
@@ -79,6 +90,7 @@ function App() {
                 element={<ListProductSupplier />}
               />
               <Route path="/list-combos" element={<TypeCombos />} />
+              <Route path="/edit-combos/:id" element={<EditComboPage />} />
               <Route path="/order-customer" element={<OrderCustomer />} />
               <Route
                 path="/list-products-admin/:id"
@@ -101,6 +113,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           )}
         </Routes>
+        <Footer />
       </Router>
     </div>
   );

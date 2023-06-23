@@ -17,6 +17,8 @@ import {
   FETCH_DETAIL_COMBO,
   FETCH_DETAIL_SUPPLIER,
   FETCH_PRODUCTS,
+  FETCH_PRODUCTS_COMBOS,
+  FETCH_PRODUCTS_TO_ORDERS,
   FETCH_PRODUCT_BY_TYPE,
   FETCH_PRODUCT_SUPPLIER,
   FETCH_PRODUCT_SUPPLIER_BY_TYPE,
@@ -44,6 +46,8 @@ const initialState = {
   listType: [],
   listSupplier: [],
   listTypeComBo: [],
+  listProductToOrder: [],
+  listProductCombos: [],
   listProductByType: [],
   listComboByTypeLink: [],
   listProductSupplierByType: [],
@@ -198,6 +202,16 @@ const defaultReducer = (state = initialState, action) => {
 
     case FETCH_PRODUCTS: {
       state.listProducts = payload;
+      return { ...state }; //setState
+    }
+
+    case FETCH_PRODUCTS_COMBOS: {
+      state.listProductCombos = payload;
+      return { ...state }; //setState
+    }
+
+    case FETCH_PRODUCTS_TO_ORDERS: {
+      state.listProductToOrder = payload;
       return { ...state }; //setState
     }
     case ADD_PRODUCT: {

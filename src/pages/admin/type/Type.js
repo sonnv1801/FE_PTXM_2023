@@ -132,7 +132,11 @@ function Type() {
           </Form.Group>
         </ModalBody>
         <ModalFooter>
-          <Button variant="success" onClick={handleSubmit}>
+          <Button
+            style={{ background: "#198754" }}
+            variant="success"
+            onClick={handleSubmit}
+          >
             Thêm Loại
           </Button>
         </ModalFooter>
