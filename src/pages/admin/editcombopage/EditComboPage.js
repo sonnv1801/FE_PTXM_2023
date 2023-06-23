@@ -124,7 +124,7 @@ const EditComboPage = () => {
   };
 
   const handleSaveChanges = () => {
-    const url = `https://phutungxemay.onrender.com/v1/combo//combos/${path}`;
+    const url = `https://phutungxemay.onrender.com/v1/combo/combos/${path}`;
 
     axios
       .put(url, data)
@@ -321,7 +321,7 @@ const EditComboPage = () => {
                 />
               </div>
               <div className="mb-3">
-                <span>Số lượng sản phẩm</span>
+                <span>Trạng Thái</span>
                 <select
                   style={{
                     width: "100%",
@@ -334,6 +334,7 @@ const EditComboPage = () => {
                   value={newProduct.status}
                   onChange={handleNewProductChange}
                 >
+                  <option value="Còn Hàng">Còn Hàng</option>
                   <option value="Còn Hàng">Còn Hàng</option>
                   <option value="Hết Hàng">Hết Hàng</option>
                 </select>

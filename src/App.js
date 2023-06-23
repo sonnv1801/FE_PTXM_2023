@@ -8,7 +8,7 @@ import { Shop } from "./pages/home/shop/Shop";
 import { ProductDetailComBo } from "./pages/home/productDetailComBo/ProductDetailComBo";
 import { ProductDetailSupplier } from "./pages/home/productDetailSupplier/ProductDetailSupplier";
 import Login from "./pages/home/login/Login";
-import Contact from "./pages/home/contact/Contact"
+import Contact from "./pages/home/contact/Contact";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ShopCombo } from "./pages/home/shopCombo/ShopCombo";
@@ -44,7 +44,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/shop/:id" element={<Shop />} />
           <Route path="/shopcombo/:id" element={<ShopCombo />} />
-          <Route path="/contact" element={<Contact/>}/>
+          <Route path="/contact" element={<Contact />} />
           {/* <Route path="/shopsupplier/:id" element={<ShopSupplier />} /> */}
           <Route path="/shop/product-dt/:id" element={<ProductDetail />} />
           <Route path="/shop/product-dt/cart" element={<Cart />} />

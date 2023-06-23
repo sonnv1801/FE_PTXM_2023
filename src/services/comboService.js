@@ -11,4 +11,7 @@ export class ComBoService {
   getAllProductCombos() {
     return Axios.get(`${API}`);
   }
+  getProductDetailToComBo(id) {
+    return Axios.get(`${API}/combos/products/product/${id}`);
+  }
 }

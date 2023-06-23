@@ -6,12 +6,17 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getDetailComBo } from "../../../redux/actions/combo.action";
+import Modal from "react-bootstrap/Modal";
 import numeral from "numeral";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import ModalTitle from "react-bootstrap/ModalTitle";
 
 export const ProductDetailComBo = () => {
   const location = useLocation();
@@ -206,6 +211,15 @@ export const ProductDetailComBo = () => {
     });
   };
 
+  const [show, setShow] = useState(false);
+  const [selected, setSelected] = useState(null);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (product) => {
+    setSelected(product);
+    setShow(true);
+  };
+
   return (
     <div className="prd-combo-container container">
       <div className="link-combo">
@@ -269,20 +283,15 @@ export const ProductDetailComBo = () => {
                             onChange={() => handleProductSelection(item._id)}
                           />
                           Sản phẩm {index + 1}
-                          <img
-                            src={item?.image}
-                            alt={item?.name}
-                            style={{ width: "50px" }}
-                          />
-                          <p>
-                            {item?.quantity === 0
-                              ? "Hết Hàng"
-                              : `${item?.quantity} Cái`}
-                          </p>
                         </span>
                       </div>
                       <div className="col-2">
-                        <span>{item?.name}</span>
+                        <span
+                          onClick={() => handleShow(item)}
+                          style={{ cursor: "pointer", color: "pink" }}
+                        >
+                          {item?.name}
+                        </span>
                       </div>
                       <div className="col-2">
                         <span>{item?.productCode}</span>
@@ -361,6 +370,112 @@ export const ProductDetailComBo = () => {
           </div>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton style={{ background: "#034063" }}>
+          <Modal.Title>{selected?.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selected && (
+            <>
+              <img
+                style={{ width: "100%" }}
+                src={selected.image}
+                alt={selected?.name}
+                className="modal-image"
+              />
+              <div className="row">
+                <div className="col-6">
+                  <div
+                    className="modal-info mt-3 mb-3"
+                    style={{
+                      color: "#034063",
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <span>Mã Sản Phẩm:</span>
+                    <p style={{ color: "blue", fontWeight: "500" }}>
+                      {selected.productCode}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div
+                    className="modal-info mt-3 mb-3"
+                    style={{
+                      color: "#034063",
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <span>Giá Mới:</span>{" "}
+                    <p style={{ color: "blue", fontWeight: "500" }}>
+                      {selected.price}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div
+                    className="modal-info mt-3 mb-3"
+                    style={{
+                      color: "#034063",
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <span>Giá Cũ:</span>{" "}
+                    <p style={{ color: "blue", fontWeight: "500" }}>
+                      {selected.oldPrice}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div
+                    className="modal-info mt-3 mb-3"
+                    style={{
+                      color: "#034063",
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <span>Số lượng Còn:</span>
+                    <p style={{ color: "blue", fontWeight: "500" }}>
+                      {selected.quantity}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="col-6">
+                  <div
+                    className="modal-info mt-3 mb-3"
+                    style={{
+                      color: "#034063",
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <span>Trạng Thái:</span>{" "}
+                    <p style={{ color: "blue", fontWeight: "500" }}>
+                      {selected.status}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Add more information here */}
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ background: "#034063", color: "white" }}
+            variant="secondary"
+            onClick={handleClose}
+          >
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
