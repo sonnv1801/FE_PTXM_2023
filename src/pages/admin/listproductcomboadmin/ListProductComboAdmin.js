@@ -47,6 +47,7 @@ function ListProductComboAdmin() {
     type: "",
     link: "",
     status: "",
+    quantity: "",
     products: [{}],
   });
 
@@ -93,6 +94,7 @@ function ListProductComboAdmin() {
       formData.title !== "" &&
       formData.link !== "" &&
       formData.status !== "" &&
+      formData.quantity !== "" &&
       formData.title !== ""
     ) {
       try {
@@ -109,6 +111,7 @@ function ListProductComboAdmin() {
           title: "",
           type: "",
           link: "",
+          quantity: "",
           status: "",
           products: [],
         });
@@ -376,6 +379,15 @@ function ListProductComboAdmin() {
             accept="image/*"
             name="image"
             value={formData.image}
+            onChange={handleInputChange}
+          />
+          <Form.Label htmlFor="quantity">Số lượng Combo: </Form.Label>
+          <Form.Control
+            type="text"
+            id="quantity"
+            name="quantity"
+            placeholder="Nhập trạng thái..."
+            // value={formData.quantity}
             onChange={handleInputChange}
           />
           <Form.Label htmlFor="status">Trạng thái: </Form.Label>
