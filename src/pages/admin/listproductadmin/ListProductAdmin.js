@@ -102,7 +102,7 @@ function ListProductAdmin() {
           <div className="title-list">
             <div className="row">
               <div className="col-sm-5">
-                <p>Quản lý Máy PHOTOCOPY</p>
+                <p>Quản lý Phụ Tùng</p>
               </div>
               <div className="col-sm-7">
                 <button
@@ -113,7 +113,7 @@ function ListProductAdmin() {
                   }}
                 >
                   <i className="bx bxs-folder-plus"></i>
-                  <span>Thêm Máy PHOTOCOPY</span>
+                  <span>Thêm Phụ Tùng</span>
                 </button>
               </div>
             </div>

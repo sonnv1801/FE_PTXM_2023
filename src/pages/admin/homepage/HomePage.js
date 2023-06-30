@@ -10,17 +10,17 @@ export const HomePageAdmin = () => {
       <div className="col-9">
         <div className="container-fluid mt-5 text-center">
           <header className="App-header">
-            <h1>Admin máy PHOTOCOPY</h1>
+            <h1>Admin Phụ Tùng Xe Máy</h1>
           </header>
           <main>
-            <h2>Chào mừng đến với cửa hàng máy PHOTOCOPY</h2>
+            <h2>Chào mừng đến với cửa hàng phụ tùng xe máy</h2>
             <p>
-              Chúng tôi cung cấp các loại máy PHOTOCOPY chất lượng với giá cả
+              Chúng tôi cung cấp các loại phụ tùng xe máy chất lượng với giá cả
               phải chăng.
             </p>
           </main>
           <footer>
-            <p>Bản quyền © 2023 Shop máy PHOTOCOPY.</p>
+            <p>Bản quyền © 2023 Shop Phụ Tùng Xe Máy.</p>
           </footer>
         </div>
       </div>

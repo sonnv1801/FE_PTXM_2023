@@ -17,7 +17,9 @@ const Delivery = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/order");
+      const response = await axios.get(
+        "https://phutungxemay.onrender.com/v1/order"
+      );
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -45,7 +47,7 @@ const Delivery = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:8000/v1/delivery/${selectedOrder._id}`,
+        `https://phutungxemay.onrender.com/v1/delivery/${selectedOrder._id}`,
         {
           productCode: selectedProduct.productCode,
           quantity: deliveryQuantity,

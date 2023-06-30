@@ -109,3 +109,24 @@
 .sub-body-prd .tag-prd {
   margin-top: 1rem;
 }
+
+@media (max-width: 768px) {
+  .sm-sub-body-prd .sm-sub-body-prd-img {
+    border-radius: 0px;
+    margin-bottom: 1rem;
+  }
+  .sm-sub-body-prd .sm-action-prd-dt .sm-btn-quantity {
+    width: 100% !important;
+  }
+
+  .sm-sub-body-prd .sm-action-prd-dt-btn {
+    display: block !important;
+  }
+  .sm-sub-body-prd .sm-action-prd-dt-btn button {
+    margin: 0.5rem 0;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+}

@@ -8,12 +8,12 @@ const FooterPolicy = () => {
       <ul className="list-unstyled mb-0 ">
         <li>
           <Link to="/" className="text-dark">
-            Máy PHOTOCOPY
+            Phụ Tùng Xe Máy
           </Link>
         </li>
         <li>
           <Link to="/" className="text-dark">
-            Máy PHOTOCOPY combo
+            Phụ tùng combo
           </Link>
         </li>
         <li>

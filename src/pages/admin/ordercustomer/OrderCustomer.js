@@ -12,7 +12,9 @@ export const OrderCustomer = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/ordercombo"); // Replace with your actual API endpoint
+      const response = await axios.get(
+        "https://phutungxemay.onrender.com/v1/ordercombo"
+      ); // Replace with your actual API endpoint
       setOrders(response.data);
     } catch (error) {
       console.log(error);
@@ -59,7 +61,7 @@ export const OrderCustomer = () => {
               <h2 style={{ fontSize: "15px", color: "green" }}>
                 Mã Đơn Hàng: {order._id}
               </h2>
-              <h3 style={{ margin: "1rem 0" }}>Sản phẩm Máy PHOTOCOPY:</h3>
+              <h3 style={{ margin: "1rem 0" }}>Sản phẩm phụ tùng:</h3>
 
               <ul className="product-list">
                 {order.products.map((product) => (

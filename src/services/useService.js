@@ -1,5 +1,5 @@
 import Axios from "axios";
-const API = "http://localhost:8000/v1/auth";
+const API = "https://phutungxemay.onrender.com/v1/auth";
 
 export class UserService {
   Login(user) {

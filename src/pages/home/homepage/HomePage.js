@@ -63,16 +63,18 @@ export const HomePage = () => {
         </div>
       ) : (
         <div className="mt-5">
-          <div className="row">
+          
+          <div className="row sm-product-home-page">
             {getAllProductToOrders?.map((item, index) => (
-              <div className="col-3">
+                <div className="col-xl-3 col-sm-12">
                 <Link to={`/shop/product-dt/${item._id}`}>
                   <ImgMediaCard item={item} />
                 </Link>
               </div>
             ))}
+            </div>
           </div>
-        </div>
+     
       )}
 
       <TitleHead type={listTypeComBos} />
@@ -86,9 +88,9 @@ export const HomePage = () => {
         </div>
       ) : (
         <div className="mt-5">
-          <div className="row">
+          <div className="row sm-product-home-page">
             {listProductCombos?.map((item, index) => (
-              <div className="col-3">
+              <div className="col-xl-3 col-sm-12">
                 <Link to={`/shop/product-dt-combo/${item._id}`}>
                   <ImgMediaCardComBo item={item} />
                 </Link>

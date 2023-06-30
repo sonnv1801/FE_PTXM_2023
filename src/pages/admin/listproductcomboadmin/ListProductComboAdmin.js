@@ -51,6 +51,8 @@ function ListProductComboAdmin() {
     products: [{}],
   });
 
+  console.log(formData, "formData");
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -99,7 +101,7 @@ function ListProductComboAdmin() {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/v1/combo/",
+          "https://phutungxemay.onrender.com/v1/combo/",
           formData
         );
         console.log(response.data); // Combo được tạo thành công
@@ -133,7 +135,9 @@ function ListProductComboAdmin() {
 
   const fetchCombos = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/combo");
+      const response = await axios.get(
+        "https://phutungxemay.onrender.com/v1/combo"
+      );
       setCombos(response.data);
     } catch (error) {
       console.error("Error fetching combos:", error);
@@ -143,7 +147,9 @@ function ListProductComboAdmin() {
   const handleDeleteCombo = async (comboId) => {
     try {
       // Send a DELETE request to the API to delete the combo
-      await axios.delete(`http://localhost:8000/v1/combo/${comboId}`);
+      await axios.delete(
+        `https://phutungxemay.onrender.com/v1/combo/${comboId}`
+      );
 
       // Fetch the updated list of combos after deletion
       fetchCombos();
@@ -156,6 +162,20 @@ function ListProductComboAdmin() {
       toast.error("Xóa Thất Bại Combo");
     }
   };
+
+  useEffect(() => {
+    const selectedSupplier = listTypeComBos.find(
+      (supplier) =>
+        supplier.name.trim().toLowerCase() ===
+        formData.type.trim().toLowerCase()
+    );
+    if (selectedSupplier) {
+      setFormData((prevData) => ({
+        ...prevData,
+        link: selectedSupplier._id, // Assign _id as the link value
+      }));
+    }
+  }, [formData.type, listTypeComBos]);
   return (
     <div className="container-listproductAd">
       <div className="row">
@@ -354,7 +374,7 @@ function ListProductComboAdmin() {
                 <option value={item?.name}>{item.name}</option>
               ))}
             </Form.Select>
-            <Form.Label htmlFor="link">Link sản phẩm: </Form.Label>
+            {/* <Form.Label htmlFor="link">Link sản phẩm: </Form.Label>
             <Form.Select
               aria-label="Default select example"
               // value={formData.link}
@@ -366,12 +386,13 @@ function ListProductComboAdmin() {
               {listTypeComBos?.map((item, index) => (
                 <option value={item?.link}>{item.link}</option>
               ))}
-            </Form.Select>
+            </Form.Select> */}
           </Form.Group>
           <Form.Label htmlFor="image">Hình ảnh: </Form.Label>
           <Form.Control
             type="text"
             size="sm"
+            placeholder="Link Sản Phẩm..."
             accept="image/*"
             name="image"
             value={formData.image}

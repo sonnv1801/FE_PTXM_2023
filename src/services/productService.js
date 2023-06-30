@@ -1,12 +1,16 @@
 import Axios from "axios";
-const API = "http://localhost:8000/v1/product";
+const API = "https://phutungxemay.onrender.com/v1/product";
 
 export class ProductService {
   getPrdByType(type, limit) {
-    return Axios.get(`http://localhost:8000/v1/order/products/${type}`);
+    return Axios.get(
+      `https://phutungxemay.onrender.com/v1/order/products/${type}`
+    );
   }
   getDetail(id) {
-    return Axios.get(`http://localhost:8000/v1/order/products/byid/${id}`);
+    return Axios.get(
+      `https://phutungxemay.onrender.com/v1/order/products/byid/${id}`
+    );
   }
   getAllProduct() {
     return Axios.get(API);

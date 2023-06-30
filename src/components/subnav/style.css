@@ -1,22 +1,38 @@
 .nav-title-header {
-    background: white;
-    box-shadow: 0 3px 6px #00000029;
-    border-radius: 5px;
-    font-size: 18px;
+  background: white;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 5px;
+  font-size: 18px;
 }
 
 .nav-title-header .sub-nav-body {
-    display: flex;
-    justify-content: center;
-    padding: 10px
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 
 .nav-title-header .sub-nav-body p {
-    margin: 9px;
+  margin: 9px;
 }
 
 .nav-title-header .sub-nav-body p a {
-    text-decoration: none;
-    color: #333399;
-    font-weight: bold;
+  text-decoration: none;
+  color: #333399;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .sm-sub-nav-body span {
+    display: none;
+  }
+  .sm-sub-nav-body p {
+    font-size: 14px;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-component {
+    /* Các thuộc tính dành cho màn hình tablet */
+  }
 }

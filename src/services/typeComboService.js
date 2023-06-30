@@ -1,5 +1,5 @@
 import Axios from "axios";
-const API = "http://localhost:8000/v1/typecombo";
+const API = "https://phutungxemay.onrender.com/v1/typecombo";
 
 export class TypeComBoService {
   getAllType() {

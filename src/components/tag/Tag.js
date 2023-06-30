@@ -2,9 +2,9 @@ import React from "react";
 import "./style.css";
 export const Tag = () => {
   return (
-    <div className="tag">
+    <div className="tag sm-tag">
       <div className="body-tag">
-        <span>Nước Làm mắt</span>
+        <span>Phụ tùng</span>
       </div>
     </div>
   );

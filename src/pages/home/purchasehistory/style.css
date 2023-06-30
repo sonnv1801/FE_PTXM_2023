@@ -76,3 +76,36 @@
   font-weight: bold;
   border-radius: 1rem;
 }
+
+.sm-prd-history {
+  display: none;
+}
+
+.sm-prd-history-sub {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .prd-history {
+    display: none;
+  }
+  .prd-history-sub {
+    display: none;
+  }
+  .sm-prd-history {
+    display: block;
+  }
+  .sm-prd-history-sub {
+    display: block;
+  }
+  .sm-label-codes {
+    font-size: 10px;
+  }
+  .sm-lablel-titles {
+    font-size: 14px;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+}

@@ -38,8 +38,8 @@ export const ShopCombo = () => {
       <div className="category-product">
         <div className="row">
           {listTypeComBo.map((item, index) => (
-            <div className="col-2">
-              <Link to={`/shopcombo/${item.link}`} onClick={refreshPage}>
+            <div className="col-xl-2 col-sm-6">
+              <Link to={`/shopcombo/${item._id}`} onClick={refreshPage}>
                 <CartMini name={item.name} key={index} />
               </Link>
             </div>
@@ -48,12 +48,12 @@ export const ShopCombo = () => {
       </div>
       <hr />
       <div className="title-product-store">
-        <TitleStore type={type} />
+        <TitleStore />
       </div>
       <div className="products-body">
         <div className="row">
           {listComboByTypeLink.map((item, index) => (
-            <div className="col-3">
+            <div className="col-xl-3 col-sm-6">
               <Link to={`/shop/product-dt-combo/${item?._id}`}>
                 <ImgMediaCardComBo item={item} key={index} />
               </Link>

@@ -27,6 +27,7 @@ const EditComboPage = () => {
     status: "",
     products: [],
   });
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     productCode: "",
@@ -46,7 +47,7 @@ const EditComboPage = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/v1/combo/${path}`)
+    fetch(`https://phutungxemay.onrender.com/v1/combo/${path}`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
@@ -102,7 +103,7 @@ const EditComboPage = () => {
   };
 
   const handleAddProductToCombo = () => {
-    const url = `http://localhost:8000/v1/combo/addcombo/${path}`;
+    const url = `https://phutungxemay.onrender.com/v1/combo/addcombo/${path}`;
 
     axios
       .post(url, {
@@ -124,7 +125,7 @@ const EditComboPage = () => {
   };
 
   const handleSaveChanges = () => {
-    const url = `http://localhost:8000/v1/combo/combos/${path}`;
+    const url = `https://phutungxemay.onrender.com/v1/combo/combos/${path}`;
 
     axios
       .put(url, data)
@@ -137,6 +138,19 @@ const EditComboPage = () => {
       });
   };
 
+  useEffect(() => {
+    const selectedSupplier = listTypeComBos.find(
+      (supplier) =>
+        supplier.name?.trim()?.toLowerCase() ===
+        data.type?.trim()?.toLowerCase()
+    );
+    if (selectedSupplier) {
+      setData((prevData) => ({
+        ...prevData,
+        link: selectedSupplier._id, // Assign _id as the link value
+      }));
+    }
+  }, [data.type, listTypeComBos]);
   return (
     <div className="edit-combo-page">
       <ToastContainer />
@@ -209,7 +223,7 @@ const EditComboPage = () => {
                     ))}
                 </select>
               </div>
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <span>Link tương ứng với loại combo</span>
                 <br />
                 <select
@@ -230,7 +244,7 @@ const EditComboPage = () => {
                       </option>
                     ))}
                 </select>
-              </div>
+              </div> */}
               <div className="mb-3">
                 <span>Trạng thái</span>
                 <select

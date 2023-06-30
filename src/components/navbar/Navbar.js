@@ -170,8 +170,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a href="#" title="máy PHOTOCOPY">
-                Máy PHOTOCOPY <ArrowDropDownIcon />
+              <a href="#" title="Phụ tùng xe máy">
+                Phụ Tùng Xe máy <ArrowDropDownIcon />
               </a>
               <div className="sub-menu-lv2">
                 <div className="row">
@@ -186,17 +186,14 @@ const Navbar = () => {
               </div>
             </li>
             <li>
-              <a href="#" title="máy PHOTOCOPY">
+              <a href="#" title="Phụ tùng xe máy">
                 Combo <ArrowDropDownIcon />
               </a>
               <div className="sub-menu-lv2">
                 <div className="row">
                   {listTypeCombo.map((item, index) => (
                     <div className="col-4">
-                      <Link
-                        to={`/shopcombo/${item.link}`}
-                        onClick={refreshPage}
-                      >
+                      <Link to={`/shopcombo/${item._id}`} onClick={refreshPage}>
                         <span>{item.name}</span>
                       </Link>
                     </div>

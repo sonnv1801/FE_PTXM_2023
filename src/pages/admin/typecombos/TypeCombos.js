@@ -42,7 +42,7 @@ function TypeCombos() {
     e.preventDefault();
     const newType = {
       name: name,
-      link: link,
+      // link: link,
     };
     dispatch(addTypeCombos(newType, currentUser?.accessToken));
     setShowadd(false);
@@ -125,7 +125,7 @@ function TypeCombos() {
 
       <Modal show={showadd} onHide={handleCloseAdd} className="modal">
         <ModalHeader>
-          <ModalTitle>Thêm Loại Máy PHOTOCOPY</ModalTitle>
+          <ModalTitle>Thêm Loại Phụ Tùng</ModalTitle>
         </ModalHeader>
         <ModalBody className="modal-body">
           <Form.Group className="formgroup-body">
@@ -136,13 +136,13 @@ function TypeCombos() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Nhập Loại..."
             />
-            <Form.Label>Đường Dẫn: </Form.Label>
+            {/* <Form.Label>Đường Dẫn: </Form.Label>
             <Form.Control
               type="text"
               // onChange={handleChange('name')}
               onChange={(e) => setLink(e.target.value)}
               placeholder="Nhập link..."
-            />
+            /> */}
           </Form.Group>
         </ModalBody>
         <ModalFooter>
