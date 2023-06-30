@@ -74,3 +74,29 @@
   background: blue;
   font-weight: 600;
 }
+
+@media (max-width: 768px) {
+  .sm-body-card .sm-img-card .close-prd {
+    left: 0;
+  }
+  .sm-body-card .sm-img-card img {
+    margin: 0.5rem 0;
+  }
+  .sm-body-card .sm-action-prd-dt {
+    margin: 0.5rem 0;
+  }
+  .sm-body-container-payment .sm-account-payment {
+    display: block !important;
+  }
+
+  .sm-body-container-payment .sm-account-payment button {
+    margin: 0.5rem 0;
+  }
+  .body-card .img-card .close-prd {
+    left: 20px;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+}

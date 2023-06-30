@@ -67,4 +67,40 @@
   float: right;
 }
 
+.sm-title-combos {
+  display: none;
+}
+
+.sm-prd-combos {
+  display: none;
+}
+
 /* CSS */
+
+@media (max-width: 768px) {
+  .title-combos {
+    display: none;
+  }
+  .prd-combos {
+    display: none;
+  }
+  .sm-title-combos {
+    display: block;
+  }
+  .sm-prd-combos {
+    display: block;
+  }
+  .sm-combos-quantity {
+    margin: 0.5rem 0;
+  }
+  .sm-span-totals {
+    margin: 1.1rem 0;
+  }
+  .sm-prd-bodys img {
+    margin-bottom: 1rem;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+}

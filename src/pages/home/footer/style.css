@@ -128,3 +128,26 @@ b {
 .tab-content p:hover {
   color: #007eaf;
 }
+
+@media (max-width: 768px) {
+  .sm-location-footer .sm-tabs-scroll {
+    /* overflow-y: auto; */
+    height: 80px;
+  }
+  .sm-bg-light {
+    background-image: none;
+  }
+  .sm-footer-social {
+    margin: 0px !important;
+  }
+  .sm-copy-right a {
+    font-size: 16px;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-component {
+    /* Các thuộc tính dành cho màn hình tablet */
+  }
+}

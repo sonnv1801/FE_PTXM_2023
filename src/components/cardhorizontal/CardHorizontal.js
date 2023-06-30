@@ -441,7 +441,7 @@ export const CardHorizontal = (cart) => {
 
   return (
     <div className="row">
-      <div className="col-6">
+      <div className="col-xl-6 col-sm-12">
         <p className="carts">Giỏ hàng</p>
         <div className="card-horizontal-container">
           <p
@@ -453,15 +453,15 @@ export const CardHorizontal = (cart) => {
           >
             Số lượng có trong Giỏ {renderQuantity()}
           </p>
-          <div className="body-card">
+          <div className="body-card sm-body-card">
             {carts?.map((item, index) => (
               <div
                 className="row"
                 style={{ textAlign: "center", marginBotto: "1rem" }}
                 key={index}
               >
-                <div className="col-2">
-                  <div className="img-card">
+                <div className="col-xl-2 col-sm-2">
+                  <div className="img-card sm-img-card">
                     <img src={item?.image} alt={item?.title} />
                     <CloseIcon
                       className="close-prd"
@@ -469,15 +469,15 @@ export const CardHorizontal = (cart) => {
                     />
                   </div>
                 </div>
-                <div className="col-4">
+                <div className="col-xl-4 col-sm-4">
                   <Link to={`/shop/product-dt/${item.id}`} key={item.id}>
                     <div>{item.title}</div>
                   </Link>
 
                   <span>{item?.code} </span>
                 </div>
-                <div className="col-3">
-                  <div className="action-prd-dt">
+                <div className="col-xl-3 col-sm-3">
+                  <div className="action-prd-dt sm-action-prd-dt">
                     <div className="btn-quantity">
                       <IconButton
                         aria-label="delete"
@@ -499,7 +499,7 @@ export const CardHorizontal = (cart) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-3">
+                <div className="col-xl-3 col-sm-3">
                   <b>
                     {" "}
                     {item.quantity_cart === 1
@@ -514,7 +514,7 @@ export const CardHorizontal = (cart) => {
             ))}
           </div>
 
-          <div className="body-card">
+          <div className="body-card sm-body-card">
             {cartCombo?.map((item, index) => (
               <>
                 <div
@@ -522,8 +522,8 @@ export const CardHorizontal = (cart) => {
                   style={{ textAlign: "center", marginBotto: "1rem" }}
                   key={index}
                 >
-                  <div className="col-2">
-                    <div className="img-card">
+                  <div className="col-xl-2">
+                    <div className="img-card sm-img-card">
                       <img src={item?.image} alt={item?.comboName} />
                       <CloseIcon
                         className="close-prd"
@@ -531,12 +531,12 @@ export const CardHorizontal = (cart) => {
                       />
                     </div>
                   </div>
-                  <div className="col-4">
+                  <div className="col-xl-4">
                     <div>{item?.comboName} </div>
                     <span>Số sản phẩm {item?.quantity} </span>
                   </div>
-                  <div className="col-3">
-                    <div className="action-prd-dt">
+                  <div className="col-xl-3">
+                    <div className="action-prd-dt sm-action-prd-dt">
                       <div className="btn-quantity">
                         <IconButton
                           aria-label="delete"
@@ -558,7 +558,7 @@ export const CardHorizontal = (cart) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-3">
+                  <div className="col-xl-3">
                     <b>
                       <b>
                         <b>
@@ -628,8 +628,8 @@ export const CardHorizontal = (cart) => {
 
           <div className="total-prd-card">
             <div className="row">
-              <div className="col-6"></div>
-              <div className="col-6">
+              <div className="col-xl-6 col-sm-12"></div>
+              <div className="col-xl-6 col-sm-12">
                 <div className="sub-total">
                   <p>Tạm tính Tiền Phụ Tùng: </p>
                   <b>{`${numeral(totalAmountCarts).format("0,0")}đ`}</b>
@@ -658,12 +658,12 @@ export const CardHorizontal = (cart) => {
           </div>
         </div>
       </div>
-      <div className="col-6">
+      <div className="col-xl-6 col-sm-12">
         <div className="payment-container">
-          <div className="body-container-payment">
+          <div className="body-container-payment sm-body-container-payment">
             <h1>Thông tin thanh toán</h1>
             {user === null ? (
-              <div className="account-payment">
+              <div className="account-payment sm-account-payment">
                 <p>Bạn có tài khoản chưa? </p>
                 <Link to="/login">
                   <Button variant="contained" endIcon={<ArrowRightIcon />}>

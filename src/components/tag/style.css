@@ -15,3 +15,13 @@
   padding: 0.3rem;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .sm-tag {
+    margin: 0.4rem 0;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+}

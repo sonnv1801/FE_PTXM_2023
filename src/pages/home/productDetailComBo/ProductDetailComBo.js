@@ -230,15 +230,15 @@ export const ProductDetailComBo = () => {
           <div className="title-combo">
             <h2>Tất cả sản phẩm có trong {productDetailComBo?.title}</h2>
           </div>
-          <div className="prd-bodys">
+          <div className="prd-bodys sm-prd-bodys">
             <div className="row">
-              <div className="col-3">
+              <div className="col-xl-3 col-sm-12">
                 <img
                   src={productDetailComBo?.image}
                   alt={productDetailComBo?.title}
                 />
               </div>
-              <div className="col-9">
+              <div className="col-xl-9 col-sm-12">
                 <div className="title-combos">
                   <div className="row">
                     <div className="col-2">
@@ -268,6 +268,33 @@ export const ProductDetailComBo = () => {
                       <span>Số lượng</span>
                     </div>
                     <div className="col-2">
+                      <span>Tổng</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="title-combos sm-title-combos">
+                  <div className="row">
+                    <div className="col-3">
+                      <span>
+                        <input
+                          type="checkbox"
+                          checked={
+                            selectedProducts.length ===
+                              productDetailComBo?.products?.length &&
+                            selectedProducts.length > 0
+                          }
+                          onChange={() => handleProductSelection("all")}
+                        />
+                        Chọn Tất Cả
+                      </span>
+                    </div>
+                    <div className="col-3">
+                      <span>Tên Sản phẩm</span>
+                    </div>
+                    <div className="col-3">
+                      <span>Số lượng</span>
+                    </div>
+                    <div className="col-3">
                       <span>Tổng</span>
                     </div>
                   </div>
@@ -335,9 +362,67 @@ export const ProductDetailComBo = () => {
                     </div>
                   ))}
                 </div>
+                <div className="prd-combos sm-prd-combos">
+                  {productDetailComBo?.products?.map((item, index) => (
+                    <div className="row" key={item._id}>
+                      <div className="col-6">
+                        <span>
+                          <input
+                            type="checkbox"
+                            checked={selectedProducts.includes(item._id)}
+                            onChange={() => handleProductSelection(item._id)}
+                          />
+                          Sản phẩm {index + 1}
+                        </span>
+                      </div>
+                      <div className="col-6">
+                        <span
+                          onClick={() => handleShow(item)}
+                          style={{ cursor: "pointer", color: "pink" }}
+                        >
+                          {item?.name}
+                        </span>
+                      </div>
+
+                      <div className="col-6">
+                        {item && (
+                          <div className="combos-quantity sm-combos-quantity">
+                            <div className="sub-combos-quantity sm-sub-combos-quantity">
+                              <IconButton
+                                aria-label="delete"
+                                size="large"
+                                className="quantityss"
+                                onClick={() => handleQuantityDecrease(index)}
+                              >
+                                <RemoveIcon />
+                              </IconButton>
+                              <span>{quantities[index]}</span>
+                              <IconButton
+                                aria-label="delete"
+                                size="large"
+                                className="quantityss"
+                                onClick={() => handleQuantityIncrease(index)}
+                              >
+                                <AddIcon />
+                              </IconButton>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      {item && item.price && quantities[index] && (
+                        <div className="col-6 sm-span-totals">
+                          <span>{`${numeral(
+                            item.price * quantities[index]
+                          ).format("0,0")}đ`}</span>
+                        </div>
+                      )}
+                      <hr style={{ margin: "1rem 0" }} />
+                    </div>
+                  ))}
+                </div>
                 <div className="row">
-                  <div className="col-6"></div>
-                  <div className="col-6">
+                  <div className="col-xl-6 col-sm-12"></div>
+                  <div className="col-xl-6 col-sm-12">
                     <div className="total-combos">
                       <div className="payments-moneys">
                         <b>Tạm tính</b>

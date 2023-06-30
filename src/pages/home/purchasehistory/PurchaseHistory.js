@@ -283,6 +283,19 @@ const PurchaseHistory = ({ customerId }) => {
                   </div>
                 </div>
               </div>
+              <div className="prd-history sm-prd-history">
+                <div className="row">
+                  <div className="col-4">
+                    <label>Sản phẩm</label>
+                  </div>
+                  <div className="col-4">
+                    <label>Mã</label>
+                  </div>
+                  <div className="col-4">
+                    <label>Tổng tiền</label>
+                  </div>
+                </div>
+              </div>
               <div className="prd-history-sub">
                 {orders.map((order) => (
                   <>
@@ -325,6 +338,35 @@ const PurchaseHistory = ({ customerId }) => {
                   </>
                 ))}
               </div>
+              <div className="prd-history-sub sm-prd-history-sub">
+                {orders.map((order) => (
+                  <>
+                    {order.products.map((product) => (
+                      <div style={{ padding: "1.5rem 0" }}>
+                        <div className="row">
+                          <div className="col-4">
+                            <label className="sm-lablel-titles">
+                              {product.title}
+                            </label>
+                          </div>
+                          <div className="col-4">
+                            <label className="sm-label-codes">
+                              {product.code}
+                            </label>
+                          </div>
+                          <div className="col-4">
+                            <label>
+                              {`${numeral(
+                                product.quantity_cart * product.newPrice
+                              ).format("0,0")}đ`}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ))}
+              </div>
             </div>
             <div className="sub-body-history">
               <div className="title-history">
@@ -348,6 +390,19 @@ const PurchaseHistory = ({ customerId }) => {
                     <label>Giá Mỗi Combo</label>
                   </div>
                   <div className="col-2">
+                    <label>Tổng tiền</label>
+                  </div>
+                </div>
+              </div>
+              <div className="prd-history sm-prd-history">
+                <div className="row">
+                  <div className="col-4">
+                    <label>Sản phẩm</label>
+                  </div>
+                  <div className="col-4">
+                    <label>Giá Mỗi Combo</label>
+                  </div>
+                  <div className="col-4">
                     <label>Tổng tiền</label>
                   </div>
                 </div>
@@ -383,6 +438,34 @@ const PurchaseHistory = ({ customerId }) => {
                               )}đ`}</label>
                             </div>
                             <div className="col-2">
+                              <label>{`${numeral(
+                                combo.subtotal * combo.quantityCombo
+                              ).format("0,0")}đ`}</label>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className="prd-history-sub sm-prd-history-sub">
+                {orders.map((order) => (
+                  <div>
+                    {order.combos.map((combo) => (
+                      <div>
+                        <div style={{ padding: "1.5rem 0", cursor: "pointer" }}>
+                          <div className="row">
+                            <div className="col-4">
+                              <label>{combo.comboName}</label>
+                            </div>
+                            <div className="col-4">
+                              <label>{`${numeral(combo.subtotal).format(
+                                "0,0"
+                              )}đ`}</label>
+                            </div>
+                            <div className="col-4">
                               <label>{`${numeral(
                                 combo.subtotal * combo.quantityCombo
                               ).format("0,0")}đ`}</label>
