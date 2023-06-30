@@ -89,13 +89,3 @@
   color: white;
   display: flow-root;
 }
-
-@media (max-width: 768px) {
-  #menu-admin-dt {
-    display: none;
-  }
-}
-
-/* CSS cho màn hình tablet */
-@media (min-width: 769px) and (max-width: 1024px) {
-}

@@ -46,7 +46,7 @@ const EditComboPage = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`https://phutungxemay.onrender.com/v1/combo/${path}`)
+    fetch(`http://localhost:8000/v1/combo/${path}`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
@@ -102,7 +102,7 @@ const EditComboPage = () => {
   };
 
   const handleAddProductToCombo = () => {
-    const url = `https://phutungxemay.onrender.com/v1/combo/addcombo/${path}`;
+    const url = `http://localhost:8000/v1/combo/addcombo/${path}`;
 
     axios
       .post(url, {
@@ -124,7 +124,7 @@ const EditComboPage = () => {
   };
 
   const handleSaveChanges = () => {
-    const url = `https://phutungxemay.onrender.com/v1/combo/combos/${path}`;
+    const url = `http://localhost:8000/v1/combo/combos/${path}`;
 
     axios
       .put(url, data)

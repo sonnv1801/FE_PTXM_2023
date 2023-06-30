@@ -9,7 +9,6 @@
   top: 0;
   left: 0;
   z-index: 4;
-  /* display: none; */
 }
 .nav-container ul {
   display: flex;

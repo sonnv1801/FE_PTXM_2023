@@ -1,5 +1,5 @@
 import Axios from "axios";
-const API = "https://phutungxemay.onrender.com/v1/supplier";
+const API = "http://localhost:8000/v1/supplier";
 
 export class SupplierService {
   getAllSupplier() {

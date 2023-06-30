@@ -93,13 +93,3 @@
   text-decoration: none;
   display: block;
 }
-
-@media (max-width: 768px) {
-  .sm-main-login .sm-login {
-    width: 100%;
-  }
-}
-
-/* CSS cho màn hình tablet */
-@media (min-width: 769px) and (max-width: 1024px) {
-}

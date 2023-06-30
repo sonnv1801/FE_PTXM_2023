@@ -33,7 +33,7 @@ export const Shop = () => {
       <div className="category-product">
         <div className="row">
           {listTypePhuTung.map((item, index) => (
-            <div className="col-sm-6 col-xl-2 ">
+            <div className="col-2">
               <Link to={`/shop/${item.name}`} onClick={refreshPage}>
                 <CartMini name={item.name} key={index} />
               </Link>
@@ -42,15 +42,13 @@ export const Shop = () => {
         </div>
       </div>
       <hr />
-      {/* {listTypePhuTung.map((item, index) => ( */}
       <div className="title-product-store">
-        <TitleStore />
+        <TitleStore type={type} />
       </div>
-      {/* ))} */}
       <div className="products-body">
         <div className="row">
           {listProductByType.map((item, index) => (
-            <div className="col-xl-3 col-sm-6">
+            <div className="col-3">
               <Link to={`/shop/product-dt/${item?._id}`}>
                 <ImgMediaCard item={item} key={index} />
               </Link>

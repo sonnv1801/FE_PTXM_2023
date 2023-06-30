@@ -1,5 +1,5 @@
 import Axios from "axios";
-const API = "https://phutungxemay.onrender.com/v1/type";
+const API = "http://localhost:8000/v1/type";
 
 export class TypeService {
   getAllType() {

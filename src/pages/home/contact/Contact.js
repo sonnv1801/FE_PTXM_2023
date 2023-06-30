@@ -49,7 +49,7 @@ function Contact() {
                   </svg>
                 </div>
                 <div className=" cursor-pointer">
-                  <a href="#!">Cửa hàng kinh doanh phụ Tùng xe máy</a>
+                  <a href="#!">Cửa hàng kinh doanh máy PHOTOCOPY</a>
                 </div>
               </div>
               <div className="border-t-[1px] border-white">
@@ -135,7 +135,7 @@ function Contact() {
                       href="#!"
                     >
                       {" "}
-                      Xem Câu hỏi thường gặp về Phụ tùng xe máy{" "}
+                      Xem Câu hỏi thường gặp về máy PHOTOCOPY{" "}
                     </a>{" "}
                   </p>
                 </div>
@@ -177,8 +177,8 @@ function Contact() {
                 <div className="ml-4 flex">
                   <strong className="w-[50%]">Truy cập vào bãi đậu xe</strong>
                   <p className="w-[50%]">
-                    Bãi đậu xe của Cửa hàng kinh doanh phụ Tùng xe máy Honda
-                    Quốc Nguyên đã được di dời về phía bắc của tòa nhà.
+                    Bãi đậu xe của Cửa hàng kinh doanh máy PHOTOCOPY Honda Quốc
+                    Nguyên đã được di dời về phía bắc của tòa nhà.
                   </p>
                 </div>
 

@@ -27,7 +27,7 @@ function TypeSupplier() {
 
   const currentUser = JSON.parse(localStorage.getItem("token"));
   const [name, setName] = useState("");
-  // const [link, setLink] = useState("");
+  const [link, setLink] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function TypeSupplier() {
     e.preventDefault();
     const newType = {
       name: name,
-      // link: link,
+      link: link,
     };
     dispatch(addTypeSuppliers(newType, currentUser?.accessToken));
     setShowadd(false);
@@ -141,13 +141,13 @@ function TypeSupplier() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Nhập Loại..."
             />
-            {/* <Form.Label>Đường Dẫn: </Form.Label>
+            <Form.Label>Đường Dẫn: </Form.Label>
             <Form.Control
               type="text"
               // onChange={handleChange('name')}
               onChange={(e) => setLink(e.target.value)}
               placeholder="Nhập link..."
-            /> */}
+            />
           </Form.Group>
         </ModalBody>
         <ModalFooter>

@@ -6,7 +6,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import { Link } from "react-router-dom";
 const FooterSocial = () => {
   return (
-    <div className="col-lg-2 col-md-6 mb-4 mb-md-0 social sm-footer-social">
+    <div className="col-lg-2 col-md-6 mb-4 mb-md-0 social">
       <h5 className=" text-center">Liên hệ</h5>
       <section className="mb-4 body-social">
         <Link

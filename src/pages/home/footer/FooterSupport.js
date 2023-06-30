@@ -8,7 +8,7 @@ const FooterSupport = () => {
       <ul className="list-unstyled text-center">
         <li className="text-center">
           <Link to="/" className="text-dark">
-            <b>Cửa hàng kinh doanh phụ Tùng xe máy Honda Quốc Nguyên</b>
+            <b>Cửa hàng kinh doanh máy PHOTOCOPY LAM ANH</b>
             <br />
             <span style={{ fontSize: "16px" }}>(Từ 8:00-21:00)</span>
           </Link>

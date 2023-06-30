@@ -43,7 +43,7 @@ const AddCombo = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://phutungxemay.onrender.com/v1/combo/",
+        "http://localhost:8000/v1/combo/",
         formData
       );
       console.log(response.data); // Combo được tạo thành công

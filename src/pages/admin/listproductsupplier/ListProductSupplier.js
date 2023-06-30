@@ -6,7 +6,6 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import Form from "react-bootstrap/Form";
-import { read, utils } from "xlsx";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
@@ -27,7 +26,6 @@ import {
 } from "../../../redux/actions/productSupplier.action";
 import { getSupplier } from "../../../redux/actions/supplier.action";
 import { getAllTypeProduct } from "../../../redux/actions/type.action";
-import axios from "axios";
 function ListProductSupplier() {
   const [showadd, setShowadd] = useState(false);
   const currentUser = JSON.parse(localStorage.getItem("token"));
@@ -35,17 +33,15 @@ function ListProductSupplier() {
   const listProductSupplier = useSelector(
     (state) => state.defaultReducer.listProductSupplier
   );
-
   const [data, setData] = useState({
     name: "",
     image: "",
     supplier: "",
-    // agentCode: "",
+    agentCode: "",
     productCode: "",
     salePrice: "",
     retailPrice: "",
     wholesalePrice: "",
-    wholesalePriceQuick: "",
     quantity: "",
     link: "",
     type: "",
@@ -64,12 +60,11 @@ function ListProductSupplier() {
         data.name !== "" &&
         data.image !== "" &&
         data.supplier !== "" &&
-        // data.agentCode !== "" &&
+        data.agentCode !== "" &&
         data.productCode !== "" &&
         data.salePrice !== "" &&
         data.retailPrice !== "" &&
         data.wholesalePrice !== "" &&
-        data.wholesalePriceQuick !== "" &&
         data.quantity !== "" &&
         data.link !== ""
       ) {
@@ -77,12 +72,11 @@ function ListProductSupplier() {
         formData.append("name", data.name);
         formData.append("image", data.image);
         formData.append("supplier", data.supplier);
-        // formData.append("agentCode", data.agentCode);
+        formData.append("agentCode", data.agentCode);
         formData.append("productCode", data.productCode);
         formData.append("salePrice", data.salePrice);
         formData.append("retailPrice", data.retailPrice);
         formData.append("wholesalePrice", data.wholesalePrice);
-        formData.append("wholesalePriceQuick", data.wholesalePriceQuick);
         formData.append("quantity", data.quantity);
         formData.append("link", data.link);
         formData.append("type", data.type);
@@ -99,7 +93,7 @@ function ListProductSupplier() {
     }
   };
 
-  const listSuppliers = useSelector(
+  const listSupplier = useSelector(
     (state) => state.defaultReducer.listSupplier
   );
   useEffect(() => {
@@ -108,19 +102,6 @@ function ListProductSupplier() {
   const handleCloseAdd = () => {
     setShowadd(false);
   };
-  useEffect(() => {
-    const selectedSupplier = listSuppliers.find(
-      (supplier) =>
-        supplier.name.trim().toLowerCase() ===
-        data.supplier.trim().toLowerCase()
-    );
-    if (selectedSupplier) {
-      setData((prevData) => ({
-        ...prevData,
-        link: selectedSupplier._id, // Assign _id as the link value
-      }));
-    }
-  }, [data.supplier, listSuppliers]);
 
   const dispatch = useDispatch();
   const listTypes = useSelector((state) => state.defaultReducer.listType);
@@ -135,66 +116,6 @@ function ListProductSupplier() {
   useEffect(() => {
     dispatch(getProductSupplier());
   }, []);
-  const [excelFile, setExcelFile] = useState(null);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setExcelFile(file);
-  };
-
-  const handleSubmitEXC = async () => {
-    try {
-      if (excelFile) {
-        const fileReader = new FileReader();
-        fileReader.onload = async (e) => {
-          const data = new Uint8Array(e.target.result);
-          const workbook = read(data, { type: "array" });
-          const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-          const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
-          console.log(jsonData, "jsonData");
-          // Process the jsonData and convert it into the desired format
-          const newData = jsonData.map((row) => {
-            return {
-              name: row[0],
-              productCode: row[1],
-              // agentCode: row[2],
-              // supplier: row[3],
-              // link: row[4],
-              // type: row[5],
-              // salePrice: row[6],
-              // retailPrice: row[7],
-              wholesalePrice: row[2],
-              wholesalePriceQuick: row[3],
-              // quantity: row[10],
-              // image: row[11],
-            };
-          });
-
-          // Wrap the newData array in an object with a property name
-
-          // Insert the modified data into the database
-          const response = await axios.post(
-            "https://phutungxemay.onrender.com/v1/productsupplier/addmanyproduct",
-            newData
-          );
-
-          // Show success message or perform any other necessary actions
-          toast.success("Imported data successfully!", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-          setShowadd(false);
-        };
-
-        fileReader.readAsArrayBuffer(excelFile);
-      } else {
-        toast.error("Please select an Excel file to import!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="container-listproductAd">
@@ -219,22 +140,6 @@ function ListProductSupplier() {
                   <i className="bx bxs-folder-plus"></i>
                   <span>Thêm Sản Phẩm</span>
                 </button>
-                <div style={{ display: "flex" }}>
-                  <input
-                    style={{ fontSize: "15px", padding: "0.6rem, 0.3rem" }}
-                    type="file"
-                    accept=".xlsx,.xls"
-                    onChange={handleFileChange}
-                  />
-                  <button
-                    href="#"
-                    className="btn btn-outline-danger"
-                    onClick={handleSubmitEXC}
-                  >
-                    <i className="bx bxs-folder-plus"></i>
-                    <span>Import Từ File Excel</span>
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -327,13 +232,13 @@ function ListProductSupplier() {
               onChange={handleChange("productCode")}
               placeholder="Nhập mã sản phẩm..."
             />
-            {/* <Form.Label>Mã đại lý: </Form.Label>
+            <Form.Label>Mã đại lý: </Form.Label>
             <Form.Control
               type="text"
               onChange={handleChange("agentCode")}
               placeholder="Nhập mã đại lý..."
-            /> */}
-            {/* <Form.Label>Nhà Cung Cấp: </Form.Label>
+            />
+            <Form.Label>Nhà Cung Cấp: </Form.Label>
             <Form.Select
               aria-label="Default select example"
               onChange={handleChange("supplier")}
@@ -354,19 +259,7 @@ function ListProductSupplier() {
               {listSupplier?.map((item, index) => (
                 <option value={item?.link}>{item.link}</option>
               ))}
-            </Form.Select> */}
-            <Form.Label>Nhà Cung Cấp: </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange("supplier")}
-            >
-              <option>Chọn loại sản phẩm</option>
-              {listSuppliers?.map((item, index) => (
-                <option value={item.name}>{item.name}</option>
-              ))}
             </Form.Select>
-            <input type="hidden" name="supplierName" value={data.supplier} />
-
             <Form.Label>Loại Sản Phẩm: </Form.Label>
             <Form.Select
               aria-label="Default select example"
@@ -383,7 +276,7 @@ function ListProductSupplier() {
               type="text"
               onChange={handleChange("description")}
             /> */}
-            <Form.Label>Giá khuyến mãi: </Form.Label>
+            <Form.Label>Giá sale: </Form.Label>
             <Form.Control
               type="number"
               onChange={handleChange("salePrice")}
@@ -395,17 +288,11 @@ function ListProductSupplier() {
               onChange={handleChange("retailPrice")}
               placeholder="Nhập giá bán sản phẩm..."
             />
-            <Form.Label>Giá vốn: </Form.Label>
+            <Form.Label>Giá sỉ: </Form.Label>
             <Form.Control
               type="number"
               onChange={handleChange("wholesalePrice")}
-              placeholder="Nhập giá vốn sản phẩm..."
-            />
-            <Form.Label>Giá vốn mua nhanh: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange("wholesalePriceQuick")}
-              placeholder="Nhập giá vốn mua nhanh sản phẩm..."
+              placeholder="Nhập giá sỉ sản phẩm..."
             />
             <Form.Label>Số lượng sản phẩm: </Form.Label>
             <Form.Control
@@ -424,11 +311,7 @@ function ListProductSupplier() {
           />
         </ModalBody>
         <ModalFooter>
-          <Button
-            style={{ background: "green" }}
-            variant="success"
-            onClick={handleSubmit}
-          >
+          <Button variant="success" onClick={handleSubmit}>
             Thêm Sản Phẩm
           </Button>
         </ModalFooter>

@@ -26,16 +26,3 @@ footer {
 .main-crs {
   margin-top: 1rem;
 }
-
-@media (max-width: 768px) {
- .sm-product-home-page{
-  margin: 0 auto;
- }
-}
-
-/* CSS cho màn hình tablet */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .my-component {
-    /* Các thuộc tính dành cho màn hình tablet */
-  }
-}

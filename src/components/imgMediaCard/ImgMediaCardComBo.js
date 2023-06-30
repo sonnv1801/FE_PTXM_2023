@@ -9,7 +9,6 @@ export default function ImgMediaCardComBo({ item }) {
   console.log(item, "item");
   return (
     <Card
-    className="sm-card-combo"
       sx={{ maxWidth: 345 }}
       style={{ padding: "0", marginBottom: "1rem", borderRadius: "0.6rem" }}
     >

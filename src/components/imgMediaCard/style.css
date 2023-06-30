@@ -24,20 +24,3 @@
 .title-prd:hover {
   color: blue;
 }
-
-
-@media (max-width: 768px) {
- .sm-card {
-  margin:  0 auto;
- }
- .sm-card-combo {
-  margin: 0 auto;
- }
- }
- 
- /* CSS cho màn hình tablet */
- @media (min-width: 769px) and (max-width: 1024px) {
-   .my-component {
-     /* Các thuộc tính dành cho màn hình tablet */
-   }
- }

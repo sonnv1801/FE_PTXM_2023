@@ -36,14 +36,9 @@ function Login() {
 
   return (
     <>
-      <div className="main-login sm-main-login">
+      <div className="main-login">
         <div style={{ padding: "1rem" }}>
-          <form
-            className="login sm-login"
-            action="#"
-            id="form-1"
-            onSubmit={handleLogin}
-          >
+          <form className="login" action="#" id="form-1" onSubmit={handleLogin}>
             <div style={{ padding: "1rem" }}>
               <p style={{ color: "red", textAlign: "center" }}>
                 {messerr === false

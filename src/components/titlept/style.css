@@ -44,23 +44,3 @@
 .container-content .sub-content ul li:hover {
   color: red;
 }
-
-
-@media (max-width: 768px) {
- .sm-container-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
- }
- .sm-container-content .sm-sub-content {
-  display: none;
- }
- }
- 
- /* CSS cho màn hình tablet */
- @media (min-width: 769px) and (max-width: 1024px) {
-   .my-component {
-     /* Các thuộc tính dành cho màn hình tablet */
-   }
- }
-

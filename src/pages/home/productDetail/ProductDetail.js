@@ -123,16 +123,12 @@ export const ProductDetail = () => {
         <CustomizedBreadcrumbs name={productDetail.name} />
       </div>
       <div className="body-prd-dt">
-        <div className="sub-body-prd sm-sub-body-prd">
+        <div className="sub-body-prd">
           <div className="row">
-            <div className="col-xl-6 col-sm-12">
-              <img
-                src={productDetail.image}
-                alt="..."
-                className="sm-sub-body-prd-img"
-              />
+            <div className="col-6">
+              <img src={productDetail.image} alt="..." />
             </div>
-            <div className="col-xl-6 col-sm-12">
+            <div className="col-6">
               <div className="body-ds">
                 <h2>{productDetail.name}</h2>
               </div>
@@ -165,8 +161,8 @@ export const ProductDetail = () => {
                 <FacebookOutlinedIcon />
                 <TwitterIcon />
               </div>
-              <div className="action-prd-dt sm-action-prd-dt">
-                <div className="btn-quantity sm-btn-quantity">
+              <div className="action-prd-dt">
+                <div className="btn-quantity">
                   <IconButton
                     aria-label="decrease"
                     size="large"
@@ -186,7 +182,7 @@ export const ProductDetail = () => {
               </div>
               {productDetail.quantityDelivered !==
                 productDetail.quantityPurchased && (
-                <div className="action-prd-dt-btn sm-action-prd-dt-btn">
+                <div className="action-prd-dt-btn">
                   <Button
                     variant="outlined"
                     endIcon={<ArrowRightIcon />}
@@ -228,10 +224,10 @@ export const ProductDetail = () => {
               <div className="tag-prd">
                 <b>TAG</b>
                 <div className="row mt-3">
-                  <div className="col-xl-4 col-sm-6">
+                  <div className="col-4">
                     <Tag />
                   </div>
-                  <div className="col-xl-4 col-sm-6">
+                  <div className="col-4">
                     <Tag />
                   </div>
                 </div>

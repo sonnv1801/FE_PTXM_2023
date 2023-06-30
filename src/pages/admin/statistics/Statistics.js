@@ -16,7 +16,7 @@ function Statistics() {
 
   useEffect(() => {
     axios
-      .get("https://phutungxemay.onrender.com/v1/order/api/products")
+      .get("http://localhost:8000/v1/order/api/products")
       .then((response) => {
         const data = response.data;
         setProducts(data);

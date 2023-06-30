@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import { getSupplier } from "../../../redux/actions/supplier.action";
 import { updateProductSupplier } from "../../../redux/actions/productSupplier.action";
-import { getAllTypeProduct } from "../../../redux/actions/type.action";
 const UpdateProductSupplier = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
@@ -18,21 +17,19 @@ const UpdateProductSupplier = () => {
     name: "",
     image: "",
     supplier: "",
-    // agentCode: "",
+    agentCode: "",
     productCode: "",
     salePrice: "",
     retailPrice: "",
     wholesalePrice: "",
-    wholesalePriceQuick: "",
     quantity: "",
     link: "",
-    type: "",
   });
   const [loading, setLoading] = useState(false); // State cho nút xoay đợi
   console.log(data, "data");
   console.log(loading, "loading");
   useEffect(() => {
-    fetch(`https://phutungxemay.onrender.com/v1/productsupplier/${path}`)
+    fetch(`http://localhost:8000/v1/productsupplier/${path}`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
@@ -59,32 +56,20 @@ const UpdateProductSupplier = () => {
   useEffect(() => {
     dispatch(getSupplier());
   }, []);
-  useEffect(() => {
-    const selectedSupplier = listSupplier.find(
-      (supplier) =>
-        supplier.name?.trim()?.toLowerCase() ===
-        data.supplier?.trim()?.toLowerCase()
-    );
-    if (selectedSupplier) {
-      setData((prevData) => ({
-        ...prevData,
-        link: selectedSupplier._id, // Assign _id as the link value
-      }));
-    }
-  }, [data.supplier, listSupplier]);
+
   const handleSubmit = async () => {
     try {
       let emptyFields = 0; // Biến đếm số lượng trường bị trống
 
       // Kiểm tra từng trường và tăng biến đếm nếu trường đó trống
       if (data.name === "") emptyFields++;
+      // if (data.image === "") emptyFields++;
       if (data.supplier === "") emptyFields++;
       if (data.agentCode === "") emptyFields++;
       if (data.productCode === "") emptyFields++;
       if (data.salePrice === "") emptyFields++;
       if (data.retailPrice === "") emptyFields++;
       if (data.wholesalePrice === "") emptyFields++;
-      if (data.wholesalePriceQuick === "") emptyFields++;
       if (data.quantity === "") emptyFields++;
       if (data.link === "") emptyFields++;
 
@@ -104,10 +89,8 @@ const UpdateProductSupplier = () => {
         formData.append("salePrice", data.salePrice);
         formData.append("retailPrice", data.retailPrice);
         formData.append("wholesalePrice", data.wholesalePrice);
-        formData.append("wholesalePriceQuick", data.wholesalePriceQuick);
         formData.append("quantity", data.quantity);
         formData.append("link", data.link);
-        formData.append("type", data.type);
         dispatch(updateProductSupplier(path, formData, navigate));
       }
       setLoading(false); // Ẩn nút xoay đợi
@@ -115,11 +98,6 @@ const UpdateProductSupplier = () => {
       console.log(error);
     }
   };
-
-  const listTypes = useSelector((state) => state.defaultReducer.listType);
-  useEffect(() => {
-    dispatch(getAllTypeProduct());
-  }, []);
 
   return (
     <div className="form-add-product">
@@ -146,7 +124,16 @@ const UpdateProductSupplier = () => {
               onChange={handleChange("productCode")}
             />
           </div>
-
+          <div className="mb-3">
+            <span>Mã Đại Lý</span>
+            <input
+              className="form-control"
+              type="text"
+              name="agentCode"
+              value={data.agentCode}
+              onChange={handleChange("agentCode")}
+            />
+          </div>
           <div className="mb-3">
             <span>Nhà Cung Cấp</span>
             <select onChange={handleChange("supplier")}>
@@ -157,15 +144,14 @@ const UpdateProductSupplier = () => {
             </select>
           </div>
           <div className="mb-3">
-            <span>Loại Sản Phẩm</span>
-            <select onChange={handleChange("type")}>
-              <option value={data.type}>{data.type}</option>
-              {listTypes?.map((item, index) => (
-                <option value={item?.name}>{item?.name}</option>
+            <span>Link Cung Cấp</span>
+            <select onChange={handleChange("link")}>
+              <option value={data.link}>{data.link}</option>
+              {listSupplier?.map((item, index) => (
+                <option value={item?.link}>{item?.link}</option>
               ))}
             </select>
           </div>
-
           <div className="mb-3" style={{ width: "200px" }}>
             {/* Display the current image */}
             {previewImage && (
@@ -186,7 +172,7 @@ const UpdateProductSupplier = () => {
               />
             </div> */}
           <div className="mb-3">
-            <span>Giá khuyến mãi</span>
+            <span>Giá Sale</span>
             <input
               className="form-control"
               type="number"
@@ -206,23 +192,13 @@ const UpdateProductSupplier = () => {
             />
           </div>
           <div className="mb-3">
-            <span>Giá vốn</span>
+            <span>Giá sỉ</span>
             <input
               className="form-control"
               type="number"
               name="wholesalePrice"
               value={data.wholesalePrice}
               onChange={handleChange("wholesalePrice")}
-            />
-          </div>
-          <div className="mb-3">
-            <span>Giá vốn mua nhanh</span>
-            <input
-              className="form-control"
-              type="number"
-              name="wholesalePriceQuick"
-              value={data.wholesalePriceQuick}
-              onChange={handleChange("wholesalePriceQuick")}
             />
           </div>
           <div className="mb-3">

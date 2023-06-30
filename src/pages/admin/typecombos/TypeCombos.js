@@ -125,7 +125,7 @@ function TypeCombos() {
 
       <Modal show={showadd} onHide={handleCloseAdd} className="modal">
         <ModalHeader>
-          <ModalTitle>Thêm Loại Phụ Tùng</ModalTitle>
+          <ModalTitle>Thêm Loại Máy PHOTOCOPY</ModalTitle>
         </ModalHeader>
         <ModalBody className="modal-body">
           <Form.Group className="formgroup-body">

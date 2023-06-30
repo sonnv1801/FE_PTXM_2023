@@ -54,7 +54,7 @@ function Type() {
           <div className="title-list">
             <div className="row">
               <div className="col-sm-5">
-                <p>Loại Phụ Tùng</p>
+                <p>Loại Máy PHOTOCOPY</p>
               </div>
               <div className="col-sm-7">
                 <button
@@ -65,7 +65,7 @@ function Type() {
                   }}
                 >
                   <i className="bx bxs-folder-plus"></i>
-                  <span>Thêm Phụ Tùng</span>
+                  <span>Thêm Máy PHOTOCOPY</span>
                 </button>
               </div>
             </div>
@@ -118,7 +118,7 @@ function Type() {
 
       <Modal show={showadd} onHide={handleCloseAdd} className="modal">
         <ModalHeader>
-          <ModalTitle>Thêm Loại Phụ Tùng</ModalTitle>
+          <ModalTitle>Thêm Loại Máy PHOTOCOPY</ModalTitle>
         </ModalHeader>
         <ModalBody className="modal-body">
           <Form.Group className="formgroup-body">

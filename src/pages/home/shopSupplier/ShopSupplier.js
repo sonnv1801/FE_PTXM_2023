@@ -38,7 +38,7 @@ export const ShopSupplier = () => {
         <div className="row">
           {listSupplier.map((item, index) => (
             <div className="col-2">
-              <Link to={`/shopsupplier/${item._id}`} onClick={refreshPage}>
+              <Link to={`/shopsupplier/${item.link}`} onClick={refreshPage}>
                 <CartMini name={item.name} key={index} />
               </Link>
             </div>
