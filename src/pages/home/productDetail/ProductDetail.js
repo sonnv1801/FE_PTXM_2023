@@ -140,6 +140,12 @@ export const ProductDetail = () => {
               <div className="item-prd">
                 <div className="row">
                   <div className="col-6">
+                    <span>Giá khuyến mãi</span>
+                    <h6>{`${numeral(productDetail.salePrice).format(
+                      "0,0"
+                    )}đ`}</h6>
+                  </div>
+                  <div className="col-6">
                     <span>Đơn giá</span>
                     <h6>{`${numeral(productDetail.retailPrice).format(
                       "0,0"
@@ -148,7 +154,6 @@ export const ProductDetail = () => {
                   <div className="col-6">
                     <span>Trạng Thái</span>
                     <h6>
-                      {" "}
                       {productDetail.quantityDelivered ===
                       productDetail.quantityPurchased
                         ? "Hết Hàng"

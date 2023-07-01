@@ -7,6 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import { getAllTypeProduct } from "../../../redux/actions/type.action";
+import { getSupplier } from "../../../redux/actions/supplier.action";
+import { updateProductoOrder } from "../../../redux/actions/order.action";
 const EditProduct = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
@@ -14,14 +16,23 @@ const EditProduct = () => {
   const [previewImage, setPreviewImage] = useState("");
   const navigate = useNavigate();
   const [data, setData] = useState({
-    title: "",
-    code: "",
-    image: "",
+    productCode: "",
+    name: "",
+    // supplier: "",
+    salePrice: "",
+    retailPrice: "",
+    // wholesalePrice: "",
     type: "",
-    description: "",
-    newPrice: "",
-    oldPrice: "",
-    quantity: "",
+    image: "",
+    // link: "",
+    // quantityOrdered: "",
+    // quantityDelivered: "",
+    // deliveryStatus: "",
+    // productPrice: "",
+    // totalPrice: "",
+    // productProfit: "",
+    // totalProfit: "",
+    // quantityPurchased: "",
   });
 
   const listTypes = useSelector((state) => state.defaultReducer.listType);
@@ -29,8 +40,15 @@ const EditProduct = () => {
     dispatch(getAllTypeProduct());
   }, []);
 
+  const listSupplier = useSelector(
+    (state) => state.defaultReducer.listSupplier
+  );
   useEffect(() => {
-    fetch(`https://phutungxemay.onrender.com/v1/product/${path}`)
+    dispatch(getSupplier());
+  }, []);
+
+  useEffect(() => {
+    fetch(`https://phutungxemay.onrender.com/v1/order/orders/products/${path}`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
@@ -55,26 +73,22 @@ const EditProduct = () => {
   const handleSubmit = async () => {
     try {
       if (
-        data.title !== "" &&
-        data.image !== "" &&
-        data.code !== "" &&
+        data.productCode !== "" &&
+        data.name !== "" &&
+        data.retailPrice !== "" &&
+        data.salePrice !== "" &&
         data.type !== "" &&
-        data.description !== "" &&
-        data.newPrice !== "" &&
-        data.oldPrice !== "" &&
-        data.quantity !== ""
+        data.image !== ""
       ) {
         let formData = new FormData();
-        formData.append("image", data.image);
-        formData.append("code", data.code);
-        formData.append("title", data.title);
+        formData.append("productCode", data.productCode);
+        formData.append("name", data.name);
+        formData.append("retailPrice", data.retailPrice);
+        formData.append("salePrice", data.salePrice);
         formData.append("type", data.type);
-        formData.append("description", data.description);
-        formData.append("newPrice", data.newPrice);
-        formData.append("oldPrice", data.oldPrice);
-        formData.append("quantity", data.quantity);
+        formData.append("image", data.image);
 
-        dispatch(updateProduct(path, formData, navigate));
+        dispatch(updateProductoOrder(path, formData, navigate));
       } else {
         toast.success("Sửa sản phẩm thành công", {
           position: toast.POSITION.TOP_CENTER,
@@ -95,9 +109,9 @@ const EditProduct = () => {
             <input
               className="form-control"
               type="text"
-              name="title"
-              value={data.title}
-              onChange={handleChange("title")}
+              name="name"
+              value={data.name}
+              onChange={handleChange("name")}
             />
           </div>
           <div className="mb-3">
@@ -105,10 +119,30 @@ const EditProduct = () => {
             <input
               className="form-control"
               type="text"
-              name="title"
-              value={data.code}
-              onChange={handleChange("code")}
+              name="productCode"
+              value={data.productCode}
+              onChange={handleChange("productCode")}
             />
+          </div>
+          {/* <div className="mb-3">
+            <span>Số Lượng</span>
+            <input
+              className="form-control"
+              type="text"
+              name="quantityDelivered"
+              value={data.quantityDelivered}
+              onChange={handleChange("quantityDelivered")}
+            />
+          </div> */}
+
+          <div className="mb-3">
+            <span>Loại Sản Phẩm</span>
+            <select onChange={handleChange("type")}>
+              <option value={data.type}>{data.type}</option>
+              {listTypes?.map((item, index) => (
+                <option value={item?.name}>{item?.name}</option>
+              ))}
+            </select>
           </div>
           <div className="mb-3" style={{ width: "200px" }}>
             {/* Display the current image */}
@@ -127,35 +161,35 @@ const EditProduct = () => {
 
         <div className="col-6">
           <div className="mb-3">
-            <span>Mô tả Sản Phẩm</span>
-            <textarea
+            <span>Giá Bán</span>
+            <input
               className="form-control"
               type="text"
-              name="description"
-              value={data.description}
-              onChange={handleChange("description")}
+              name="retailPrice"
+              value={data.retailPrice}
+              onChange={handleChange("retailPrice")}
             />
           </div>
           <div className="mb-3">
-            <span>Giá Mới</span>
+            <span>Giá Khuyến Mãi</span>
             <input
               className="form-control"
-              type="number"
-              name="newPrice"
-              value={data.newPrice}
-              onChange={handleChange("newPrice")}
+              type="text"
+              name="salePrice"
+              value={data.salePrice}
+              onChange={handleChange("salePrice")}
             />
           </div>
-          <div className="mb-3">
-            <span>Giá cũ</span>
+          {/* <div className="mb-3">
+            <span>Giá Vốn</span>
             <input
               className="form-control"
-              type="number"
-              name="oldPrice"
-              value={data.oldPrice}
-              onChange={handleChange("oldPrice")}
+              type="text"
+              name="productPrice"
+              value={data.productPrice}
+              onChange={handleChange("productPrice")}
             />
-          </div>
+          </div> */}
           <div className="mb-3">
             <span>Hình Ảnh</span>
             <input
@@ -166,25 +200,7 @@ const EditProduct = () => {
               onChange={handleChange("image")}
             />
           </div>
-          <div className="mb-3">
-            <span>Số lượng sản phẩm</span>
-            <select onChange={handleChange("quantity")}>
-              <option value={data.quantity}>{data.quantity}</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-            </select>
-          </div>
-          <div className="mb-3">
-            <span>Loại Sản Phẩm</span>
-            <select onChange={handleChange("type")}>
-              <option value={data.type}>{data.type}</option>
-              {listTypes?.map((item, index) => (
-                <option value={item?.name}>{item?.name}</option>
-              ))}
-            </select>
-          </div>
+
           <div className="text">
             <button className="btn btn-primary" onClick={handleSubmit}>
               Update

@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDetailSuppliers } from "../../../redux/actions/productSupplier.action";
 import { useLocation, useNavigate } from "react-router-dom";
 import numeral from "numeral";
+
 export const ProductDetailSupplier = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -31,8 +32,7 @@ export const ProductDetailSupplier = () => {
   const [quantity, setQuantity] = useState(0);
 
   // Function to handle adding the product to localStorage
-  // Function to handle adding the product to localStorage
-  const handleAddToCart = () => {
+  const handleAddToCart = (purchaseType) => {
     if (quantity <= 0) {
       // Quantity not entered or is 0, do not add to cart
       return;
@@ -47,10 +47,11 @@ export const ProductDetailSupplier = () => {
       cart = JSON.parse(existingCartData);
     }
 
-    // Create the product object with code and quantity
+    // Create the product object with code, quantity, and purchaseType
     const product = {
       productCode: productDetailSupplier?.productCode,
       quantity: quantity,
+      purchaseType: purchaseType,
     };
 
     // Add the product to the cart
@@ -112,9 +113,15 @@ export const ProductDetailSupplier = () => {
                     )}đ`}</h6>
                   </div>
                   <div className="col-6">
-                    <span>Giá Bán Ra</span>
+                    <span>Giá Vốn Thường</span>
                     <h6>{`${numeral(
                       productDetailSupplier?.wholesalePrice
+                    ).format("0,0")}đ`}</h6>
+                  </div>
+                  <div className="col-6">
+                    <span>Giá Vốn Nhanh</span>
+                    <h6>{`${numeral(
+                      productDetailSupplier?.wholesalePriceQuick
                     ).format("0,0")}đ`}</h6>
                   </div>
                   <div className="col-6">
@@ -148,13 +155,22 @@ export const ProductDetailSupplier = () => {
               </div>
               <div className="action-prd-dt-btn">
                 {quantity > 0 && (
-                  <Button
-                    variant="outlined"
-                    endIcon={<ArrowRightIcon />}
-                    onClick={handleAddToCart}
-                  >
-                    Thêm vào giỏ
-                  </Button>
+                  <>
+                    <Button
+                      variant="outlined"
+                      endIcon={<ArrowRightIcon />}
+                      onClick={() => handleAddToCart("regular")}
+                    >
+                      Mua Thường
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      endIcon={<ArrowRightIcon />}
+                      onClick={() => handleAddToCart("quick")}
+                    >
+                      Mua Nhanh
+                    </Button>
+                  </>
                 )}
               </div>
               <div className="policy-prd">

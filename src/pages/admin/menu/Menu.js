@@ -85,14 +85,14 @@ export default function Menu() {
                 <ListItemText primary="Loại Phụ Tùng" />
               </ListItemButton>
             </Link>
-            {/* <Link to="/list-products-admin">
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <DnsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sản Phẩm Phụ Tùng" />
-            </ListItemButton>
-          </Link> */}
+            <Link to="/list-products-admin">
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <DnsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Sản Phẩm Phụ Tùng" />
+              </ListItemButton>
+            </Link>
           </List>
         </Collapse>
         <ListItemButton onClick={() => handleClick("combo")}>
@@ -139,14 +139,6 @@ export default function Menu() {
                 <ListItemText primary="Đơn Hàng Của Phụ Tùng & Combo" />
               </ListItemButton>
             </Link>
-            {/* <Link to="/list-products-admin">
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <DnsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sản Phẩm Phụ Tùng" />
-            </ListItemButton>
-          </Link> */}
           </List>
         </Collapse>
 

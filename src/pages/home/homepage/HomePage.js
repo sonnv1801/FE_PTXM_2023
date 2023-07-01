@@ -41,7 +41,6 @@ export const HomePage = () => {
     dispatch(getAllTypeProduct());
   }, []);
 
-  console.log(getAllProductToOrders, "getAllProductToOrders");
   return (
     <div className="container-fluid mt-5 text-center">
       <SubNav />
@@ -63,18 +62,16 @@ export const HomePage = () => {
         </div>
       ) : (
         <div className="mt-5">
-          
           <div className="row sm-product-home-page">
             {getAllProductToOrders?.map((item, index) => (
-                <div className="col-xl-3 col-sm-12">
+              <div className="col-xl-3 col-sm-12">
                 <Link to={`/shop/product-dt/${item._id}`}>
                   <ImgMediaCard item={item} />
                 </Link>
               </div>
             ))}
-            </div>
           </div>
-     
+        </div>
       )}
 
       <TitleHead type={listTypeComBos} />

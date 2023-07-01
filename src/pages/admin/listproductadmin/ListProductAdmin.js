@@ -14,83 +14,25 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import {
-  addProduct,
-  deleteProduct,
-  getProducts,
-} from "../../../redux/actions/product.action";
-import { getAllTypeProduct } from "../../../redux/actions/type.action";
+import { deleteProduct } from "../../../redux/actions/product.action";
 import Menu from "../menu/Menu";
+import {
+  deleteProductToOrder,
+  getAllProToOrders,
+} from "../../../redux/actions/order.action";
 function ListProductAdmin() {
-  const [showadd, setShowadd] = useState(false);
   const currentUser = JSON.parse(localStorage.getItem("token"));
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
-  const listProducts = useSelector(
-    (state) => state.defaultReducer.listProducts
-  );
-  const [data, setData] = useState({
-    title: "",
-    image: "",
-    type: "",
-    description: "",
-    newPrice: "",
-    oldPrice: "",
-    quantity: "",
-    code: "",
-  });
-
-  const handleChange = (name) => (e) => {
-    const value = name === "image" ? e.target.files[0] : e.target.value;
-    setData({ ...data, [name]: value });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      if (
-        data.title !== "" &&
-        data.code !== "" &&
-        data.image !== "" &&
-        data.type !== "" &&
-        data.description !== "" &&
-        data.newPrice !== "" &&
-        data.oldPrice !== "" &&
-        data.quantity !== ""
-      ) {
-        let formData = new FormData();
-        formData.append("image", data.image);
-        formData.append("title", data.title);
-        formData.append("code", data.code);
-        formData.append("type", data.type);
-        formData.append("description", data.description);
-        formData.append("newPrice", data.newPrice);
-        formData.append("oldPrice", data.oldPrice);
-        formData.append("quantity", data.quantity);
-
-        dispatch(addProduct(formData, currentUser?.accessToken));
-        setShowadd(false);
-      } else {
-        toast.error("Thêm sản phẩm thất bại!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleCloseAdd = () => {
-    setShowadd(false);
-  };
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getAllProToOrders());
   }, []);
 
-  const listTypes = useSelector((state) => state.defaultReducer.listType);
-  useEffect(() => {
-    dispatch(getAllTypeProduct());
-  }, []);
+  const getAllProductToOrders = useSelector(
+    (state) => state.defaultReducer.listProductToOrder
+  );
 
   return (
     <div className="container-listproductAd">
@@ -104,18 +46,6 @@ function ListProductAdmin() {
               <div className="col-sm-5">
                 <p>Quản lý Phụ Tùng</p>
               </div>
-              <div className="col-sm-7">
-                <button
-                  href="#"
-                  className="btn btn-outline-danger"
-                  onClick={() => {
-                    setShowadd(true);
-                  }}
-                >
-                  <i className="bx bxs-folder-plus"></i>
-                  <span>Thêm Phụ Tùng</span>
-                </button>
-              </div>
             </div>
           </div>
           <table className="table">
@@ -124,6 +54,7 @@ function ListProductAdmin() {
                 <th>STT</th>
                 <th>Ảnh</th>
                 <th>Tên Sản phẩm</th>
+                <th>Số Lượng Còn</th>
                 <th>Mặt hàng</th>
                 <th>Giá</th>
                 <th>Sửa</th>
@@ -140,17 +71,25 @@ function ListProductAdmin() {
                 </div>
               ) : (
                 <>
-                  {listProducts?.map((item, index) => (
+                  {getAllProductToOrders?.map((item, index) => (
                     <tr>
-                      <td>{index}</td>
+                      <td>{index + 1}</td>
                       <td>
-                        <img src={item.image} alt={item.title} />
+                        <img src={item.image} alt={item.name} />
                       </td>
-                      <td>{item.title}</td>
+                      <td>{item.name}</td>
+                      <td>
+                        {" "}
+                        {item.quantityDelivered === item.quantityPurchased
+                          ? "Hết Hàng"
+                          : `Còn Hàng ${
+                              item.quantityDelivered - item.quantityPurchased
+                            } Cái`}
+                      </td>
 
                       <td>{item.type}</td>
                       <td>
-                        <p>{`${item.newPrice.toLocaleString()}đ`}</p>
+                        <p>{`${item.retailPrice?.toLocaleString()}đ`}</p>
                       </td>
                       <td>
                         <Link to={`/list-products-admin/${item._id}`}>
@@ -162,7 +101,10 @@ function ListProductAdmin() {
                           className="btn btn-danger"
                           onClick={() => {
                             dispatch(
-                              deleteProduct(item._id, currentUser?.accessToken)
+                              deleteProductToOrder(
+                                item._id,
+                                currentUser?.accessToken
+                              )
                             );
                           }}
                         >
@@ -177,84 +119,6 @@ function ListProductAdmin() {
           </table>
         </div>
       </div>
-
-      <Modal show={showadd} onHide={handleCloseAdd} className="modal">
-        <ModalHeader>
-          <ModalTitle>Thêm sản phẩm</ModalTitle>
-        </ModalHeader>
-        <ModalBody className="modal-body">
-          <Form.Group className="formgroup-body">
-            <Form.Label>Tên sản phẩm: </Form.Label>
-            <Form.Control
-              type="text"
-              onChange={handleChange("title")}
-              placeholder="Nhập tên sản phẩm..."
-            />
-            <Form.Label>Mã sản phẩm: </Form.Label>
-            <Form.Control
-              type="text"
-              onChange={handleChange("code")}
-              placeholder="Nhập mã sản phẩm..."
-            />
-            <Form.Label>Loại sản phẩm: </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange("type")}
-            >
-              <option>Chọn loại sản phẩm</option>
-              {listTypes?.map((item, index) => (
-                <option value={item?.name}>{item.name}</option>
-              ))}
-            </Form.Select>
-            <Form.Label>Mô tả sản phẩm: </Form.Label>
-            <textarea
-              className="form-control"
-              type="text"
-              onChange={handleChange("description")}
-            />
-            <Form.Label>Giá mới: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange("newPrice")}
-              placeholder="Nhập giá sản phẩm..."
-            />
-            <Form.Label>Giá cũ: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange("oldPrice")}
-              placeholder="Nhập giá cũ sản phẩm..."
-            />
-            <Form.Label>Số lượng sản phẩm: </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange("quantity")}
-            >
-              <option>Chọn số lượng sản phẩm</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-            </Form.Select>
-          </Form.Group>
-          <Form.Label>Hình ảnh: </Form.Label>
-          <Form.Control
-            type="file"
-            size="sm"
-            accept="image/*"
-            name="image"
-            onChange={handleChange("image")}
-          />
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            style={{ background: "#0d6efd" }}
-            variant="success"
-            onClick={handleSubmit}
-          >
-            Thêm Sản Phẩm
-          </Button>
-        </ModalFooter>
-      </Modal>
     </div>
   );
 }

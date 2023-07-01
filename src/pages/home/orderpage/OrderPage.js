@@ -223,6 +223,7 @@ const OrderPage = () => {
                               <th>Số lượng đặt</th>
                               <th>Số lượng đã giao</th>
                               <th>Trạng thái</th>
+                              <th>Giao Hàng</th>
                               <th>Giá bán</th>
                               <th>Tổng</th>
                               <th>Tiền lời</th>
@@ -241,6 +242,11 @@ const OrderPage = () => {
                                   {product.deliveryStatus === "pending"
                                     ? "Chưa giao xong"
                                     : "Hoàn Thành"}
+                                </td>
+                                <td>
+                                  {product.fastDelivery === true
+                                    ? "Giao Hàng Nhanh"
+                                    : "Giao Hàng Thường"}
                                 </td>
                                 <td>{`${numeral(product.productPrice).format(
                                   "0,0"

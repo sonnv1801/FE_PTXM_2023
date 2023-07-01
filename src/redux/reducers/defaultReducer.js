@@ -9,6 +9,7 @@ import {
   DELETE_CART,
   DELETE_PRODUCT,
   DELETE_PRODUCT_SUPPLIER,
+  DELETE_PRODUCT_TO_ORDERS,
   DELETE_TYPES,
   DELETE_TYPES_COMBO,
   DELETE_TYPES_SUPPLIER,
@@ -232,6 +233,17 @@ const defaultReducer = (state = initialState, action) => {
       if (index === -1) {
         updateList.splice(payload, index);
         state.listProducts = updateList;
+      }
+
+      return { ...state };
+    }
+
+    case DELETE_PRODUCT_TO_ORDERS: {
+      let updateList = [...state.listProductToOrder];
+      let index = updateList.findIndex((product) => product.id === action.id);
+      if (index === -1) {
+        updateList.splice(payload, index);
+        state.listProductToOrder = updateList;
       }
 
       return { ...state };

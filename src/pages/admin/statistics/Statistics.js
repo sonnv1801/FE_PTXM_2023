@@ -63,13 +63,12 @@ function Statistics() {
     totalQuantityOrdered += product.quantityOrdered;
     totalQuantityPurchased += product.quantityPurchased;
     totalInventory += product.quantityOrdered - product.quantityPurchased;
-    totalCost += product.quantityOrdered * product.wholesalePrice;
+    totalCost += product.quantityOrdered * product.productPrice;
     totalProfit +=
-      (product.retailPrice - product.wholesalePrice) *
-      product.quantityPurchased;
+      (product.retailPrice - product.productPrice) * product.quantityPurchased;
     totalInventoryValue +=
       (product.quantityOrdered - product.quantityPurchased) *
-      product.wholesalePrice;
+      product.productPrice;
   });
 
   return (
@@ -153,7 +152,8 @@ function Statistics() {
                   quantityOrdered,
                   quantityPurchased,
                   retailPrice,
-                  wholesalePrice,
+                  // wholesalePrice,
+                  productPrice,
                 } = product;
 
                 return (
@@ -166,17 +166,17 @@ function Statistics() {
                     <td>{quantityPurchased}</td>
                     <td>{quantityOrdered - quantityPurchased}</td>
                     <td>
-                      {numeral(quantityOrdered * wholesalePrice).format("0,0")}đ
+                      {numeral(quantityOrdered * productPrice).format("0,0")}đ
                     </td>
                     <td>
                       {numeral(
-                        (retailPrice - wholesalePrice) * quantityPurchased
+                        (retailPrice - productPrice) * quantityPurchased
                       ).format("0,0")}
                       đ
                     </td>
                     <td>
                       {numeral(
-                        (quantityOrdered - quantityPurchased) * wholesalePrice
+                        (quantityOrdered - quantityPurchased) * productPrice
                       ).format("0,0")}
                       đ
                     </td>
