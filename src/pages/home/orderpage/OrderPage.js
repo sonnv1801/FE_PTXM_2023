@@ -90,8 +90,8 @@ const OrderPage = () => {
       quantityDelivered: 0,
     };
 
-    filteredOrders.forEach((order) => {
-      order.products.forEach((product) => {
+    filteredOrders?.forEach((order) => {
+      order.products?.forEach((product) => {
         totalValues.price += product.productPrice;
         totalValues.total += product.totalPrice;
         totalValues.profit += product.productProfit;

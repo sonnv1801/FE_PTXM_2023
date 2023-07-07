@@ -12,11 +12,11 @@ const PurchaseHistory = ({ customerId }) => {
 
   const calculateTotalOrderPrice = (orders) => {
     let total = 0;
-    orders.forEach((order) => {
-      order.products.forEach((product) => {
+    orders?.forEach((order) => {
+      order.products?.forEach((product) => {
         total += product.quantity_cart * product.newPrice;
       });
-      order.combos.forEach((combo) => {
+      order.combos?.forEach((combo) => {
         total += combo.subtotal;
       });
     });

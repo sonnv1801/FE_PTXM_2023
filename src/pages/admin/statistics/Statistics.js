@@ -59,7 +59,7 @@ function Statistics() {
   let totalProfit = 0;
   let totalInventoryValue = 0;
 
-  filteredProducts.forEach((product) => {
+  filteredProducts?.forEach((product) => {
     totalQuantityOrdered += product.quantityOrdered;
     totalQuantityPurchased += product.quantityPurchased;
     totalInventory += product.quantityOrdered - product.quantityPurchased;

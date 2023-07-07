@@ -9,7 +9,7 @@ export default function ImgMediaCardComBo({ item }) {
   console.log(item, "item");
   return (
     <Card
-    className="sm-card-combo"
+      className="sm-card-combo"
       sx={{ maxWidth: 345 }}
       style={{ padding: "0", marginBottom: "1rem", borderRadius: "0.6rem" }}
     >
@@ -29,7 +29,7 @@ export default function ImgMediaCardComBo({ item }) {
           {item?.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <p className="code-product">{item?.link}</p>
+          <p className="code-product">{item?.type}</p>
         </Typography>
 
         <Typography variant="body2" color="text.secondary">

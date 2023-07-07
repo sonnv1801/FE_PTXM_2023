@@ -7,18 +7,12 @@ import ModalFooter from "react-bootstrap/ModalFooter";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import Form from "react-bootstrap/Form";
 import { read, utils } from "xlsx";
-import CloseIcon from "@mui/icons-material/Close";
-import Swal from "sweetalert2";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link } from "react-router-dom";
-import {
-  deleteProduct,
-  getProducts,
-} from "../../../redux/actions/product.action";
+import { getProducts } from "../../../redux/actions/product.action";
 import Menu from "../menu/Menu";
 import {
   addProductSuppliers,
@@ -35,6 +29,7 @@ function ListProductSupplier() {
   const listProductSupplier = useSelector(
     (state) => state.defaultReducer.listProductSupplier
   );
+  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
 
   const [data, setData] = useState({
     name: "",
@@ -88,7 +83,7 @@ function ListProductSupplier() {
         formData.append("type", data.type);
 
         dispatch(addProductSuppliers(formData, currentUser?.accessToken));
-        setShowadd(false);
+        setIsCreatingProduct(true);
       } else {
         toast.error("Thêm sản phẩm thất bại!", {
           position: toast.POSITION.TOP_CENTER,
@@ -96,6 +91,9 @@ function ListProductSupplier() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsCreatingProduct(false); // Kết thúc quá trình tạo sản phẩm
+      setShowadd(false);
     }
   };
 
@@ -170,15 +168,11 @@ function ListProductSupplier() {
             };
           });
 
-          // Wrap the newData array in an object with a property name
-
-          // Insert the modified data into the database
           const response = await axios.post(
             "https://phutungxemay.onrender.com/v1/productsupplier/addmanyproduct",
             newData
           );
 
-          // Show success message or perform any other necessary actions
           toast.success("Imported data successfully!", {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -327,34 +321,6 @@ function ListProductSupplier() {
               onChange={handleChange("productCode")}
               placeholder="Nhập mã sản phẩm..."
             />
-            {/* <Form.Label>Mã đại lý: </Form.Label>
-            <Form.Control
-              type="text"
-              onChange={handleChange("agentCode")}
-              placeholder="Nhập mã đại lý..."
-            /> */}
-            {/* <Form.Label>Nhà Cung Cấp: </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange("supplier")}
-            >
-              <option>Chọn loại sản phẩm</option>
-              {listSupplier?.map((item, index) => (
-                <option value={item?.name}>{item.name}</option>
-              ))}
-            </Form.Select>
-            <Form.Label>
-              Chọn Link tương ứng với nhà cung cấp sản phẩm:
-            </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange("link")}
-            >
-              <option>Chọn link sản phẩm</option>
-              {listSupplier?.map((item, index) => (
-                <option value={item?.link}>{item.link}</option>
-              ))}
-            </Form.Select> */}
             <Form.Label>Nhà Cung Cấp: </Form.Label>
             <Form.Select
               aria-label="Default select example"
@@ -377,12 +343,6 @@ function ListProductSupplier() {
                 <option value={item?.name}>{item.name}</option>
               ))}
             </Form.Select>
-            {/* <Form.Label>Mô tả sản phẩm: </Form.Label>
-            <textarea
-              className="form-control"
-              type="text"
-              onChange={handleChange("description")}
-            /> */}
             <Form.Label>Giá khuyến mãi: </Form.Label>
             <Form.Control
               type="number"
@@ -425,11 +385,12 @@ function ListProductSupplier() {
         </ModalBody>
         <ModalFooter>
           <Button
+            disabled={isCreatingProduct}
             style={{ background: "green" }}
             variant="success"
             onClick={handleSubmit}
           >
-            Thêm Sản Phẩm
+            {isCreatingProduct ? "Vui lòng chờ..." : "Tạo sản phẩm"}
           </Button>
         </ModalFooter>
       </Modal>

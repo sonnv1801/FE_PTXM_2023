@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -13,35 +13,34 @@ const EditComboPage = () => {
   const path = location.pathname.split("/")[2];
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showAddForm, setShowAddForm] = useState(false);
-  const handleToggleAddForm = () => {
-    setShowAddForm(!showAddForm);
-  };
+  const [newImage, setNewImage] = useState(null);
+  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+
   const [data, setData] = useState({
-    image: "",
-    quantity: "",
+    image: null,
+    quantity: Number,
     title: "",
     type: "",
     link: "",
-    newPrice: "",
+    newPrice: Number,
     status: "",
-    products: [],
+    products: [
+      {
+        name: "",
+        productCode: "",
+        images: null,
+        price: Number,
+        oldPrice: Number,
+        status: "",
+        quantity: Number,
+      },
+    ],
   });
-
-  const [newProduct, setNewProduct] = useState({
-    name: "",
-    productCode: "",
-    image: "",
-    price: "",
-    oldPrice: "",
-    status: "",
-    quantity: "",
-  });
-  const [newProductError, setNewProductError] = useState("");
 
   const listTypeComBos = useSelector(
     (state) => state.defaultReducer.listTypeComBo
   );
+
   useEffect(() => {
     dispatch(getAllTypeProductCombo());
   }, []);
@@ -52,92 +51,6 @@ const EditComboPage = () => {
       .then((data) => setData(data));
   }, []);
 
-  const handleProductChange = (index, field, value) => {
-    const updatedProducts = [...data.products];
-    updatedProducts[index][field] = value;
-    setData({ ...data, products: updatedProducts });
-  };
-
-  const handleDataChange = (field, value) => {
-    setData({ ...data, [field]: value });
-  };
-
-  const handleNewProductChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
-  };
-
-  const handleAddProduct = () => {
-    if (
-      !newProduct.name ||
-      !newProduct.productCode ||
-      !newProduct.price ||
-      !newProduct.oldPrice ||
-      !newProduct.status ||
-      !newProduct.quantity
-    ) {
-      setNewProductError("Vui lòng điền đầy đủ thông tin sản phẩm");
-      return;
-    }
-
-    const existingProduct = data.products.find(
-      (product) => product.productCode === newProduct.productCode
-    );
-    if (existingProduct) {
-      setNewProductError("Sản phẩm đã tồn tại trong danh sách");
-      return;
-    }
-
-    setData({ ...data, products: [...data.products, newProduct] });
-
-    setNewProduct({
-      name: "",
-      productCode: "",
-      image: "",
-      price: "",
-      oldPrice: "",
-      status: "",
-      quantity: "",
-    });
-
-    setNewProductError("");
-  };
-
-  const handleAddProductToCombo = () => {
-    const url = `https://phutungxemay.onrender.com/v1/combo/addcombo/${path}`;
-
-    axios
-      .post(url, {
-        additionalProducts: [newProduct],
-      })
-      .then((response) => {
-        toast.success("Thêm sản phẩm vào combo thành công");
-        navigate("/list-products-combos-admin");
-      })
-      .catch((error) => {
-        toast.error("Thêm sản phẩm vào combo thất bại");
-      });
-  };
-
-  const handleDeleteProduct = (index) => {
-    const updatedProducts = [...data.products];
-    updatedProducts.splice(index, 1);
-    setData({ ...data, products: updatedProducts });
-  };
-
-  const handleSaveChanges = () => {
-    const url = `https://phutungxemay.onrender.com/v1/combo/combos/${path}`;
-
-    axios
-      .put(url, data)
-      .then((response) => {
-        toast.success("Lưu thay đổi thành công");
-        navigate("/list-products-combos-admin");
-      })
-      .catch((error) => {
-        toast.error("Lưu thay đổi thất bại");
-      });
-  };
-
   useEffect(() => {
     const selectedSupplier = listTypeComBos.find(
       (supplier) =>
@@ -147,16 +60,216 @@ const EditComboPage = () => {
     if (selectedSupplier) {
       setData((prevData) => ({
         ...prevData,
-        link: selectedSupplier._id, // Assign _id as the link value
+        link: selectedSupplier._id,
       }));
     }
   }, [data.type, listTypeComBos]);
+
+  const handleComboImageChange = (event) => {
+    const file = event.target.files[0];
+    setData((prevData) => ({ ...prevData, image: file }));
+    setNewImage(URL.createObjectURL(file));
+  };
+
+  const handleProductImageChange = (index, event) => {
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const base64Image = reader.result;
+
+      setData((prevData) => {
+        const updatedProducts = [...prevData.products];
+        updatedProducts[index].images = base64Image;
+        updatedProducts[index].imageChanged = true;
+        return { ...prevData, products: updatedProducts };
+      });
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleComboInputChange = (event) => {
+    const { name, value } = event.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleProductInputChange = (index, event) => {
+    const { name, value } = event.target;
+    setData((prevData) => {
+      const updatedProducts = [...prevData.products];
+      updatedProducts[index] = {
+        ...updatedProducts[index],
+        [name]: value,
+      };
+      return { ...prevData, products: updatedProducts };
+    });
+  };
+
+  const handleSaveChanges = () => {
+    setIsCreatingProduct(true);
+    const url = `https://phutungxemay.onrender.com/v1/combo/combos/${path}`;
+
+    const formData = new FormData();
+    formData.append("image", data.image);
+    formData.append("quantity", data.quantity);
+    formData.append("title", data.title);
+    formData.append("type", data.type);
+    formData.append("link", data.link);
+    formData.append("newPrice", data.newPrice);
+    formData.append("status", data.status);
+
+    // Append product data
+    data.products?.forEach((product, index) => {
+      formData.append(`products[${index}][name]`, product.name);
+      formData.append(`products[${index}][productCode]`, product.productCode);
+      formData.append(`products[${index}][images]`, product.images);
+      formData.append(`products[${index}][price]`, product.price);
+      formData.append(`products[${index}][oldPrice]`, product.oldPrice);
+      formData.append(`products[${index}][status]`, product.status);
+      formData.append(`products[${index}][quantity]`, product.quantity);
+    });
+
+    axios
+      .put(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        toast.success("Lưu thay đổi thành công");
+        navigate("/list-products-combos-admin");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Lưu thay đổi thất bại");
+      })
+      .finally(() => {
+        setIsCreatingProduct(false);
+      });
+  };
+
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    productCode: "",
+    images: null,
+    price: Number,
+    oldPrice: Number,
+    status: "",
+    quantity: Number,
+    remainingQuantity: Number,
+  });
+
+  console.log(newProduct, "neww");
+  const handleNewProductInputChange = (event) => {
+    const { name, value } = event.target;
+    setNewProduct((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleNewProductImageChange = (event) => {
+    const file = event.target.files[0];
+    setNewProduct((prevData) => ({ ...prevData, images: file }));
+  };
+
+  const handleAddProductToCombo = async () => {
+    try {
+      setIsCreatingProduct(true);
+
+      // Kiểm tra xem có nhập đầy đủ thông tin sản phẩm không
+      if (
+        !newProduct.name ||
+        !newProduct.productCode ||
+        !newProduct.images ||
+        !newProduct.price ||
+        !newProduct.oldPrice ||
+        !newProduct.status ||
+        !newProduct.quantity ||
+        !newProduct.remainingQuantity
+      ) {
+        throw new Error("Vui lòng nhập đầy đủ thông tin sản phẩm");
+      }
+
+      const url = `https://phutungxemay.onrender.com/v1/combo/combo/${path}/products`;
+
+      const formData = new FormData();
+      formData.append("name", newProduct.name);
+      formData.append("productCode", newProduct.productCode);
+      formData.append("price", newProduct.price);
+      formData.append("oldPrice", newProduct.oldPrice);
+      formData.append("status", newProduct.status);
+      formData.append("quantity", newProduct.quantity);
+      formData.append("remainingQuantity", newProduct.remainingQuantity);
+      formData.append("image", newProduct.images);
+
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const newProductData = response.data;
+
+      setData((prevData) => {
+        const updatedProducts = [...prevData.products, newProductData];
+        return { ...prevData, products: updatedProducts };
+      });
+
+      // Reset input fields after successful addition
+      setNewProduct({
+        name: "",
+        productCode: "",
+        images: null,
+        price: Number,
+        oldPrice: Number,
+        status: "",
+        quantity: Number,
+        remainingQuantity: Number,
+      });
+
+      toast.success("Thêm sản phẩm vào combo thành công");
+      navigate("/list-products-combos-admin");
+    } catch (error) {
+      console.error(error);
+      toast.error("Thêm sản phẩm vào combo thất bại");
+    } finally {
+      setIsCreatingProduct(false);
+    }
+  };
+
+  const handleRemoveProduct = (index) => {
+    const productId = data.products[index]._id; // Lấy ID của sản phẩm
+
+    axios
+      .delete(
+        `https://phutungxemay.onrender.com/v1/combo/combo/${path}/product/${productId}`
+      )
+      .then(() => {
+        setData((prevData) => {
+          const updatedProducts = [...prevData.products];
+          updatedProducts.splice(index, 1);
+          return { ...prevData, products: updatedProducts };
+        });
+        toast.success("Xóa sản phẩm thành công");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Xóa sản phẩm thất bại");
+      });
+  };
+
   return (
     <div className="edit-combo-page">
       <ToastContainer />
       <div className="edit-combo-header">
         <h1>Chỉnh Sửa Sản Phẩm ComBo</h1>
-        <button onClick={handleSaveChanges}>Lưu thay đổi</button>
+        <button
+          onClick={handleSaveChanges}
+          encType="multipart/form-data"
+          disabled={isCreatingProduct}
+        >
+          {isCreatingProduct ? "Vui lòng chờ..." : "Lưu Thay Đổi"}
+        </button>
         <Link to="/list-products-combos-admin">
           <button>Thoát</button>
         </Link>
@@ -171,39 +284,44 @@ const EditComboPage = () => {
                   <span>Hình ảnh Sản Phẩm ComBo</span>
                   <img
                     style={{ width: "100px" }}
-                    src={data.image}
+                    src={newImage || data.image}
                     alt={data.title}
                   />
                 </div>
-                <span>Link Hình ảnh Sản Phẩm ComBo</span>
+                <span>Chọn hình ảnh Sản Phẩm ComBo</span>
+                <input
+                  type="file"
+                  size="sm"
+                  placeholder="Hình ảnh combo Sản Phẩm..."
+                  accept="image/*"
+                  name="image"
+                  onChange={handleComboImageChange}
+                />
+              </div>
+              <div className="mb-3">
+                <span>Tên sản phẩm combo</span>
                 <input
                   className="form-control"
+                  placeholder="Nhập tên sản phẩm combo..."
                   type="text"
                   name="title"
-                  value={data.image}
-                  onChange={(e) => handleDataChange("image", e.target.value)}
+                  value={data.title}
+                  onChange={handleComboInputChange}
                 />
               </div>
               <div className="mb-3">
                 <span>Số lượng</span>
                 <input
                   className="form-control"
+                  placeholder="Nhập số lượng combo..."
                   type="number"
+                  name="quantity"
                   value={data.quantity}
-                  onChange={(e) => handleDataChange("quantity", e.target.value)}
+                  onChange={handleComboInputChange}
                 />
               </div>
               <div className="mb-3">
-                <span>Tên combo</span>
-                <input
-                  className="form-control"
-                  type="text"
-                  value={data.title}
-                  onChange={(e) => handleDataChange("title", e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <span>Loại combo</span>
+                <span>Chọn loại combo</span>
                 <select
                   style={{
                     width: "100%",
@@ -212,8 +330,9 @@ const EditComboPage = () => {
                     outline: "none",
                     padding: "0.4rem",
                   }}
+                  name="type"
                   value={data.type}
-                  onChange={(e) => handleDataChange("type", e.target.value)}
+                  onChange={handleComboInputChange}
                 >
                   {listTypeComBos &&
                     listTypeComBos.map((item, index) => (
@@ -223,30 +342,9 @@ const EditComboPage = () => {
                     ))}
                 </select>
               </div>
-              {/* <div className="mb-3">
-                <span>Link tương ứng với loại combo</span>
-                <br />
-                <select
-                  style={{
-                    width: "100%",
-                    margin: "0.5rem 0",
-                    border: "1px solid #ced4da",
-                    outline: "none",
-                    padding: "0.4rem",
-                  }}
-                  value={data.link}
-                  onChange={(e) => handleDataChange("link", e.target.value)}
-                >
-                  {listTypeComBos &&
-                    listTypeComBos.map((item, index) => (
-                      <option key={index} value={item.link}>
-                        {item.link}
-                      </option>
-                    ))}
-                </select>
-              </div> */}
+
               <div className="mb-3">
-                <span>Trạng thái</span>
+                <span>Chọn trạng thái</span>
                 <select
                   style={{
                     width: "100%",
@@ -255,22 +353,14 @@ const EditComboPage = () => {
                     outline: "none",
                     padding: "0.4rem",
                   }}
+                  name="status"
                   value={data.status}
-                  onChange={(e) => handleDataChange("status", e.target.value)}
+                  onChange={handleComboInputChange}
                 >
                   <option value="Còn Hàng">Còn Hàng</option>
                   <option value="Hết Hàng">Hết Hàng</option>
                 </select>
               </div>
-              {/* <div className="mb-3">
-                <span>Giá Mới</span>
-                <input
-                  className="form-control"
-                  type="number"
-                  value={data.newPrice}
-                  onChange={(e) => handleDataChange("newPrice", e.target.value)}
-                />
-              </div> */}
             </div>
           </div>
           <div className="col-6">
@@ -278,30 +368,37 @@ const EditComboPage = () => {
               <h3>Thêm sản phẩm vào combo</h3>
               <div className="mb-3">
                 <div className="mb-3">
-                  <span>Hình ảnh Sản Phẩm</span>
+                  <span>Hình ảnh Sản Phẩm Đã Chọn</span>
                   <img
                     style={{ width: "100px" }}
-                    src={newProduct.image}
-                    alt={data.name}
+                    src={
+                      newProduct.images
+                        ? URL.createObjectURL(newProduct.images)
+                        : ""
+                    }
+                    alt=""
                   />
                 </div>
-                <span>Link Hình ảnh Sản Phẩm</span>
+                <span> Hình ảnh Sản Phẩm</span>
                 <input
                   className="form-control"
-                  type="text"
+                  type="file"
+                  size="sm"
+                  placeholder="Hình ảnh combo Sản Phẩm..."
+                  accept="image/*"
                   name="image"
-                  value={newProduct.image}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductImageChange(e)}
                 />
               </div>
+
               <div className="mb-3">
-                <span>Tên Sản Phẩm</span>
+                <span>Tên Sản Phẩm</span>
                 <input
                   className="form-control"
                   type="text"
                   name="name"
                   value={newProduct.name}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductInputChange(e)}
                 />
               </div>
               <div className="mb-3">
@@ -311,7 +408,7 @@ const EditComboPage = () => {
                   type="text"
                   name="productCode"
                   value={newProduct.productCode}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductInputChange(e)}
                 />
               </div>
               <div className="mb-3">
@@ -321,7 +418,7 @@ const EditComboPage = () => {
                   type="number"
                   name="price"
                   value={newProduct.price}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductInputChange(e)}
                 />
               </div>
               <div className="mb-3">
@@ -331,7 +428,7 @@ const EditComboPage = () => {
                   type="number"
                   name="oldPrice"
                   value={newProduct.oldPrice}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductInputChange(e)}
                 />
               </div>
               <div className="mb-3">
@@ -346,9 +443,9 @@ const EditComboPage = () => {
                   }}
                   name="status"
                   value={newProduct.status}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductInputChange(e)}
                 >
-                  <option value="Còn Hàng">Còn Hàng</option>
+                  <option value="">Lựa chọn trạng thái</option>
                   <option value="Còn Hàng">Còn Hàng</option>
                   <option value="Hết Hàng">Hết Hàng</option>
                 </select>
@@ -360,17 +457,25 @@ const EditComboPage = () => {
                   type="number"
                   name="quantity"
                   value={newProduct.quantity}
-                  onChange={handleNewProductChange}
+                  onChange={(e) => handleNewProductInputChange(e)}
                 />
               </div>
-              {newProductError && (
-                <p className="error-message">{newProductError}</p>
-              )}
+              <div className="mb-3">
+                <span>Tồn Kho</span>
+                <input
+                  className="form-control"
+                  type="number"
+                  name="remainingQuantity"
+                  value={newProduct.remainingQuantity}
+                  onChange={(e) => handleNewProductInputChange(e)}
+                />
+              </div>
               <button
+                disabled={isCreatingProduct}
                 style={{ background: "blue", margin: "1rem 0" }}
                 onClick={handleAddProductToCombo}
               >
-                Thêm vào combo
+                {isCreatingProduct ? "Vui lòng chờ..." : " Thêm vào combo"}
               </button>
             </div>
           </div>
@@ -382,48 +487,20 @@ const EditComboPage = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>Hình ảnh</th>
                       <th>Tên sản phẩm</th>
                       <th>Mã sản phẩm</th>
-                      <th>Hình ảnh</th>
                       <th>Giá</th>
                       <th>Giá cũ</th>
                       <th>Trạng thái</th>
                       <th>Số lượng</th>
-                      {/* <th></th> */}
+                      <th>Hành động</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.products &&
                       data.products.map((product, index) => (
                         <tr key={index}>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="text"
-                              value={product.name}
-                              onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "name",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="text"
-                              value={product.productCode}
-                              onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "productCode",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
                           <td
                             style={{
                               display: "flex",
@@ -432,33 +509,55 @@ const EditComboPage = () => {
                           >
                             <img
                               style={{ width: "50px", padding: "0.6rem" }}
-                              src={product.image}
-                              alt={data.name}
+                              src={product.images}
+                              alt={product.name}
                             />
+                            <input
+                              className="form-control"
+                              type="file"
+                              size="sm"
+                              placeholder="Hình ảnh combo Sản Phẩm..."
+                              accept="image/*"
+                              name="images"
+                              onChange={(e) =>
+                                handleProductImageChange(index, e)
+                              }
+                            />
+                          </td>
+                          <td>
+                            <input
+                              className="form-control"
+                              placeholder="Nhập tên sản phẩm..."
+                              type="text"
+                              name="name"
+                              value={product.name}
+                              onChange={(e) =>
+                                handleProductInputChange(index, e)
+                              }
+                            />
+                          </td>
+                          <td>
                             <input
                               className="form-control"
                               type="text"
-                              value={product.image}
+                              placeholder="Nhập mã sản phẩm..."
+                              name="productCode"
+                              value={product.productCode}
                               onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "image",
-                                  e.target.value
-                                )
+                                handleProductInputChange(index, e)
                               }
                             />
                           </td>
+
                           <td>
                             <input
                               className="form-control"
                               type="number"
+                              placeholder="Nhập giá mới sản phẩm..."
+                              name="price"
                               value={product.price}
                               onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "price",
-                                  e.target.value
-                                )
+                                handleProductInputChange(index, e)
                               }
                             />
                           </td>
@@ -466,13 +565,11 @@ const EditComboPage = () => {
                             <input
                               className="form-control"
                               type="number"
+                              placeholder="Nhập giá cũ sản phẩm..."
+                              name="oldPrice"
                               value={product.oldPrice}
                               onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "oldPrice",
-                                  e.target.value
-                                )
+                                handleProductInputChange(index, e)
                               }
                             />
                           </td>
@@ -485,13 +582,10 @@ const EditComboPage = () => {
                                 outline: "none",
                                 padding: "0.4rem",
                               }}
+                              name="status"
                               value={product.status}
                               onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "status",
-                                  e.target.value
-                                )
+                                handleProductInputChange(index, e)
                               }
                             >
                               <option value="Còn Hàng">Còn Hàng</option>
@@ -502,24 +596,22 @@ const EditComboPage = () => {
                             <input
                               className="form-control"
                               type="number"
+                              placeholder="Nhập số lượng sản phẩm..."
+                              name="quantity"
                               value={product.quantity}
                               onChange={(e) =>
-                                handleProductChange(
-                                  index,
-                                  "quantity",
-                                  e.target.value
-                                )
+                                handleProductInputChange(index, e)
                               }
                             />
                           </td>
-                          {/* <td>
+                          <td>
                             <button
                               style={{ background: "red", margin: "1rem 0" }}
-                              onClick={() => handleDeleteProduct(index)}
+                              onClick={() => handleRemoveProduct(index)}
                             >
                               Xóa
                             </button>
-                          </td> */}
+                          </td>
                         </tr>
                       ))}
                   </tbody>
@@ -527,88 +619,6 @@ const EditComboPage = () => {
               </div>
             </div>
           </div>
-          {/* <div className="col-6">
-            <div className="add-product">
-              <h3>Thêm sản phẩm</h3>
-              {showAddForm && (
-                <>
-                  <div className="input-group">
-                    <label>Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={newProduct.name}
-                      onChange={handleNewProductChange}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Mã sản phẩm</label>
-                    <input
-                      type="text"
-                      name="productCode"
-                      value={newProduct.productCode}
-                      onChange={handleNewProductChange}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Hình ảnh</label>
-                    <input
-                      type="text"
-                      name="image"
-                      value={newProduct.image}
-                      onChange={handleNewProductChange}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Giá</label>
-                    <input
-                      type="number"
-                      name="price"
-                      value={newProduct.price}
-                      onChange={handleNewProductChange}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Giá cũ</label>
-                    <input
-                      type="number"
-                      name="oldPrice"
-                      value={newProduct.oldPrice}
-                      onChange={handleNewProductChange}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Trạng thái</label>
-                    <select
-                      name="status"
-                      value={newProduct.status}
-                      onChange={handleNewProductChange}
-                    >
-                      <option value="Còn Hàng">Còn Hàng</option>
-                      <option value="Hết Hàng">Hết Hàng</option>
-                    </select>
-                  </div>
-                  <div className="input-group">
-                    <label>Số lượng</label>
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={newProduct.quantity}
-                      onChange={handleNewProductChange}
-                    />
-                  </div>
-                  <button onClick={handleAddProduct}>Thêm</button>
-                  <button onClick={handleToggleAddForm}>Đóng</button>
-                </>
-              )}
-              {newProductError && (
-                <p className="error-message">{newProductError}</p>
-              )}
-              {!showAddForm && (
-                <button onClick={handleToggleAddForm}>Thêm</button>
-              )}
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

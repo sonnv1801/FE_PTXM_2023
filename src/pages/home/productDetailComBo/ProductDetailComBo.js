@@ -464,7 +464,7 @@ export const ProductDetailComBo = () => {
             <>
               <img
                 style={{ width: "100%" }}
-                src={selected.image}
+                src={selected.images}
                 alt={selected?.name}
                 className="modal-image"
               />
