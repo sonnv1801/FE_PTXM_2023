@@ -13,7 +13,7 @@ export const NavBarMobile = ({
       <div style={{ marginTop: "6.1rem" }}></div>
       <nav className="navbar bg-body-tertiary fixed-top sm-navbar-container">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand" href="#!">
+          <Link to="/" className="navbar-brand" href="#!" onClick={refreshPage}>
             Quốc Nguyên
           </Link>
           <button
@@ -38,6 +38,7 @@ export const NavBarMobile = ({
                 to="/"
                 className="offcanvas-title"
                 id="offcanvasNavbarLabel"
+                onClick={refreshPage}
               >
                 Phụ Tùng Xe Máy Quốc Nguyên
               </Link>
@@ -105,6 +106,7 @@ export const NavBarMobile = ({
                     className="nav-link active"
                     aria-current="page"
                     style={{ color: "black" }}
+                    onClick={refreshPage}
                   >
                     Liên Hệ
                   </Link>
@@ -115,6 +117,7 @@ export const NavBarMobile = ({
                     className="nav-link active"
                     aria-current="page"
                     style={{ color: "black" }}
+                    onClick={refreshPage}
                   >
                     Giỏ Hàng ({renderQuantity})
                   </Link>
