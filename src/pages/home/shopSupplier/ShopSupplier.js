@@ -37,7 +37,7 @@ export const ShopSupplier = () => {
       <div className="category-product">
         <div className="row">
           {listSupplier.map((item, index) => (
-            <div className="col-2">
+            <div className="col-xl-2 col-sm-6">
               <Link to={`/shopsupplier/${item._id}`} onClick={refreshPage}>
                 <CartMini name={item.name} key={index} />
               </Link>
@@ -50,9 +50,9 @@ export const ShopSupplier = () => {
         <TitleStore />
       </div>
       <div className="products-body">
-        <div className="row">
+        <div className="row sm-product-home-page">
           {listSupplierByTypeLink.map((item, index) => (
-            <div className="col-3">
+            <div className="col-xl-3 col-sm-12">
               <Link to={`/shop/product-dt-supplier/${item?._id}`}>
                 <CardSupplier item={item} key={index} />
               </Link>

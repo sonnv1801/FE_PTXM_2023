@@ -4,10 +4,10 @@ import Menu from "../menu/Menu";
 export const HomePageAdmin = () => {
   return (
     <div className="row">
-      <div className="col-3">
+      <div className="col-3 menu-admin-dt">
         <Menu />
       </div>
-      <div className="col-9">
+      <div className="col-xl-9 col-sm-12">
         <div className="container-fluid mt-5 text-center">
           <header className="App-header">
             <h1>Admin Phụ Tùng Xe Máy</h1>

@@ -258,7 +258,7 @@ const EditComboPage = () => {
   };
 
   return (
-    <div className="edit-combo-page">
+    <div className="edit-combo-page container">
       <ToastContainer />
       <div className="edit-combo-header">
         <h1>Chỉnh Sửa Sản Phẩm ComBo</h1>
@@ -275,7 +275,7 @@ const EditComboPage = () => {
       </div>
       <div className="edit-combo-content">
         <div className="row">
-          <div className="col-6">
+          <div className="col-xl-6 col-sm-12">
             <h3>Sửa Combo</h3>
             <div className="combo-info" style={{ marginTop: "2rem" }}>
               <div className="mb-3">
@@ -362,7 +362,7 @@ const EditComboPage = () => {
               </div>
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-xl-6 col-sm-12">
             <div className="add-product-combo">
               <h3>Thêm sản phẩm vào combo</h3>
               <div className="mb-3">
@@ -479,143 +479,128 @@ const EditComboPage = () => {
             </div>
           </div>
 
-          <div className="col-12">
-            <div className="product-list">
-              <h2>Danh sách sản phẩm Trong ComBo</h2>
-              <div className="product-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Hình ảnh</th>
-                      <th>Tên sản phẩm</th>
-                      <th>Mã sản phẩm</th>
-                      <th>Giá</th>
-                      <th>Giá cũ</th>
-                      <th>Trạng thái</th>
-                      <th>Số lượng</th>
-                      <th>Hành động</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.products &&
-                      data.products.map((product, index) => (
-                        <tr key={index}>
-                          <td
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <img
-                              style={{ width: "50px", padding: "0.6rem" }}
-                              src={product.images}
-                              alt={product.name}
-                            />
-                            <input
-                              className="form-control"
-                              type="file"
-                              size="sm"
-                              placeholder="Hình ảnh combo Sản Phẩm..."
-                              accept="image/*"
-                              name="images"
-                              onChange={(e) =>
-                                handleProductImageChange(index, e)
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              placeholder="Nhập tên sản phẩm..."
-                              type="text"
-                              name="name"
-                              value={product.name}
-                              onChange={(e) =>
-                                handleProductInputChange(index, e)
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="text"
-                              placeholder="Nhập mã sản phẩm..."
-                              name="productCode"
-                              value={product.productCode}
-                              onChange={(e) =>
-                                handleProductInputChange(index, e)
-                              }
-                            />
-                          </td>
+          <div className="col-xl-12 col-sm-12">
+            <h2>Danh sách sản phẩm Trong ComBo</h2>
 
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder="Nhập giá mới sản phẩm..."
-                              name="price"
-                              value={product.price}
-                              onChange={(e) =>
-                                handleProductInputChange(index, e)
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder="Nhập giá cũ sản phẩm..."
-                              name="oldPrice"
-                              value={product.oldPrice}
-                              onChange={(e) =>
-                                handleProductInputChange(index, e)
-                              }
-                            />
-                          </td>
-                          <td>
-                            <select
-                              style={{
-                                width: "100%",
-                                margin: "0.5rem 0",
-                                border: "1px solid #ced4da",
-                                outline: "none",
-                                padding: "0.4rem",
-                              }}
-                              name="status"
-                              value={product.status}
-                              onChange={(e) =>
-                                handleProductInputChange(index, e)
-                              }
-                            >
-                              <option value="Còn Hàng">Còn Hàng</option>
-                              <option value="Hết Hàng">Hết Hàng</option>
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              className="form-control"
-                              type="number"
-                              placeholder="Nhập số lượng sản phẩm..."
-                              name="quantity"
-                              value={product.quantity}
-                              onChange={(e) =>
-                                handleProductInputChange(index, e)
-                              }
-                            />
-                          </td>
-                          <td>
-                            <button
-                              style={{ background: "red", margin: "1rem 0" }}
-                              onClick={() => handleRemoveProduct(index)}
-                            >
-                              Xóa
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+            <div class="table_responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Giá cũ</th>
+                    <th>Trạng thái</th>
+                    <th>Số lượng</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.products &&
+                    data.products.map((product, index) => (
+                      <tr key={index}>
+                        <td
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <img
+                            style={{ width: "50px", padding: "0.6rem" }}
+                            src={product.images}
+                            alt={product.name}
+                          />
+                          <input
+                            className="form-control"
+                            type="file"
+                            size="sm"
+                            placeholder="Hình ảnh combo Sản Phẩm..."
+                            accept="image/*"
+                            name="images"
+                            onChange={(e) => handleProductImageChange(index, e)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            className="form-control"
+                            placeholder="Nhập tên sản phẩm..."
+                            type="text"
+                            name="name"
+                            value={product.name}
+                            onChange={(e) => handleProductInputChange(index, e)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Nhập mã sản phẩm..."
+                            name="productCode"
+                            value={product.productCode}
+                            onChange={(e) => handleProductInputChange(index, e)}
+                          />
+                        </td>
+
+                        <td>
+                          <input
+                            className="form-control"
+                            type="number"
+                            placeholder="Nhập giá mới sản phẩm..."
+                            name="price"
+                            value={product.price}
+                            onChange={(e) => handleProductInputChange(index, e)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            className="form-control"
+                            type="number"
+                            placeholder="Nhập giá cũ sản phẩm..."
+                            name="oldPrice"
+                            value={product.oldPrice}
+                            onChange={(e) => handleProductInputChange(index, e)}
+                          />
+                        </td>
+                        <td>
+                          <select
+                            style={{
+                              width: "100%",
+                              margin: "0.5rem 0",
+                              border: "1px solid #ced4da",
+                              outline: "none",
+                              padding: "0.4rem",
+                            }}
+                            name="status"
+                            value={product.status}
+                            onChange={(e) => handleProductInputChange(index, e)}
+                          >
+                            <option value="Còn Hàng">Còn Hàng</option>
+                            <option value="Hết Hàng">Hết Hàng</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input
+                            className="form-control"
+                            type="number"
+                            placeholder="Nhập số lượng sản phẩm..."
+                            name="quantity"
+                            value={product.quantity}
+                            onChange={(e) => handleProductInputChange(index, e)}
+                          />
+                        </td>
+                        <td>
+                          <button
+                            style={{ background: "red", margin: "1rem 0" }}
+                            onClick={() => handleRemoveProduct(index)}
+                          >
+                            Xóa
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

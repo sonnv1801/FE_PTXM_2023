@@ -1,11 +1,9 @@
-/* style.css */
-
-.order-page {
+style.css .order-page {
   font-family: Arial, sans-serif;
   margin: 50px auto;
 
   padding: 20px;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -38,10 +36,10 @@
   border: 1px solid #ddd;
 }
 
-.order-list th {
+/* .order-list th {
   background-color: #f9f9f9;
   font-weight: bold;
-}
+} */
 
 .order-list td {
   vertical-align: middle;

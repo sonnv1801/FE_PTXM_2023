@@ -45,10 +45,10 @@ export const OrderCustomer = () => {
 
   return (
     <div className="row">
-      <div className="col-3">
+      <div className="col-3 menu-admin-dt">
         <Menu />
       </div>
-      <div className="col-9">
+      <div className="col-xl-9 col-sm-12">
         <div className="order-list container">
           {orders.map((order, index) => (
             <div key={order._id} className="order">
@@ -63,84 +63,111 @@ export const OrderCustomer = () => {
               </h2>
               <h3 style={{ margin: "1rem 0" }}>Sản phẩm phụ tùng:</h3>
 
-              <ul className="product-list">
-                {order.products.map((product) => (
-                  <li key={product._id} className="product">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="product-image"
-                    />
-                    <div className="product-details">
-                      <h3>{product.title}</h3>
-                      <p>
-                        Giá: {`${numeral(product.newPrice).format("0,0")}đ`}{" "}
-                      </p>
-                      <p>Số lượng đặt: {product.quantity_cart}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <div class="table_responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>Ảnh</th>
+                      <th>Giá</th>
+                      <th>Số lượng đặt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order.products.map((product, index) => (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>
+                          <img src={product.image} alt={product.title} />
+                        </td>
+                        <td>{`${numeral(product.newPrice).format("0,0")}đ`}</td>
+                        <td>{product.quantity_cart}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <hr className="divider" />
               {order.combos.length > 0 ? (
                 <>
                   <h3 style={{ margin: "1rem 0" }}>Combos:</h3>
-                  <ul className="combo-list">
-                    {order.combos.map((combo) => (
-                      <li key={combo._id} className="combo">
-                        <h4 style={{ fontSize: "15px", fontWeight: "bold" }}>
-                          Tên Combo: {combo.comboName}
-                        </h4>
-                        <p>Số lượng đặt: {combo.quantityCombo}</p>
-                        <p>
-                          Tổng tiền:{" "}
-                          {`${numeral(
-                            combo.quantityCombo * combo.subtotal
-                          ).format("0,0")}đ`}{" "}
-                        </p>
-                        <button
-                          style={{ background: "blue" }}
-                          className="toggle-combo-products-btn"
-                          onClick={() =>
-                            handleToggleComboProducts(order._id, combo._id)
-                          }
-                        >
-                          {combo.showProducts ? "Ẩn" : "Xem thêm"}
-                        </button>
-                        {combo.showProducts ? (
-                          combo.products.length > 0 ? (
-                            <table className="combo-products-table">
-                              <thead>
-                                <tr>
-                                  <th>Tên sản phẩm</th>
-                                  <th>Giá</th>
-                                  <th>Số lượng đặt</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {combo.products.map((product) => (
-                                  <tr
-                                    key={product._id}
-                                    className="combo-product"
-                                  >
-                                    <td>{product.title}</td>
-                                    <td>{`${numeral(product.price).format(
-                                      "0,0"
-                                    )}đ`}</td>
-                                    <td>{product.quantity}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          ) : (
-                            <p style={{ color: "red" }}>
-                              Hiện tại chưa có sản phẩm combo nào cho order này.
-                            </p>
-                          )
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
+
+                  <div class="table_responsive">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>STT</th>
+                          <th>Tên Combo</th>
+                          <th>Số lượng đặt</th>
+                          <th>Tổng Tiền</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {order.combos.map((combo, index) => (
+                          <tr>
+                            <td>{index + 1}</td>
+                            <td>{combo.comboName}</td>
+                            <td>{combo.quantityCombo}</td>
+                            <td>
+                              {" "}
+                              {`${numeral(
+                                combo.quantityCombo * combo.subtotal
+                              ).format("0,0")}đ`}
+                            </td>
+                            <td>
+                              <button
+                                style={{ background: "blue" }}
+                                className="toggle-combo-products-btn"
+                                onClick={() =>
+                                  handleToggleComboProducts(
+                                    order._id,
+                                    combo._id
+                                  )
+                                }
+                              >
+                                {combo.showProducts ? "Ẩn" : "Xem thêm"}
+                              </button>
+                              {combo.showProducts ? (
+                                combo.products.length > 0 ? (
+                                  <div class="table_responsive">
+                                    <table>
+                                      <thead>
+                                        <tr>
+                                          <th>Tên sản phẩm</th>
+                                          <th>Giá</th>
+                                          <th>Số lượng đặt</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {combo.products.map((product) => (
+                                          <tr
+                                            key={product._id}
+                                            className="combo-product"
+                                          >
+                                            <td>{product.title}</td>
+                                            <td>{`${numeral(
+                                              product.price
+                                            ).format("0,0")}đ`}</td>
+                                            <td>{product.quantity}</td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                ) : (
+                                  <p style={{ color: "red" }}>
+                                    Hiện tại chưa có sản phẩm combo nào cho
+                                    order này.
+                                  </p>
+                                )
+                              ) : null}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </>
               ) : (
                 <p style={{ color: "red" }}>

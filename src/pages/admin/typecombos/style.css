@@ -89,3 +89,9 @@
   color: white;
   display: flow-root;
 }
+
+@media (max-width: 768px) {
+  .menu-admin-dt {
+    display: none;
+  }
+}

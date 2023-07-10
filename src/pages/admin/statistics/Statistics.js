@@ -73,15 +73,16 @@ function Statistics() {
 
   return (
     <div className="row">
-      <div className="col-3">
+      <div className="col-3 menu-admin-dt">
         <Menu />
       </div>
-      <div className="col-9">
+      <div className="col-xl-9 col-sm-12">
         <div className="statistics-container container">
           <h2>Thống kê sản phẩm</h2>
           <div className="filter-container">
             <div className="filter-item">
               <label htmlFor="filterType">Loại sản phẩm:</label>
+              <br></br>
               <select
                 id="filterType"
                 value={filterType}
@@ -97,6 +98,7 @@ function Statistics() {
             </div>
             <div className="filter-item">
               <label htmlFor="filterCode">Mã sản phẩm:</label>
+              <br></br>
               <select
                 id="filterCode"
                 value={filterCode}
@@ -112,6 +114,7 @@ function Statistics() {
             </div>
             <div className="filter-item">
               <label htmlFor="filterSupplier">Nhà cung cấp:</label>
+              <br></br>
               <select
                 id="filterSupplier"
                 value={filterSupplier}
@@ -126,76 +129,77 @@ function Statistics() {
               </select>
             </div>
           </div>
-          <h3>Kết quả:</h3>
-          <table className="statistics-table">
-            <thead>
-              <tr>
-                <th>Mã sản phẩm</th>
-                <th>Loại sản phẩm</th>
-                <th>Tên sản phẩm</th>
-                <th>Nhà cung cấp</th>
-                <th>Số lượng mua vào</th>
-                <th>Số lượng Bán Ra</th>
-                <th>Tồn Kho</th>
-                <th>Tiền mua vào</th>
-                <th>Lãi Tạm Tính</th>
-                <th>Tiền tồn kho</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.map((product) => {
-                const {
-                  productCode,
-                  type,
-                  name,
-                  supplier,
-                  quantityOrdered,
-                  quantityPurchased,
-                  retailPrice,
-                  // wholesalePrice,
-                  productPrice,
-                } = product;
-
-                return (
-                  <tr key={productCode}>
-                    <td>{productCode}</td>
-                    <td>{type}</td>
-                    <td>{name}</td>
-                    <td>{supplier}</td>
-                    <td>{quantityOrdered}</td>
-                    <td>{quantityPurchased}</td>
-                    <td>{quantityOrdered - quantityPurchased}</td>
-                    <td>
-                      {numeral(quantityOrdered * productPrice).format("0,0")}đ
-                    </td>
-                    <td>
-                      {numeral(
-                        (retailPrice - productPrice) * quantityPurchased
-                      ).format("0,0")}
-                      đ
-                    </td>
-                    <td>
-                      {numeral(
-                        (quantityOrdered - quantityPurchased) * productPrice
-                      ).format("0,0")}
-                      đ
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="4">Tổng cộng</td>
-                <td>{totalQuantityOrdered}</td>
-                <td>{totalQuantityPurchased}</td>
-                <td>{totalInventory}</td>
-                <td>{`${numeral(totalCost).format("0,0")}đ`}</td>
-                <td>{`${numeral(totalProfit).format("0,0")}đ`}</td>
-                <td>{`${numeral(totalInventoryValue).format("0,0")}đ`}</td>
-              </tr>
-            </tfoot>
-          </table>
+          <h3 style={{ margin: "1rem 0" }}>Kết quả:</h3>
+          <div class="table_responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã sản phẩm</th>
+                  <th>Loại sản phẩm</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Nhà cung cấp</th>
+                  <th>Số lượng mua vào</th>
+                  <th>Số lượng Bán Ra</th>
+                  <th>Tồn Kho</th>
+                  <th>Tiền mua vào</th>
+                  <th>Lãi Tạm Tính</th>
+                  <th>Tiền tồn kho</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProducts.map((product) => {
+                  const {
+                    productCode,
+                    type,
+                    name,
+                    supplier,
+                    quantityOrdered,
+                    quantityPurchased,
+                    retailPrice,
+                    // wholesalePrice,
+                    productPrice,
+                  } = product;
+                  return (
+                    <tr key={productCode}>
+                      <td>{productCode}</td>
+                      <td>{type}</td>
+                      <td>{name}</td>
+                      <td>{supplier}</td>
+                      <td>{quantityOrdered}</td>
+                      <td>{quantityPurchased}</td>
+                      <td>{quantityOrdered - quantityPurchased}</td>
+                      <td>
+                        {numeral(quantityOrdered * productPrice).format("0,0")}đ
+                      </td>
+                      <td>
+                        {numeral(
+                          (retailPrice - productPrice) * quantityPurchased
+                        ).format("0,0")}
+                        đ
+                      </td>
+                      <td>
+                        {numeral(
+                          (quantityOrdered - quantityPurchased) * productPrice
+                        ).format("0,0")}
+                        đ
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="4">Tổng cộng</td>
+                  <td>{totalQuantityOrdered}</td>
+                  <td>{totalQuantityPurchased}</td>
+                  <td>{totalInventory}</td>
+                  <td>{`${numeral(totalCost).format("0,0")}đ`}</td>
+                  <td>{`${numeral(totalProfit).format("0,0")}đ`}</td>
+                  <td>{`${numeral(totalInventoryValue).format("0,0")}đ`}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
       </div>
     </div>

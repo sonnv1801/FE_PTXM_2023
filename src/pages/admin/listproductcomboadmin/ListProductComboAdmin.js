@@ -272,10 +272,10 @@ function ListProductComboAdmin() {
   return (
     <div className="container-listproductAd">
       <div className="row">
-        <div className="col-3">
+        <div className="col-3 menu-admin-dt">
           <Menu />
         </div>
-        <div className="col-9">
+        <div className="col-xl-9 col-sm-12">
           <div className="title-list">
             <div className="row">
               <div className="col-sm-5">
@@ -295,146 +295,140 @@ function ListProductComboAdmin() {
               </div>
             </div>
           </div>
-          <table className="table">
-            <thead classNane="table-dark">
-              <tr>
-                <th>Ảnh</th>
-                <th>Tên Sản phẩm</th>
-                <th>Mặt hàng</th>
-                <th>Giá</th>
-                <th>Số lượng Combo</th>
-                <th>Sửa</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <div
-                  className="spinner-border"
-                  role="status"
-                  style={{ margin: "0 auto" }}
-                >
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              ) : (
-                <>
-                  {combos?.map((combo, index) => (
-                    <React.Fragment key={index}>
-                      <tr>
-                        {/* Render other combo data */}
 
-                        <td>
-                          <img
-                            src={combo.image}
-                            alt={combo.title}
-                            style={{ width: "100%", padding: "1rem" }}
-                          />
-                        </td>
-                        <td>{combo.title}</td>
-                        <td>{combo.type}</td>
-                        <td>
-                          <p>{`${combo.newPrice?.toLocaleString()}đ`}</p>
-                        </td>
-                        <td>{combo.quantity}</td>
-                        <td>
-                          <Link to={`/edit-combos/${combo._id}`}>
-                            <button className="btn btn-success">
-                              <i className="fa fa-edit"></i>
-                            </button>
-                          </Link>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => handleDeleteCombo(combo._id)}
-                          >
-                            <i className="fa fa-trash"></i>
-                          </button>
-                          {/* Check if the combo is expanded */}
-                          {expandedComboIds.includes(combo._id) ? (
+          <div class="table_responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Ảnh</th>
+                  <th>Tên Sản phẩm</th>
+                  <th>Mặt hàng</th>
+                  <th>Giá</th>
+                  <th>Số lượng Combo</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {isLoading ? (
+                  <div
+                    className="spinner-border"
+                    role="status"
+                    style={{ margin: "0 auto" }}
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    {combos?.map((combo, index) => (
+                      <>
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>
+                            <img src={combo.image} alt={combo.title} />
+                          </td>
+                          <td>{combo.title}</td>
+                          <td>{combo.type}</td>
+                          <td>
+                            <p>{`${combo.newPrice?.toLocaleString()}đ`}</p>
+                          </td>
+                          <td>{combo.quantity}</td>
+                          <td>
+                            <Link to={`/edit-combos/${combo._id}`}>
+                              <button className="btn btn-success">
+                                <i className="fa fa-edit"></i>
+                              </button>
+                            </Link>
                             <button
-                              className="btn btn-primary"
-                              onClick={() => {
-                                // Remove the combo ID from the expanded list
-                                setExpandedComboIds(
-                                  expandedComboIds.filter(
-                                    (id) => id !== combo._id
-                                  )
-                                );
-                              }}
+                              className="btn btn-danger"
+                              onClick={() => handleDeleteCombo(combo._id)}
                             >
-                              Ẩn
+                              <i className="fa fa-trash"></i>
                             </button>
-                          ) : (
-                            <button
-                              className="btn btn-primary"
-                              onClick={() => {
-                                // Add the combo ID to the expanded list
-                                setExpandedComboIds([
-                                  ...expandedComboIds,
-                                  combo._id,
-                                ]);
-                              }}
-                            >
-                              Xem thêm
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                      {/* Render products if the combo is expanded */}
-                      {expandedComboIds.includes(combo._id) && (
-                        <tr>
-                          <td colSpan="6">
-                            <h4>
-                              Danh sách sản phẩm: <b>{combo.title}</b>
-                            </h4>
-                            <ul>
-                              <div id="prducts-combos-title">
-                                <div className="row">
-                                  <div className="col-2">Hình Ảnh</div>
-                                  <div className="col-2">Tên sản phẩm</div>
-                                  <div className="col-2">Mã sản phẩm</div>
-                                  <div className="col-2">Giá mới</div>
-                                  <div className="col-2">Giá cũ</div>
-                                  <div className="col-2">
-                                    Số lượng trong kho
-                                  </div>
-                                </div>
-                              </div>
-                              {combo.products.map((product, productIndex) => (
-                                <div id="prducts-combos">
-                                  <div className="row">
-                                    <div className="col-2">
-                                      <img
-                                        style={{
-                                          width: "100%",
-                                          padding: "1rem",
-                                        }}
-                                        src={product.images}
-                                        alt={product.name}
-                                      />
-                                    </div>
-                                    <div className="col-2">{product.name}</div>
-                                    <div className="col-2">
-                                      {product.productCode}
-                                    </div>
-                                    <div className="col-2">{`${product.price?.toLocaleString()}đ`}</div>
-                                    <div className="col-2">
-                                      {`${product.oldPrice?.toLocaleString()}đ`}
-                                    </div>
-                                    <div className="col-2">
-                                      {product.quantity}
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </ul>
+                            {/* Check if the combo is expanded */}
+                            {expandedComboIds.includes(combo._id) ? (
+                              <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  // Remove the combo ID from the expanded list
+                                  setExpandedComboIds(
+                                    expandedComboIds.filter(
+                                      (id) => id !== combo._id
+                                    )
+                                  );
+                                }}
+                              >
+                                Ẩn
+                              </button>
+                            ) : (
+                              <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  // Add the combo ID to the expanded list
+                                  setExpandedComboIds([
+                                    ...expandedComboIds,
+                                    combo._id,
+                                  ]);
+                                }}
+                              >
+                                Xem thêm
+                              </button>
+                            )}
                           </td>
                         </tr>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </>
-              )}
-            </tbody>
-          </table>
+                        {expandedComboIds.includes(combo._id) && (
+                          <tr>
+                            <td colSpan="6">
+                              <ul>
+                                <div class="table_responsive">
+                                  <table>
+                                    <thead>
+                                      <tr>
+                                        <th>STT</th>
+                                        <th>Ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Giá mới</th>
+                                        <th>Giá cũ</th>
+                                        <th>Số lượng trong kho</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {combo.products.map(
+                                        (product, productIndex) => (
+                                          <tr>
+                                            <td>{productIndex + 1}</td>
+                                            <td>
+                                              <img
+                                                src={product.images}
+                                                alt={product.name}
+                                              />
+                                            </td>
+                                            <td>{product.name}</td>
+                                            <td> {product.productCode}</td>
+                                            <td>{`${product.price?.toLocaleString()}đ`}</td>
+                                            <td>
+                                              {" "}
+                                              {`${product.oldPrice?.toLocaleString()}đ`}
+                                            </td>
+                                            <td> {product.quantity}</td>
+                                          </tr>
+                                        )
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </ul>
+                            </td>
+                          </tr>
+                        )}
+                      </>
+                    ))}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

@@ -80,15 +80,16 @@ export const ProductDetailSupplier = () => {
         <CustomizedBreadcrumbs name={productDetailSupplier?.name} />
       </div>
       <div className="body-prd-dt">
-        <div className="sub-body-prd">
+        <div className="sub-body-prd sm-sub-body-prd">
           <div className="row">
-            <div className="col-6">
+            <div className="col-xl-6 col-sm-12">
               <img
                 src={productDetailSupplier?.image}
                 alt={productDetailSupplier?.name}
+                className="sm-sub-body-prd-img"
               />
             </div>
-            <div className="col-6">
+            <div className="col-xl-6 col-sm-12">
               <div className="body-ds">
                 <h2>{productDetailSupplier?.name} </h2>
               </div>
@@ -135,16 +136,7 @@ export const ProductDetailSupplier = () => {
                 <FacebookOutlinedIcon />
                 <TwitterIcon />
               </div>
-              <div className="action-prd-dt">
-                {/* <div className="btn-quantity">
-                </div> */}
-                {/* <input
-                  id="quantity-supplier"
-                  type="number"
-                  placeholder="Nhập Số lượng cần mua"
-                  value={quantity}
-                  onChange={(e) => setQuantity(parseInt(e.target.value))}
-                /> */}
+              <div className="action-prd-dt  sm-action-prd-dt">
                 <Input
                   placeholder="Nhập số lượng cần mua"
                   type="number"
@@ -198,10 +190,10 @@ export const ProductDetailSupplier = () => {
               <div className="tag-prd">
                 <b>TAG</b>
                 <div className="row mt-3">
-                  <div className="col-4">
+                  <div className="col-xl-4 col-sm-6">
                     <Tag />
                   </div>
-                  <div className="col-4">
+                  <div className="col-xl-4 col-sm-6">
                     <Tag />
                   </div>
                 </div>

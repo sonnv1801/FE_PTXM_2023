@@ -191,16 +191,25 @@ function ListProductSupplier() {
   return (
     <div className="container-listproductAd">
       <div className="row">
-        <div className="col-3">
+        <div className="col-3 menu-admin-dt">
           <Menu />
         </div>
-        <div className="col-9">
+        <div className="col-xl-9 col-sm-12">
           <div className="title-list">
             <div className="row">
-              <div className="col-sm-5">
-                <p>Quản lý Sản Phẩm Cung Cấp</p>
+              <div className="col-xl-3 col-sm-3">
+                <p
+                  style={{
+                    fontSize: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  Quản lý Sản Phẩm Cung Cấp
+                </p>
               </div>
-              <div className="col-sm-7">
+              <div className="col-xl-3 col-sm-3">
                 <button
                   href="#"
                   className="btn btn-outline-danger"
@@ -211,93 +220,97 @@ function ListProductSupplier() {
                   <i className="bx bxs-folder-plus"></i>
                   <span>Thêm Sản Phẩm</span>
                 </button>
-                <div style={{ display: "flex" }}>
-                  <input
-                    style={{ fontSize: "15px", padding: "0.6rem, 0.3rem" }}
-                    type="file"
-                    accept=".xlsx,.xls"
-                    onChange={handleFileChange}
-                  />
-                  <button
-                    href="#"
-                    className="btn btn-outline-danger"
-                    onClick={handleSubmitEXC}
-                  >
-                    <i className="bx bxs-folder-plus"></i>
-                    <span>Import Từ File Excel</span>
-                  </button>
-                </div>
+              </div>
+              <div className="col-xl-3 col-sm-3">
+                <input
+                  style={{ fontSize: "15px" }}
+                  type="file"
+                  accept=".xlsx,.xls"
+                  onChange={handleFileChange}
+                />
+              </div>
+              <div className="col-xl-3 col-sm-3">
+                <button
+                  href="#"
+                  className="btn btn-outline-danger"
+                  onClick={handleSubmitEXC}
+                >
+                  <i className="bx bxs-folder-plus"></i>
+                  <span>Nhập Từ File Excel</span>
+                </button>
               </div>
             </div>
           </div>
-          <table className="table">
-            <thead classNane="table-dark">
-              <tr>
-                {/* <th>STT</th> */}
-                <th>Ảnh</th>
-                <th>Tên Sản phẩm</th>
-                <th>Số lượng Kho</th>
-                <th>Giá Sale</th>
-                <th>Giá Bán</th>
-                <th>Giá Vốn</th>
-                <th>Sửa</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <div
-                  className="spinner-border"
-                  role="status"
-                  style={{ margin: "0 auto" }}
-                >
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              ) : (
-                <>
-                  {listProductSupplier?.map((item, index) => (
-                    <tr>
-                      {/* <td>{index}</td> */}
-                      <td>
-                        <img src={item.image} alt={item.title} />
-                      </td>
-                      <td>{item.name}</td>
+          <div class="table_responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Ảnh</th>
+                  <th>Tên Sản phẩm</th>
+                  <th>Số lượng Kho</th>
+                  <th>Giá Sale</th>
+                  <th>Giá Bán</th>
+                  <th>Giá Vốn</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {isLoading ? (
+                  <div
+                    className="spinner-border"
+                    role="status"
+                    style={{ margin: "0 auto" }}
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    {listProductSupplier?.map((item, index) => (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>
+                          <img src={item.image} alt={item.title} />
+                        </td>
+                        <td>{item.name}</td>
 
-                      <td>{item.quantity}</td>
-                      <td>
-                        <p>{`${item.salePrice?.toLocaleString()}đ`}</p>
-                      </td>
-                      <td>
-                        <p>{`${item.retailPrice?.toLocaleString()}đ`}</p>
-                      </td>
-                      <td>
-                        <p>{`${item.wholesalePrice?.toLocaleString()}đ`}</p>
-                      </td>
-                      <td>
-                        <Link to={`/list-products-supplier/${item._id}`}>
-                          <button className="btn btn-success">
-                            <i className="fa fa-edit"></i>
+                        <td>{item.quantity}</td>
+                        <td>
+                          <p>{`${item.salePrice?.toLocaleString()}đ`}</p>
+                        </td>
+                        <td>
+                          <p>{`${item.retailPrice?.toLocaleString()}đ`}</p>
+                        </td>
+                        <td>
+                          <p>{`${item.wholesalePrice?.toLocaleString()}đ`}</p>
+                        </td>
+                        <td>
+                          <Link to={`/list-products-supplier/${item._id}`}>
+                            <button className="btn btn-success">
+                              <i className="fa fa-edit"></i>
+                            </button>
+                          </Link>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              dispatch(
+                                deleteProductSupplier(
+                                  item._id,
+                                  currentUser?.accessToken
+                                )
+                              );
+                            }}
+                          >
+                            <i className="fa fa-trash"></i>
                           </button>
-                        </Link>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            dispatch(
-                              deleteProductSupplier(
-                                item._id,
-                                currentUser?.accessToken
-                              )
-                            );
-                          }}
-                        >
-                          <i className="fa fa-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </>
-              )}
-            </tbody>
-          </table>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

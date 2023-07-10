@@ -11,6 +11,7 @@ import numeral from "numeral";
 export default function CardSupplier({ item }) {
   return (
     <Card
+      className="sm-card"
       sx={{ maxWidth: 345 }}
       style={{ padding: "0", marginBottom: "1rem", borderRadius: "0.6rem" }}
     >

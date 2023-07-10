@@ -51,10 +51,10 @@ function TypeCombos() {
   return (
     <div className="container-listtypeAd">
       <div className="row">
-        <div className="col-3">
+        <div className="col-3 menu-admin-dt">
           <Menu />
         </div>
-        <div className="col-9">
+        <div className="col-xl-9 col-sm-12">
           <div className="title-list">
             <div className="row">
               <div className="col-sm-5">
@@ -74,52 +74,54 @@ function TypeCombos() {
               </div>
             </div>
           </div>
-          <table className="table">
-            <thead classNane="table-dark">
-              <tr>
-                <th>STT</th>
-                <th>Tên Mặt hàng</th>
-                <th>Xoá</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <div
-                  className="spinner-border"
-                  role="status"
-                  style={{ margin: "0 auto" }}
-                >
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              ) : (
-                <>
-                  {listTypeComBos?.map((item, index) => (
-                    <>
-                      <tr>
-                        <td>{index + 1}</td>
-                        <td>{item.name}</td>
-                        <td>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => {
-                              dispatch(
-                                deleteTypesCombo(
-                                  item._id,
-                                  currentUser?.accessToken
-                                )
-                              );
-                            }}
-                          >
-                            <i className="fa fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </>
-                  ))}
-                </>
-              )}
-            </tbody>
-          </table>
+          <div class="table_responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên Mặt hàng</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {isLoading ? (
+                  <div
+                    className="spinner-border"
+                    role="status"
+                    style={{ margin: "0 auto" }}
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    {listTypeComBos?.map((item, index) => (
+                      <>
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>{item.name}</td>
+                          <td>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => {
+                                dispatch(
+                                  deleteTypesCombo(
+                                    item._id,
+                                    currentUser?.accessToken
+                                  )
+                                );
+                              }}
+                            >
+                              <i className="fa fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

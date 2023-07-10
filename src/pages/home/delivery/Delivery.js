@@ -75,10 +75,10 @@ const Delivery = () => {
 
   return (
     <div className="row">
-      <div className="col-3">
+      <div className="col-3 menu-admin-dt">
         <Menu />
       </div>
-      <div className="col-9">
+      <div className="col-xl-9 col-sm-12">
         <div className="container">
           <h1 className="heading">Đơn Hàng Của Khách & Giao Hàng Cần Thiếu</h1>
 
