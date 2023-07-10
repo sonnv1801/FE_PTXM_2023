@@ -145,7 +145,7 @@ export const ProductDetailComBo = () => {
         name: product?.name,
         productCode: product?.productCode,
         price: product?.price,
-        image: product?.image,
+        image: product?.images,
         title: product?.name,
         total,
       };

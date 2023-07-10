@@ -1,0 +1,99 @@
+@media (max-width: 768px) {
+  .sm-container-contact {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .sm-top-contact .sm-text-contact-top {
+    width: 100% !important;
+  }
+
+  .sm-top-contact .sm-text-contact-top h1 {
+    font-size: 1.6rem;
+    margin-top: 1rem;
+  }
+  .sm-body-contact {
+    margin-top: 1rem;
+  }
+
+  .sm-body-contact .sm-link-contact {
+    width: 100%;
+  }
+
+  .sm-map-contact {
+    display: none;
+  }
+
+  .sm-infor-contact {
+    margin-top: 1rem;
+  }
+  .sm-infor-address {
+    display: block;
+  }
+  .sm-infor-address strong {
+    width: 100%;
+  }
+
+  .sm-infor-address p {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .sm-body-contact .sm-link-contact h6 {
+    text-align: center;
+  }
+  .sm-form-contact {
+    margin: 0px;
+  }
+
+  .sm-img-contact {
+    margin-top: 0;
+    display: none;
+  }
+
+  .sm-form-container {
+    background: #ffffff !important;
+    border-radius: 1rem;
+    border: 1px solid;
+    padding: 1rem;
+  }
+
+  .sm-body-form-contact {
+    display: block;
+  }
+
+  .sm-form-submit {
+    margin-top: 1rem;
+  }
+
+  .sm-bottom-contact {
+    margin-top: 1rem;
+  }
+
+  .sm-bottom-contact .sm-title-contact-bottom h2 {
+    font-size: 1.5rem;
+  }
+  .sm-contact-hotline {
+    display: none;
+  }
+  .sm-address-hcm h3 {
+    margin-top: 1rem;
+  }
+
+  .sm-address-hcm .sm-hotline {
+    margin-bottom: 1rem;
+  }
+
+  .sm-bottom-contact .sm-hcm-pt {
+    padding: 0px !important;
+  }
+
+  .sm-text-tktg {
+    margin-bottom: 1rem;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-component {
+    /* Các thuộc tính dành cho màn hình tablet */
+  }
+}

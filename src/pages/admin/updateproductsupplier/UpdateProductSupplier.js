@@ -29,8 +29,7 @@ const UpdateProductSupplier = () => {
     type: "",
   });
   const [loading, setLoading] = useState(false); // State cho nút xoay đợi
-  console.log(data, "data");
-  console.log(loading, "loading");
+
   useEffect(() => {
     fetch(`https://phutungxemay.onrender.com/v1/productsupplier/${path}`)
       .then((res) => res.json())

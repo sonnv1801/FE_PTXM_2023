@@ -225,3 +225,40 @@
   padding: 0.7rem;
   border: 1px solid;
 }
+
+#sm-navbar-mobile {
+  display: none;
+}
+
+#lg-navbar-desktop {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  #sm-navbar-mobile {
+    display: block;
+  }
+  .sm-navbar-container {
+    background: #ffffff;
+    box-shadow: #333 10px 10px 16px -12px;
+    z-index: 4;
+  }
+
+  #btn-menu-sm i {
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #lg-navbar-desktop {
+    display: none;
+  }
+
+  .sm-navbar-container {
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+}

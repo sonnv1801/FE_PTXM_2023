@@ -27,6 +27,7 @@ import Logo from "../../assets/logo1.png";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { NavBarMobile } from "./NavBarMobile";
 const Navbar = () => {
   const dispatch = useDispatch();
   const listTypePhuTung = useSelector((state) => state.defaultReducer.listType);
@@ -55,8 +56,6 @@ const Navbar = () => {
       }
     }
   }, []);
-
-  console.log(carts, "carts");
 
   const listTypeCombo = useSelector(
     (state) => state.defaultReducer.listTypeComBo
@@ -159,8 +158,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* {user?.role === false ? ( */}
-      <>
+      <div id="lg-navbar-desktop">
         <div style={{ marginTop: "8rem" }}></div>
         <nav className="nav-container">
           <ul>
@@ -206,29 +204,6 @@ const Navbar = () => {
                 Liên Hệ
               </Link>
             </li>
-            {/* <p
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "1rem",
-              }}
-            >
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  Chọn nhà cung cấp
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {listSupplier?.map((item, index) => (
-                    <Link to={`/shopsupplier/${item.link}`}>
-                      <Dropdown.Item href="#/action-1">
-                        {item?.name}
-                      </Dropdown.Item>
-                    </Link>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </p> */}
           </ul>
           <ul>
             <li>
@@ -411,7 +386,6 @@ const Navbar = () => {
                       </Link>
                       <MenuItem onClick={handlelogout}>
                         <Typography textAlign="center">
-                          {" "}
                           <LogoutIcon /> Đăng xuất
                         </Typography>
                       </MenuItem>
@@ -439,10 +413,15 @@ const Navbar = () => {
             </div>
           </ul>
         </nav>
-      </>
-      {/* ) : ( */}
-      {/* "" */}
-      {/* )} */}
+      </div>
+      <NavBarMobile
+        listTypePhuTung={listTypePhuTung}
+        listTypeCombo={listTypeCombo}
+        refreshPage={refreshPage}
+        user={user}
+        handlelogout={handlelogout}
+        renderQuantity={renderQuantity()}
+      />
     </>
   );
 };

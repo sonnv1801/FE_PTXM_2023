@@ -219,7 +219,7 @@ export const CardHorizontal = (cart) => {
   const [paymentMethod, setPaymentMethod] = useState(
     "Thanh toán khi nhận hàng"
   );
-  console.log(paymentMethod, "paymentMethod");
+
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
   };

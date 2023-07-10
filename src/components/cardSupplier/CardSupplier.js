@@ -9,7 +9,6 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import numeral from "numeral";
 export default function CardSupplier({ item }) {
-  console.log(item, "item");
   return (
     <Card
       sx={{ maxWidth: 345 }}

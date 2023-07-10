@@ -55,8 +55,6 @@ function ListProductComboAdmin() {
     ],
   });
 
-  console.log(formData, "formData");
-
   const [selectedImage, setSelectedImage] = useState(null);
   const handleInputChange = (image) => (e) => {
     if (image === "image") {

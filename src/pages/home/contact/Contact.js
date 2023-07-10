@@ -1,17 +1,17 @@
 import React from "react";
 import EditCalendarRoundedIcon from "@mui/icons-material/EditCalendarRounded";
-
+import "./style.css";
 function Contact() {
   return (
-    <div className="w-full ">
+    <div className="container sm-container-contact">
       <div className="w-[90%] m-auto bg-white">
-        <div className="m-auto w-full">
+        <div className="m-auto w-full sm-top-contact">
           <div className="uppercase text-center text-[13px] leading-4  font-medium">
             <span className="px-8 text-[#029967]">trang chủ</span>
             <span>/</span>
             <span className="px-8">liên hệ</span>
           </div>
-          <div className="w-[70%] m-auto text-center">
+          <div className="w-[70%] m-auto text-center sm-text-contact-top">
             <h1 className=" text-[3.5rem] font-medium ">
               Chúng tôi hoan nghênh các câu hỏi và ý kiến ​​phản hồi của bạn.
             </h1>
@@ -21,16 +21,16 @@ function Contact() {
           </div>
         </div>
 
-        <div className="mt-24">
+        <div className="mt-24 sm-body-contact">
           <div className="w-full h-[10px] bg-[#029967]"></div>
-          <div className="my-8 uppercase w-[45%] text-[14px] font-medium">
+          <div className="my-8 uppercase w-[45%] text-[14px] font-medium sm-link-contact">
             <h6>
               Dưới đây là một số liên kết hữu ích để giúp bạn có câu trả lời
               nhanh hơn.
             </h6>
           </div>
-          <div className="grid grid-cols-3 gap-20">
-            <div className="bg-[#d4f7e8] rounded-2xl">
+          <div className=" row">
+            <div className="bg-[#d4f7e8] col-xl-4 col-sm-12">
               <div className="grid grid-cols-2 w-[80%] m-12 text-[21px] font-medium ">
                 <div className="text-2xl">
                   <svg
@@ -61,14 +61,12 @@ function Contact() {
                       href="#!"
                     >
                       Đặt lịch tư vấn
-                    </a>{" "}
+                    </a>
                   </p>
                 </div>
               </div>
-
-              <div></div>
             </div>
-            <div className="bg-[#d4f7e8] rounded-2xl">
+            <div className="bg-[#d4f7e8] col-xl-4  col-sm-12">
               <div className="grid grid-cols-2 w-[80%] m-12 text-[21px] font-medium ">
                 <div className="text-2xl">
                   <svg
@@ -98,14 +96,14 @@ function Contact() {
                       href="#!"
                     >
                       Vui lòng gọi: 19002297
-                    </a>{" "}
+                    </a>
                   </p>
                 </div>
               </div>
 
               <div></div>
             </div>
-            <div className="bg-[#d4f7e8] rounded-2xl">
+            <div className="bg-[#d4f7e8] col-xl-4 col-sm-12">
               <div className="grid grid-cols-2  w-[80%] m-12 text-[21px] font-medium ">
                 <div className="text-2xl">
                   <svg
@@ -122,21 +120,20 @@ function Contact() {
                   </svg>
                 </div>
                 <div lassName=" cursor-pointer">
-                  <a href="#!"> Các câu hỏi thường gặp​</a>
+                  <a href="#!"> Các câu hỏi thường gặp về xe máy​</a>
                 </div>
               </div>
               <div className="border-t-[1px] border-white">
                 <div className="w-[80%] m-12 text-[14px]  ">
                   <p className="cursor-pointer">
-                    Ở đây bạn sẽ tìm thấy một số câu câu hỏi phổ biến nhất{" "}
+                    Ở đây bạn sẽ tìm thấy một số câu câu hỏi phổ biến nhất
                     <br />
                     <a
                       className="border-b-[1px] font-medium  border-gray-400"
                       href="#!"
                     >
-                      {" "}
-                      Xem Câu hỏi thường gặp về Phụ tùng xe máy{" "}
-                    </a>{" "}
+                      Xem Câu hỏi thường gặp về Phụ tùng xe máy
+                    </a>
                   </p>
                 </div>
               </div>
@@ -146,9 +143,9 @@ function Contact() {
           </div>
         </div>
 
-        <div className="w-full mt-24 ">
-          <div className="grid grid-cols-2">
-            <div className="bg-blue-200">
+        <div className="w-full mt-24 sm-infor-contact">
+          <div className="row">
+            <div className="col-xl-6 col-sm-12 sm-map-contact">
               <iframe
                 className="w-full h-full"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.7142510727554!2d106.65221337417253!3d10.756491759562879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ef2e37aea4d%3A0x7bfed2904bf58c75!2zMTYwIETGsMahbmcgVOG7rSBHaWFuZywgUGjGsOG7nW5nIDE1LCBRdeG6rW4gNSwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1687489775495!5m2!1svi!2s"
@@ -157,12 +154,12 @@ function Contact() {
               ></iframe>
             </div>
 
-            <div>
+            <div className="col-xl-6 col-sm-12">
               <h2 className="mb-16 text-left ml-4 text-[36px] font-medium">
                 Thông tin liên lạc
               </h2>
               <div>
-                <div className="ml-4 flex">
+                <div className="ml-4 flex sm-infor-address">
                   <strong className="w-[50%]">
                     Làm thế nào để tìm thấy chúng tôi
                   </strong>
@@ -174,7 +171,7 @@ function Contact() {
 
                 <div className="w-full h-[1px] bg-[#2A2A2A26] mx-4 my-8"></div>
 
-                <div className="ml-4 flex">
+                <div className="ml-4 flex sm-infor-address">
                   <strong className="w-[50%]">Truy cập vào bãi đậu xe</strong>
                   <p className="w-[50%]">
                     Bãi đậu xe của Cửa hàng kinh doanh phụ Tùng xe máy Honda
@@ -184,7 +181,7 @@ function Contact() {
 
                 <div className="w-full h-[1px] bg-[#2A2A2A26] mx-4 my-8"></div>
 
-                <div className="ml-4 flex">
+                <div className="ml-4 flex sm-infor-address">
                   <strong className="w-[50%]">Giờ mở cửa</strong>
                   <p className="w-[50%]">
                     Mở cửa 7 ngày từ 8:00 sáng đến 8:00 tối. Ngày lễ 9:00 sáng
@@ -198,10 +195,10 @@ function Contact() {
         </div>
       </div>
 
-      <div className="w-full my-24 ">
-        <div className="my-24 mx-8  rounded-2xl w-[96%] bg-white border-solid py-16">
-          <div className="grid grid-cols-2 ">
-            <div className="w-full ml-12 mt-24">
+      <div className="">
+        <div className="bg-white border-solid sm-form-container">
+          <div className="grid grid-cols-2 sm-body-form-contact">
+            <div className="w-full ml-12 mt-24 sm-form-contact">
               <h2 className="text-[36px] font-medium  text-left ">
                 Gửi tin nhắn!
               </h2>
@@ -249,7 +246,7 @@ function Contact() {
                   placeholder="Nội dung ..."
                 ></textarea>
               </p>
-              <p className="flex mt-16 w-full ">
+              <p className="flex mt-16 w-full sm-form-submit">
                 <input
                   type="submit"
                   className="w-full cursor-pointer text-[15px] py-[16px] px-[45px] text-[#ffffff] rounded-[10px] bg-[#029967]"
@@ -271,34 +268,32 @@ function Contact() {
                 </span>
               </p>
             </div>
-            <div className="mt-24">
+            <div className="mt-24 sm-img-contact">
               <img
                 src="https://esm.vn/wp-content/uploads/2021/08/glb.jpg"
                 alt="#"
-                className="w-[55%] mx-auto mt-24"
+                className="w-[55%] mx-auto mt-24 "
               />
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full mt-24 bg-white py-[80px]">
+      <div className="w-full mt-24 bg-white py-[80px] sm-bottom-contact">
         <h3 className="text-[14px] font-medium text-center ">
           TIẾT KIỆM THỜI GIAN. CẢM THẤY TỐT HƠN.
         </h3>
-        <div className=" mt-4">
-          <h2 className="text-[54px] font-semibold text-center">
-            {" "}
+        <div className=" mt-4 sm-title-contact-bottom">
+          <h2 className="text-[54px] font-semibold text-center ">
             Bỏ Qua Hàng Chờ!
             <br />
             Đăng ký trực tuyến trước khi bạn đến.
           </h2>
-          <p className="text-[16px] font-light text-center">
-            {" "}
+          <p className="text-[16px] font-light text-center sm-text-tktg">
             Tiết kiệm thời gian và năng lượng bằng cách dễ dàng đặt lịch hẹn
             trực tuyến trong vòng vài phút.
           </p>
         </div>
-        <div className="grid grid-cols-2 w-[40%] mx-auto mt-8">
+        <div className="grid grid-cols-2 w-[40%] mx-auto mt-8 sm-contact-hotline">
           <div className=" flex">
             <a className="bg-green-200 rounded-full p-2">
               <svg
@@ -339,14 +334,14 @@ function Contact() {
           </div>
         </div>
 
-        <div className="w-[90%] m-auto py-16">
-          <div className="w-full h-[10px] bg-[#029967]"></div>
-          <div className="grid grid-cols-3 gap-12 py-8">
-            <div>
+        <div className="w-[90%] m-auto py-16 sm-hcm-pt">
+          <div className="w-full h-[10px] bg-[#029967] mb-5"></div>
+          <div className="row">
+            <div className="col-xl-4 col-sm-12 sm-address-hcm">
               <h3 className="uppercase text-[14px] font-medium pb-4">
                 Trụ sở ESM tại Quận 7, TPHCM
               </h3>
-              <div>
+              <div className="sm-hotline">
                 <ul>
                   <li>
                     <span className="flex text-[15px] font-light">
@@ -388,8 +383,8 @@ function Contact() {
                           d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                         />
                       </svg>
-                      64 đường số 2, KDC Him Lam, Phường Tân Hưng, Quận 7, Thành
-                      phố Hồ Chí Minh
+                      160 Dương Tử Giang , phường 12, Quận 5, Thành phố Hồ Chí
+                      Minh
                     </span>
                   </li>
                   <li className="mt-4 cursor-pointer">
@@ -415,7 +410,7 @@ function Contact() {
               </div>
             </div>
 
-            <div>
+            <div className="col-xl-4 col-sm-12">
               <h3 className="uppercase text-[14px] font-medium pb-4">
                 Liên kết nhanh và thông tin
               </h3>
@@ -449,7 +444,7 @@ function Contact() {
               </div>
             </div>
 
-            <div>
+            <div className="col-xl-4 col-sm-12">
               <h3 className="uppercase text-[14px] font-medium pb-4">
                 Theo dõi danh sách gửi thư của chúng tôi
               </h3>
@@ -466,13 +461,12 @@ function Contact() {
                   value="Đăng ký"
                   className="py-[16px] px-[45px] text-[15px] font-medium -ml-[0.1rem] text-[#ffffff] bg-[#029967] rounded-[10px] hover:bg-[#029967]"
                 >
-                  {" "}
                   Đăng ký
                 </button>
               </div>
               <div className="my-3 text-center mx-auto">
                 <h3 className="text-[14px] font-medium uppercase mb-4">
-                  Tải App tại{" "}
+                  Tải App tại
                 </h3>
                 <span className="flex mx-16">
                   <a href="#!">

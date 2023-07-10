@@ -6,10 +6,9 @@ import Typography from "@mui/material/Typography";
 import numeral from "numeral";
 import "./style.css";
 export default function ImgMediaCard({ item }) {
-  console.log(item, "item");
   return (
     <Card
-    className="sm-card"
+      className="sm-card"
       sx={{ maxWidth: 345 }}
       style={{ padding: "0", marginBottom: "1rem", borderRadius: "0.6rem" }}
     >

@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import numeral from "numeral";
 import "./style.css";
 export default function ImgMediaCardComBo({ item }) {
-  console.log(item, "item");
   return (
     <Card
       className="sm-card-combo"

@@ -161,7 +161,6 @@ const EditComboPage = () => {
     remainingQuantity: Number,
   });
 
-  console.log(newProduct, "neww");
   const handleNewProductInputChange = (event) => {
     const { name, value } = event.target;
     setNewProduct((prevData) => ({ ...prevData, [name]: value }));

@@ -36,8 +36,6 @@ export const ProductDetail = () => {
     (state) => state.defaultReducer.productDetail
   );
 
-  console.log(productDetail, "productDetailhuhu");
-
   const handleAddToCart = () => {
     const existingItems = JSON.parse(localStorage.getItem("carts")) || [];
     const existingItem = existingItems.find((item) => item.id === id);

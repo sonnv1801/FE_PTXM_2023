@@ -32,7 +32,7 @@ export const ShopCombo = () => {
   useEffect(() => {
     dispatch(getComBoByTypeLink(type, 8));
   }, []);
-  console.log(listTypeComBo);
+
   return (
     <div className="shop-container container">
       <div className="category-product">

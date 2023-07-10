@@ -27,7 +27,7 @@ export const Shop = () => {
   useEffect(() => {
     dispatch(getProductByTypes(type, 8));
   }, []);
-  console.log(listProductByType);
+
   return (
     <div className="shop-container container">
       <div className="category-product">

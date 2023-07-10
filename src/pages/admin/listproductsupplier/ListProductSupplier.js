@@ -46,8 +46,6 @@ function ListProductSupplier() {
     type: "",
   });
 
-  console.log(data, "data");
-
   const handleChange = (name) => (e) => {
     const value = name === "image" ? e.target.files[0] : e.target.value;
     setData({ ...data, [name]: value });
@@ -149,7 +147,7 @@ function ListProductSupplier() {
           const workbook = read(data, { type: "array" });
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
-          console.log(jsonData, "jsonData");
+
           // Process the jsonData and convert it into the desired format
           const newData = jsonData.map((row) => {
             return {
