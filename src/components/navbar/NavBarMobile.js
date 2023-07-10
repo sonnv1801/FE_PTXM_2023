@@ -14,7 +14,7 @@ export const NavBarMobile = ({
       <nav className="navbar bg-body-tertiary fixed-top sm-navbar-container">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand" href="#!">
-            Phụ Tùng Xe Máy Quốc Nguyên
+            Quốc Nguyên
           </Link>
           <button
             type="button"
