@@ -1,6 +1,6 @@
 /*  */
 
-.main-login {
+.main-register {
   background-image: url('../../../assets/logo-dang-ky.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -11,18 +11,17 @@
   align-items: center;
   margin-top: -2rem;
 }
-.main-login .login {
+
+.main-register .register {
   margin: 0 auto;
-  width: 500px;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   background: rgb(228, 225, 225);
   border-radius: 1rem;
-  /* margin: 150px 0 50px 150px; */
-  /* position: absolute; */
   opacity: 0.85;
 }
 
-.main-login .login .title {
+.main-register .register .title {
   color: blue;
   font-size: 40px;
   font-weight: bold;
@@ -33,7 +32,7 @@
   font-weight: bold;
 }
 
-.main-login .login .title-input {
+.main-register .register .title-input {
   margin-bottom: 5px;
   color: blue;
   line-height: 24px;
@@ -46,13 +45,13 @@
   margin: 0 30px;
 }
 
-.main-login .login .d-flex.mb-5.align-items-center {
+.main-register .register .d-flex.mb-5.align-items-center {
   justify-content: right;
   margin-right: 30px;
   font-family: var(--main-font);
 }
 
-.main-login .login .btn.btn-danger {
+.main-register .register .btn.btn-danger {
   width: 50%;
   /* margin: 0 auto; */
   display: inherit;
@@ -63,14 +62,14 @@
   text-align: center;
 }
 
-.main-login .login .btn-primary:hover {
+.main-register .register .btn-primary:hover {
   opacity: 0.5;
   transition: 0.3s;
   background-color: white;
   border: 1px solid black;
 }
 
-.main-login .login span#basic-addon1 {
+.main-register .register span#basic-addon1 {
   position: absolute;
   right: 0;
   border: none;
@@ -84,7 +83,7 @@
   border-radius: 4px;
 }
 
-.main-login .login a.forgot-pass {
+.main-register .register a.forgot-pass {
   text-decoration: none;
   color: black;
   margin-right: 5px;
@@ -92,7 +91,7 @@
   font-style: oblique;
 }
 
-.main-login .login .forgot {
+.main-register .register .forgot {
   float: right;
   margin: 40px;
   text-align: center;
@@ -102,25 +101,25 @@
   cursor: pointer;
 }
 
-.main-login .login a {
+.main-register .register a {
   text-decoration: none;
   display: block;
 }
 
-.main-login .btn-footer {
+.main-register .btn-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.main-login .btn-footer button p {
+.main-register .btn-footer button p {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 @media (max-width: 768px) {
-  .sm-main-login .sm-login {
+  .sm-main-register .sm-register {
     width: 100%;
   }
 }

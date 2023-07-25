@@ -1,20 +1,20 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import "./style.css";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Button } from "@mui/material";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import './style.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Button } from '@mui/material';
 
 export const CartPage = () => {
   const [cartData, setCartData] = useState([]);
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("token"));
+  const user = JSON.parse(localStorage.getItem('token'));
 
   useEffect(() => {
     // Get the cart data from localStorage
-    const existingCartData = localStorage.getItem("cart");
+    const existingCartData = localStorage.getItem('cart');
     if (existingCartData) {
       const cart = JSON.parse(existingCartData);
       setCartData(cart.products);
@@ -33,7 +33,7 @@ export const CartPage = () => {
 
   const updateLocalStorage = (cartData) => {
     // Get the existing cart data from localStorage
-    const existingCart = localStorage.getItem("cart");
+    const existingCart = localStorage.getItem('cart');
 
     if (existingCart) {
       // If the cart data exists, parse it and update the products array
@@ -41,19 +41,19 @@ export const CartPage = () => {
       updatedCart.products = cartData;
 
       // Store the updated cart data in localStorage
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
     }
   };
 
   const handlePurchase = async () => {
     if (cartData.length === 0) {
-      toast.error("Your cart is empty.", {
+      toast.error('Your cart is empty.', {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem("token"));
+    const user = JSON.parse(localStorage.getItem('token'));
 
     try {
       const customerId = user._id; // Thay đổi customerId tùy theo nhu cầu của bạn
@@ -66,7 +66,7 @@ export const CartPage = () => {
       }));
 
       const response = await axios.post(
-        "https://phutungxemay.onrender.com/v1/order",
+        'https://phutungxemay.onrender.com/v1/order',
         {
           customerId,
           products,
@@ -75,12 +75,12 @@ export const CartPage = () => {
 
       // Xử lý phản hồi từ API sau khi đặt hàng thành công
       console.log(response.data);
-      localStorage.removeItem("cart");
+      localStorage.removeItem('cart');
       setCartData([]);
-      toast.success("Đơn Hàng Đã Nhận", {
+      toast.success('Đơn Hàng Đã Nhận', {
         position: toast.POSITION.TOP_CENTER,
       });
-      navigate("/orderpage");
+      navigate('/orderpage');
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error(error);
@@ -93,11 +93,11 @@ export const CartPage = () => {
     <div className="cart-page">
       <h1>
         Đơn Hàng Của Bạn
-        <Link to="/admin">
+        <Link to="/">
           <Button
             variant="outlined"
             endIcon={<ArrowRightIcon />}
-            style={{ margin: "0", marginLeft: "1rem" }}
+            style={{ margin: '0', marginLeft: '1rem' }}
           >
             Tiếp tục mua hàng
           </Button>

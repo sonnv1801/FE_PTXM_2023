@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import SendIcon from "@mui/icons-material/Send";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import SendIcon from '@mui/icons-material/Send';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import StarBorder from '@mui/icons-material/StarBorder';
+import { Link, useNavigate } from 'react-router-dom';
 
-import AgricultureIcon from "@mui/icons-material/Agriculture";
-import AnimationIcon from "@mui/icons-material/Animation";
-import DnsIcon from "@mui/icons-material/Dns";
-import UpcomingIcon from "@mui/icons-material/Upcoming";
-import AddReactionIcon from "@mui/icons-material/AddReaction";
-import AddTaskIcon from "@mui/icons-material/AddTask";
-import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
-import ChecklistIcon from "@mui/icons-material/Checklist";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useDispatch, useSelector } from "react-redux";
-import { getSupplier } from "../../../redux/actions/supplier.action";
+import AgricultureIcon from '@mui/icons-material/Agriculture';
+import AnimationIcon from '@mui/icons-material/Animation';
+import DnsIcon from '@mui/icons-material/Dns';
+import UpcomingIcon from '@mui/icons-material/Upcoming';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSupplier } from '../../../redux/actions/supplier.action';
 export default function Menu() {
   const [open, setOpen] = React.useState({});
   const dispatch = useDispatch();
@@ -37,18 +37,23 @@ export default function Menu() {
     }));
   };
 
-  const user = JSON.parse(localStorage.getItem("token"));
-
+  const user = JSON.parse(localStorage.getItem('token'));
+  function refreshPage() {
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 100);
+  }
   useEffect(() => {
     dispatch(getSupplier());
   }, []);
   const navigate = useNavigate();
   const handlelogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-    toast.success("Đăng xuất thành công! Hẹn gặp lại", {
+    localStorage.removeItem('token');
+    navigate('/login');
+    toast.success('Đăng xuất thành công! Hẹn gặp lại', {
       position: toast.POSITION.TOP_RIGHT,
     });
+    refreshPage();
   };
 
   const listSupplier = useSelector(
@@ -59,7 +64,7 @@ export default function Menu() {
     <>
       <List
         id="menu-admin-dt"
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
@@ -68,14 +73,14 @@ export default function Menu() {
           </ListSubheader>
         }
       >
-        <ListItemButton onClick={() => handleClick("phu-tung")}>
+        <ListItemButton onClick={() => handleClick('phu-tung')}>
           <ListItemIcon>
             <AgricultureIcon />
           </ListItemIcon>
           <ListItemText primary="Quản Lý Phụ Tùng" />
-          {open["phu-tung"] ? <ExpandLess /> : <ExpandMore />}
+          {open['phu-tung'] ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open["phu-tung"]} timeout="auto" unmountOnExit>
+        <Collapse in={open['phu-tung']} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/list-types">
               <ListItemButton sx={{ pl: 4 }}>
@@ -95,14 +100,14 @@ export default function Menu() {
             </Link>
           </List>
         </Collapse>
-        <ListItemButton onClick={() => handleClick("combo")}>
+        <ListItemButton onClick={() => handleClick('combo')}>
           <ListItemIcon>
             <UpcomingIcon />
           </ListItemIcon>
           <ListItemText primary="Quản Lý ComBo" />
-          {open["combo"] ? <ExpandLess /> : <ExpandMore />}
+          {open['combo'] ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open["combo"]} timeout="auto" unmountOnExit>
+        <Collapse in={open['combo']} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/list-combos">
               <ListItemButton sx={{ pl: 4 }}>
@@ -122,14 +127,14 @@ export default function Menu() {
             </Link>
           </List>
         </Collapse>
-        <ListItemButton onClick={() => handleClick("don-hang")}>
+        <ListItemButton onClick={() => handleClick('don-hang')}>
           <ListItemIcon>
             <AddReactionIcon />
           </ListItemIcon>
           <ListItemText primary="Quản Lý Đơn Hàng" />
-          {open["don-hang"] ? <ExpandLess /> : <ExpandMore />}
+          {open['don-hang'] ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open["don-hang"]} timeout="auto" unmountOnExit>
+        <Collapse in={open['don-hang']} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/order-customer">
               <ListItemButton sx={{ pl: 4 }}>
@@ -142,14 +147,14 @@ export default function Menu() {
           </List>
         </Collapse>
 
-        <ListItemButton onClick={() => handleClick("nha-cung-cap")}>
+        <ListItemButton onClick={() => handleClick('nha-cung-cap')}>
           <ListItemIcon>
             <AirportShuttleIcon />
           </ListItemIcon>
           <ListItemText primary="Quản Lý Nhà Cung Cấp" />
-          {open["nha-cung-cap"] ? <ExpandLess /> : <ExpandMore />}
+          {open['nha-cung-cap'] ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open["nha-cung-cap"]} timeout="auto" unmountOnExit>
+        <Collapse in={open['nha-cung-cap']} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/delivery">
               <ListItemButton sx={{ pl: 4 }}>
@@ -178,14 +183,14 @@ export default function Menu() {
           </List>
         </Collapse>
 
-        <ListItemButton onClick={() => handleClick("mua-nha-cung-cap")}>
+        <ListItemButton onClick={() => handleClick('mua-nha-cung-cap')}>
           <ListItemIcon>
             <AirportShuttleIcon />
           </ListItemIcon>
           <ListItemText primary="Mua Hàng Từ Nhà Cung Cấp" />
-          {open["mua-nha-cung-cap"] ? <ExpandLess /> : <ExpandMore />}
+          {open['mua-nha-cung-cap'] ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open["mua-nha-cung-cap"]} timeout="auto" unmountOnExit>
+        <Collapse in={open['mua-nha-cung-cap']} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {listSupplier?.map((item, index) => (
               <Link to={`/shopsupplier/${item._id}`}>
@@ -200,15 +205,15 @@ export default function Menu() {
           </List>
         </Collapse>
 
-        <ListItemButton onClick={() => handleClick("quan-ly-kho-cung-cap")}>
+        <ListItemButton onClick={() => handleClick('quan-ly-kho-cung-cap')}>
           <ListItemIcon>
             <AirportShuttleIcon />
           </ListItemIcon>
           <ListItemText primary="Quản Lý Đơn Hàng Cung Cấp Của Tôi" />
-          {open["quan-ly-kho-cung-cap"] ? <ExpandLess /> : <ExpandMore />}
+          {open['quan-ly-kho-cung-cap'] ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse
-          in={open["quan-ly-kho-cung-cap"]}
+          in={open['quan-ly-kho-cung-cap']}
           timeout="auto"
           unmountOnExit
         >

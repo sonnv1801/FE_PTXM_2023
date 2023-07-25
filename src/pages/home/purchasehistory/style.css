@@ -4,6 +4,8 @@
 
 .purchase-history .link-history {
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .purchase-history .body-history {
@@ -64,6 +66,9 @@
   margin-top: 1rem;
   color: #ffffff;
   border-radius: 1rem;
+}
+
+.In-btn {
 }
 
 .status-orders .sub-status-orders {

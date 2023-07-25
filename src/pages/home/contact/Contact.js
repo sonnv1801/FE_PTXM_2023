@@ -1,6 +1,6 @@
-import React from "react";
-import EditCalendarRoundedIcon from "@mui/icons-material/EditCalendarRounded";
-import "./style.css";
+import React from 'react';
+import EditCalendarRoundedIcon from '@mui/icons-material/EditCalendarRounded';
+import './style.css';
 function Contact() {
   return (
     <div className="container sm-container-contact">
@@ -39,7 +39,7 @@ function Contact() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="w-[60%]"
+                    className="w-[60%]"
                   >
                     <path
                       stroke-linecap="round"
@@ -73,7 +73,7 @@ function Contact() {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-[60%]"
+                    className="w-[60%]"
                   >
                     <path
                       fill-rule="evenodd"
@@ -110,7 +110,7 @@ function Contact() {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-[60%]"
+                    className="w-[60%]"
                   >
                     <path
                       fill-rule="evenodd"
@@ -249,9 +249,8 @@ function Contact() {
               <p className="flex mt-16 w-full sm-form-submit">
                 <input
                   type="submit"
-                  className="w-full cursor-pointer text-[15px] py-[16px] px-[45px] text-[#ffffff] rounded-[10px] bg-[#029967]"
+                  className="w-full cursor-pointer text-[15px] py-[16px] px-[45px] text-[#ffffff] rounded-[10px] bg-[#029967] wpcf7-form-control wpcf7-submit"
                   value="Gửi tin nhắn"
-                  class="wpcf7-form-control wpcf7-submit"
                 />
               </p>
               <p className="mt-4">
@@ -321,7 +320,7 @@ function Contact() {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-8 h-8"
+                className="w-8 h-8"
               >
                 <path
                   stroke-linecap="round"
@@ -351,7 +350,7 @@ function Contact() {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="w-8 h-8 text-center -mt-1 mr-2"
+                        className="w-8 h-8 text-center -mt-1 mr-2"
                       >
                         <path
                           stroke-linecap="round"
@@ -370,7 +369,7 @@ function Contact() {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="w-12 h-12 mr-2"
+                        className="w-12 h-12 mr-2"
                       >
                         <path
                           stroke-linecap="round"
@@ -395,7 +394,7 @@ function Contact() {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="w-8 h-8 mr-2 "
+                        className="w-8 h-8 mr-2 "
                       >
                         <path
                           stroke-linecap="round"

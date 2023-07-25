@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import "./style.css";
-import { getAllTypeProductCombo } from "../../../redux/actions/typecombo.action";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import './style.css';
+import { getAllTypeProductCombo } from '../../../redux/actions/typecombo.action';
 
 const EditComboPage = () => {
   const location = useLocation();
-  const path = location.pathname.split("/")[2];
+  const path = location.pathname.split('/')[2];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [newImage, setNewImage] = useState(null);
@@ -19,19 +19,19 @@ const EditComboPage = () => {
   const [data, setData] = useState({
     image: null,
     quantity: Number,
-    title: "",
-    type: "",
-    link: "",
+    title: '',
+    type: '',
+    link: '',
     newPrice: Number,
-    status: "",
+    status: '',
     products: [
       {
-        name: "",
-        productCode: "",
+        name: '',
+        productCode: '',
         images: null,
         price: Number,
         oldPrice: Number,
-        status: "",
+        status: '',
         quantity: Number,
       },
     ],
@@ -112,13 +112,13 @@ const EditComboPage = () => {
     const url = `https://phutungxemay.onrender.com/v1/combo/combos/${path}`;
 
     const formData = new FormData();
-    formData.append("image", data.image);
-    formData.append("quantity", data.quantity);
-    formData.append("title", data.title);
-    formData.append("type", data.type);
-    formData.append("link", data.link);
-    formData.append("newPrice", data.newPrice);
-    formData.append("status", data.status);
+    formData.append('image', data.image);
+    formData.append('quantity', data.quantity);
+    formData.append('title', data.title);
+    formData.append('type', data.type);
+    formData.append('link', data.link);
+    formData.append('newPrice', data.newPrice);
+    formData.append('status', data.status);
 
     // Append product data
     data.products?.forEach((product, index) => {
@@ -134,16 +134,16 @@ const EditComboPage = () => {
     axios
       .put(url, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then(() => {
-        toast.success("Lưu thay đổi thành công");
-        navigate("/list-products-combos-admin");
+        toast.success('Lưu thay đổi thành công');
+        navigate('/list-products-combos-admin');
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Lưu thay đổi thất bại");
+        toast.error('Lưu thay đổi thất bại');
       })
       .finally(() => {
         setIsCreatingProduct(false);
@@ -151,12 +151,12 @@ const EditComboPage = () => {
   };
 
   const [newProduct, setNewProduct] = useState({
-    name: "",
-    productCode: "",
+    name: '',
+    productCode: '',
     images: null,
     price: Number,
     oldPrice: Number,
-    status: "",
+    status: '',
     quantity: Number,
     remainingQuantity: Number,
   });
@@ -186,24 +186,24 @@ const EditComboPage = () => {
         !newProduct.quantity ||
         !newProduct.remainingQuantity
       ) {
-        throw new Error("Vui lòng nhập đầy đủ thông tin sản phẩm");
+        throw new Error('Vui lòng nhập đầy đủ thông tin sản phẩm');
       }
 
       const url = `https://phutungxemay.onrender.com/v1/combo/combo/${path}/products`;
 
       const formData = new FormData();
-      formData.append("name", newProduct.name);
-      formData.append("productCode", newProduct.productCode);
-      formData.append("price", newProduct.price);
-      formData.append("oldPrice", newProduct.oldPrice);
-      formData.append("status", newProduct.status);
-      formData.append("quantity", newProduct.quantity);
-      formData.append("remainingQuantity", newProduct.remainingQuantity);
-      formData.append("image", newProduct.images);
+      formData.append('name', newProduct.name);
+      formData.append('productCode', newProduct.productCode);
+      formData.append('price', newProduct.price);
+      formData.append('oldPrice', newProduct.oldPrice);
+      formData.append('status', newProduct.status);
+      formData.append('quantity', newProduct.quantity);
+      formData.append('remainingQuantity', newProduct.remainingQuantity);
+      formData.append('image', newProduct.images);
 
       const response = await axios.post(url, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -216,21 +216,21 @@ const EditComboPage = () => {
 
       // Reset input fields after successful addition
       setNewProduct({
-        name: "",
-        productCode: "",
+        name: '',
+        productCode: '',
         images: null,
         price: Number,
         oldPrice: Number,
-        status: "",
+        status: '',
         quantity: Number,
         remainingQuantity: Number,
       });
 
-      toast.success("Thêm sản phẩm vào combo thành công");
-      navigate("/list-products-combos-admin");
+      toast.success('Thêm sản phẩm vào combo thành công');
+      navigate('/list-products-combos-admin');
     } catch (error) {
       console.error(error);
-      toast.error("Thêm sản phẩm vào combo thất bại");
+      toast.error('Thêm sản phẩm vào combo thất bại');
     } finally {
       setIsCreatingProduct(false);
     }
@@ -249,11 +249,11 @@ const EditComboPage = () => {
           updatedProducts.splice(index, 1);
           return { ...prevData, products: updatedProducts };
         });
-        toast.success("Xóa sản phẩm thành công");
+        toast.success('Xóa sản phẩm thành công');
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Xóa sản phẩm thất bại");
+        toast.error('Xóa sản phẩm thất bại');
       });
   };
 
@@ -267,7 +267,7 @@ const EditComboPage = () => {
           encType="multipart/form-data"
           disabled={isCreatingProduct}
         >
-          {isCreatingProduct ? "Vui lòng chờ..." : "Lưu Thay Đổi"}
+          {isCreatingProduct ? 'Vui lòng chờ...' : 'Lưu Thay Đổi'}
         </button>
         <Link to="/list-products-combos-admin">
           <button>Thoát</button>
@@ -277,12 +277,12 @@ const EditComboPage = () => {
         <div className="row">
           <div className="col-xl-6 col-sm-12">
             <h3>Sửa Combo</h3>
-            <div className="combo-info" style={{ marginTop: "2rem" }}>
+            <div className="combo-info" style={{ marginTop: '2rem' }}>
               <div className="mb-3">
                 <div className="mb-3">
                   <span>Hình ảnh Sản Phẩm ComBo</span>
                   <img
-                    style={{ width: "100px" }}
+                    style={{ width: '100px' }}
                     src={newImage || data.image}
                     alt={data.title}
                   />
@@ -323,11 +323,11 @@ const EditComboPage = () => {
                 <span>Chọn loại combo</span>
                 <select
                   style={{
-                    width: "100%",
-                    margin: "0.5rem 0",
-                    border: "1px solid #ced4da",
-                    outline: "none",
-                    padding: "0.4rem",
+                    width: '100%',
+                    margin: '0.5rem 0',
+                    border: '1px solid #ced4da',
+                    outline: 'none',
+                    padding: '0.4rem',
                   }}
                   name="type"
                   value={data.type}
@@ -346,11 +346,11 @@ const EditComboPage = () => {
                 <span>Chọn trạng thái</span>
                 <select
                   style={{
-                    width: "100%",
-                    margin: "0.5rem 0",
-                    border: "1px solid #ced4da",
-                    outline: "none",
-                    padding: "0.4rem",
+                    width: '100%',
+                    margin: '0.5rem 0',
+                    border: '1px solid #ced4da',
+                    outline: 'none',
+                    padding: '0.4rem',
                   }}
                   name="status"
                   value={data.status}
@@ -369,11 +369,11 @@ const EditComboPage = () => {
                 <div className="mb-3">
                   <span>Hình ảnh Sản Phẩm Đã Chọn</span>
                   <img
-                    style={{ width: "100px" }}
+                    style={{ width: '100px' }}
                     src={
                       newProduct.images
                         ? URL.createObjectURL(newProduct.images)
-                        : ""
+                        : ''
                     }
                     alt=""
                   />
@@ -434,11 +434,11 @@ const EditComboPage = () => {
                 <span>Trạng Thái</span>
                 <select
                   style={{
-                    width: "100%",
-                    margin: "0.5rem 0",
-                    border: "1px solid #ced4da",
-                    outline: "none",
-                    padding: "0.4rem",
+                    width: '100%',
+                    margin: '0.5rem 0',
+                    border: '1px solid #ced4da',
+                    outline: 'none',
+                    padding: '0.4rem',
                   }}
                   name="status"
                   value={newProduct.status}
@@ -471,10 +471,10 @@ const EditComboPage = () => {
               </div>
               <button
                 disabled={isCreatingProduct}
-                style={{ background: "blue", margin: "1rem 0" }}
+                style={{ background: 'blue', margin: '1rem 0' }}
                 onClick={handleAddProductToCombo}
               >
-                {isCreatingProduct ? "Vui lòng chờ..." : " Thêm vào combo"}
+                {isCreatingProduct ? 'Vui lòng chờ...' : ' Thêm vào combo'}
               </button>
             </div>
           </div>
@@ -482,7 +482,7 @@ const EditComboPage = () => {
           <div className="col-xl-12 col-sm-12">
             <h2>Danh sách sản phẩm Trong ComBo</h2>
 
-            <div class="table_responsive">
+            <div className="table_responsive">
               <table>
                 <thead>
                   <tr>
@@ -502,12 +502,12 @@ const EditComboPage = () => {
                       <tr key={index}>
                         <td
                           style={{
-                            display: "flex",
-                            justifyContent: "space-between",
+                            display: 'flex',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <img
-                            style={{ width: "50px", padding: "0.6rem" }}
+                            style={{ width: '50px', padding: '0.6rem' }}
                             src={product.images}
                             alt={product.name}
                           />
@@ -565,11 +565,11 @@ const EditComboPage = () => {
                         <td>
                           <select
                             style={{
-                              width: "100%",
-                              margin: "0.5rem 0",
-                              border: "1px solid #ced4da",
-                              outline: "none",
-                              padding: "0.4rem",
+                              width: '100%',
+                              margin: '0.5rem 0',
+                              border: '1px solid #ced4da',
+                              outline: 'none',
+                              padding: '0.4rem',
                             }}
                             name="status"
                             value={product.status}
@@ -591,7 +591,7 @@ const EditComboPage = () => {
                         </td>
                         <td>
                           <button
-                            style={{ background: "red", margin: "1rem 0" }}
+                            style={{ background: 'red', margin: '1rem 0' }}
                             onClick={() => handleRemoveProduct(index)}
                           >
                             Xóa

@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import "react-toastify/dist/ReactToastify.css";
-import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import 'react-toastify/dist/ReactToastify.css';
+import './style.css';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Link } from "react-router-dom";
-import { deleteProduct } from "../../../redux/actions/product.action";
-import Menu from "../menu/Menu";
+import { Link } from 'react-router-dom';
+import { deleteProduct } from '../../../redux/actions/product.action';
+import Menu from '../menu/Menu';
 import {
   deleteProductToOrder,
   getAllProToOrders,
-} from "../../../redux/actions/order.action";
+} from '../../../redux/actions/order.action';
+import { Loading } from '../../../components/loading/Loading';
 function ListProductAdmin() {
-  const currentUser = JSON.parse(localStorage.getItem("token"));
+  const currentUser = JSON.parse(localStorage.getItem('token'));
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ function ListProductAdmin() {
             </div>
           </div>
           <div className="sm-product-admin">
-            <div class="table_responsive">
+            <div className="table_responsive">
               <table>
                 <thead>
                   <tr>
@@ -61,13 +62,7 @@ function ListProductAdmin() {
                 </thead>
                 <tbody>
                   {isLoading ? (
-                    <div
-                      className="spinner-border"
-                      role="status"
-                      style={{ margin: "0 auto" }}
-                    >
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
+                    <Loading />
                   ) : (
                     <>
                       {getAllProductToOrders?.map((item, index) => (
@@ -79,7 +74,7 @@ function ListProductAdmin() {
                           <td>{item.name}</td>
                           <td>
                             {item.quantityDelivered === item.quantityPurchased
-                              ? "Hết Hàng"
+                              ? 'Hết Hàng'
                               : `Còn Hàng ${
                                   item.quantityDelivered -
                                   item.quantityPurchased

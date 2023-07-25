@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
-import CustomizedBreadcrumbs from "../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs";
-import "./style.css";
-import Button from "@mui/material/Button";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import IconButton from "@mui/material/IconButton";
-import RemoveIcon from "@mui/icons-material/Remove";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import AddIcon from "@mui/icons-material/Add";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import { Tag } from "../../../components/tag/Tag";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getDetail } from "../../../redux/actions/product.action";
-import numeral from "numeral";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState } from 'react';
+import CustomizedBreadcrumbs from '../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs';
+import './style.css';
+import Button from '@mui/material/Button';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import IconButton from '@mui/material/IconButton';
+import RemoveIcon from '@mui/icons-material/Remove';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import AddIcon from '@mui/icons-material/Add';
+import TwitterIcon from '@mui/icons-material/Twitter';
+
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDetail } from '../../../redux/actions/product.action';
+import numeral from 'numeral';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Loading } from '../../../components/loading/Loading';
 
 export const ProductDetail = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1); // Số lượng sản phẩm
 
   function refreshPage() {
@@ -27,7 +29,7 @@ export const ProductDetail = () => {
     }, 100);
   }
 
-  const id = location.pathname.split("/")[3];
+  const id = location.pathname.split('/')[3];
   useEffect(() => {
     dispatch(getDetail(id));
   }, []);
@@ -37,7 +39,7 @@ export const ProductDetail = () => {
   );
 
   const handleAddToCart = () => {
-    const existingItems = JSON.parse(localStorage.getItem("carts")) || [];
+    const existingItems = JSON.parse(localStorage.getItem('carts')) || [];
     const existingItem = existingItems.find((item) => item.id === id);
 
     const availableQuantity =
@@ -81,7 +83,55 @@ export const ProductDetail = () => {
         position: toast.POSITION.TOP_CENTER,
       }
     );
-    localStorage.setItem("carts", JSON.stringify(existingItems));
+    localStorage.setItem('carts', JSON.stringify(existingItems));
+    setTimeout(() => {
+      setTimeout(() => {
+        refreshPage();
+      }, 500);
+    }, 500);
+  };
+
+  const handleAddBuyNow = () => {
+    const existingItems = JSON.parse(localStorage.getItem('carts')) || [];
+    const existingItem = existingItems.find((item) => item.id === id);
+
+    const availableQuantity =
+      productDetail.quantityDelivered - productDetail.quantityPurchased;
+
+    if (existingItem) {
+      const totalQuantity = existingItem.quantity_cart + quantity;
+      if (totalQuantity > availableQuantity) {
+        toast.error(
+          `Số lượng sản phẩm vượt quá số lượng còn (${availableQuantity})`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+          }
+        );
+        return;
+      }
+      existingItem.quantity_cart = totalQuantity;
+    } else {
+      if (quantity > availableQuantity) {
+        toast.error(
+          `Số lượng sản phẩm vượt quá số lượng còn (${availableQuantity})`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+          }
+        );
+        return;
+      }
+      existingItems.push({
+        id: productDetail?._id,
+        code: productDetail?.productCode,
+        title: productDetail?.name,
+        image: productDetail?.image,
+        newPrice: productDetail?.retailPrice,
+        quantity_cart: quantity,
+      });
+    }
+
+    navigate('/shop/product-dt/cart');
+    localStorage.setItem('carts', JSON.stringify(existingItems));
     setTimeout(() => {
       setTimeout(() => {
         refreshPage();
@@ -112,7 +162,7 @@ export const ProductDetail = () => {
   };
 
   if (!productDetail) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -140,13 +190,13 @@ export const ProductDetail = () => {
                   <div className="col-6">
                     <span>Giá khuyến mãi</span>
                     <h6>{`${numeral(productDetail.salePrice).format(
-                      "0,0"
+                      '0,0'
                     )}đ`}</h6>
                   </div>
                   <div className="col-6">
                     <span>Đơn giá</span>
                     <h6>{`${numeral(productDetail.retailPrice).format(
-                      "0,0"
+                      '0,0'
                     )}đ`}</h6>
                   </div>
                   <div className="col-6">
@@ -154,7 +204,7 @@ export const ProductDetail = () => {
                     <h6>
                       {productDetail.quantityDelivered ===
                       productDetail.quantityPurchased
-                        ? "Hết Hàng"
+                        ? 'Hết Hàng'
                         : `Còn Hàng ${
                             productDetail.quantityDelivered -
                             productDetail.quantityPurchased
@@ -193,7 +243,7 @@ export const ProductDetail = () => {
                   <Button
                     variant="outlined"
                     endIcon={<ArrowRightIcon />}
-                    onClick={handleAddToCart}
+                    onClick={handleAddBuyNow}
                   >
                     Mua ngay
                   </Button>
@@ -225,17 +275,6 @@ export const ProductDetail = () => {
                       />
                       <p>Giao hàng nhanh 2 - 3 ngày</p>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="tag-prd">
-                <b>TAG</b>
-                <div className="row mt-3">
-                  <div className="col-xl-4 col-sm-6">
-                    <Tag />
-                  </div>
-                  <div className="col-xl-4 col-sm-6">
-                    <Tag />
                   </div>
                 </div>
               </div>

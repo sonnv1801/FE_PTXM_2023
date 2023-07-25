@@ -25,19 +25,37 @@
   color: blue;
 }
 
-
 @media (max-width: 768px) {
- .sm-card {
-  margin:  0 auto;
- }
- .sm-card-combo {
-  margin: 0 auto;
- }
- }
- 
- /* CSS cho màn hình tablet */
- @media (min-width: 769px) and (max-width: 1024px) {
-   .my-component {
-     /* Các thuộc tính dành cho màn hình tablet */
-   }
- }
+  .sm-card {
+    margin: 0 auto;
+  }
+  .sm-card-combo {
+    margin: 0 auto;
+  }
+}
+
+/* CSS cho màn hình tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-component {
+    /* Các thuộc tính dành cho màn hình tablet */
+  }
+}
+.product-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+  animation: moveUpDown 1s alternate infinite; /* Apply the animation on hover */
+}
+
+@keyframes moveUpDown {
+  to {
+    transform: translateY(-5px); /* Move the image 5 pixels up */
+  }
+  from {
+    transform: translateY(5px); /* Move the image 5 pixels down */
+  }
+}

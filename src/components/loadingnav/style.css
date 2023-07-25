@@ -1,0 +1,20 @@
+.loader-nav {
+  border: 5px solid #2c7fb5;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.6rem;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

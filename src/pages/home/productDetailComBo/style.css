@@ -17,6 +17,18 @@
   text-transform: uppercase;
 }
 
+.sub-body-prd .title-combo b {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.sub-body-prd .title-combo b span {
+  color: #034063;
+}
+
 .prd-bodys .check-one img {
   width: 100%;
   position: relative;

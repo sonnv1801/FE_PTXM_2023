@@ -9,29 +9,8 @@
   top: 0;
   left: 0;
   z-index: 4;
-  /* display: none; */
-}
-.nav-container ul {
-  display: flex;
-  margin: 0;
-}
-.nav-container > ul li {
-  list-style: none; /* bỏ dấu chấm mặc định của li */
-  /* kẻ đường bên trái và bên phải của li */
-  border-right: 1px solid #297fb8;
-  border-left: 1px solid #085589;
-}
-.nav-container > ul li a {
-  display: block;
-  line-height: 100px;
-  padding: 0 25px;
-  color: #297fb8;
-  text-decoration: none;
 }
 
-.nav-container > ul li a:hover {
-  color: #085589;
-}
 .nav-container ul li:first-child {
   border-left: none; /* bỏ đường kè trái của phần tử đầu tiên */
 }
@@ -47,40 +26,6 @@
 
 /*menu con*/
 /*Ẩn các menu con cấp 1,2,3*/
-.nav-container ul li .sub-menu-lv2 {
-  display: none;
-  width: 50%;
-  font-family: 'Times New Roman', Times, serif;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  background-color: white;
-  box-shadow: #333 10px 10px 16px -12px;
-  text-transform: uppercase;
-  z-index: 2;
-}
-
-.nav-container ul li .sub-menu-lv3 {
-  right: 101px;
-  display: none;
-  width: 320px;
-  top: 80px;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  background-color: #ffffff;
-  box-shadow: #000000 8px 8px 25px -14px;
-  border-radius: 12px;
-  text-transform: uppercase;
-  z-index: 2;
-  overflow-x: hidden;
-}
-
-.sub-menu-lv3 .img-cartEPT {
-  width: 50%;
-  height: 50%;
-  margin: 0 auto;
-}
 
 .css-9tj150-MuiButton-endIcon {
   margin: 0 !important;
@@ -109,61 +54,13 @@
   border-radius: 5px;
 }
 
-.sub-menu-lv3 p {
-  text-transform: uppercase;
-  font-size: 13px;
-  font-weight: 600;
-  color: #297fb8;
-  /* margin-top: 1rem; */
-}
-
 .sub-menu-lv3 p:hover {
   color: #0693e3;
 }
 .sub-menu-lv3 b {
   font-size: 10px;
+  margin: 15px;
   text-transform: uppercase;
-}
-
-.sub-menu-lv3 h6 {
-  font-size: 11px;
-  color: #0b8dbe;
-  margin: 0.4rem;
-}
-.sub-menu-lv3 button {
-  height: 40px;
-  width: 137px;
-  float: right;
-  margin-bottom: 1rem;
-}
-.sub-menu-lv3 span {
-  display: block;
-  text-align: center;
-  font-weight: 700;
-  color: #282828;
-  padding: 1rem;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.sub-menu-lv3 span:hover {
-  color: #0693e3;
-}
-
-.sub-menu-lv3 img {
-  position: relative;
-}
-
-.sub-menu-lv3 .close-prd {
-  position: absolute;
-  left: 50px;
-  cursor: pointer;
-  color: gray;
-  font-size: 12px;
-}
-
-.sub-menu-lv3 .close-prd:hover {
-  color: black;
 }
 
 .sub-menu-lv2 span {

@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./style.css";
-import { getSupplier } from "../../../redux/actions/supplier.action";
-import { updateProductSupplier } from "../../../redux/actions/productSupplier.action";
-import { getAllTypeProduct } from "../../../redux/actions/type.action";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './style.css';
+import { getSupplier } from '../../../redux/actions/supplier.action';
+import { updateProductSupplier } from '../../../redux/actions/productSupplier.action';
+import { getAllTypeProduct } from '../../../redux/actions/type.action';
 const UpdateProductSupplier = () => {
   const location = useLocation();
-  const path = location.pathname.split("/")[2];
+  const path = location.pathname.split('/')[2];
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [previewImage, setPreviewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState('');
   const [data, setData] = useState({
-    name: "",
-    image: "",
-    supplier: "",
+    name: '',
+    image: '',
+    supplier: '',
     // agentCode: "",
-    productCode: "",
-    salePrice: "",
-    retailPrice: "",
-    wholesalePrice: "",
-    wholesalePriceQuick: "",
-    quantity: "",
-    link: "",
-    type: "",
+    productCode: '',
+    salePrice: '',
+    retailPrice: '',
+    wholesalePrice: '',
+    wholesalePriceQuick: '',
+    quantity: '',
+    link: '',
+    type: '',
   });
   const [loading, setLoading] = useState(false); // State cho nút xoay đợi
 
@@ -37,7 +37,7 @@ const UpdateProductSupplier = () => {
   }, []);
 
   const handleChange = (name) => (e) => {
-    if (name === "image") {
+    if (name === 'image') {
       const file = e.target.files[0];
       setData({ ...data, [name]: file });
 
@@ -76,37 +76,37 @@ const UpdateProductSupplier = () => {
       let emptyFields = 0; // Biến đếm số lượng trường bị trống
 
       // Kiểm tra từng trường và tăng biến đếm nếu trường đó trống
-      if (data.name === "") emptyFields++;
-      if (data.supplier === "") emptyFields++;
-      if (data.agentCode === "") emptyFields++;
-      if (data.productCode === "") emptyFields++;
-      if (data.salePrice === "") emptyFields++;
-      if (data.retailPrice === "") emptyFields++;
-      if (data.wholesalePrice === "") emptyFields++;
-      if (data.wholesalePriceQuick === "") emptyFields++;
-      if (data.quantity === "") emptyFields++;
-      if (data.link === "") emptyFields++;
+      if (data.name === '') emptyFields++;
+      if (data.supplier === '') emptyFields++;
+      if (data.agentCode === '') emptyFields++;
+      if (data.productCode === '') emptyFields++;
+      if (data.salePrice === '') emptyFields++;
+      if (data.retailPrice === '') emptyFields++;
+      if (data.wholesalePrice === '') emptyFields++;
+      if (data.wholesalePriceQuick === '') emptyFields++;
+      if (data.quantity === '') emptyFields++;
+      if (data.link === '') emptyFields++;
 
       if (emptyFields > 0) {
-        toast.warn("Nhập đầy đủ", {
+        toast.warn('Nhập đầy đủ', {
           position: toast.POSITION.TOP_CENTER,
         });
       } else {
         setLoading(true); // Hiển thị nút xoay đợi
 
         let formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("image", data.image);
-        formData.append("supplier", data.supplier);
-        formData.append("agentCode", data.agentCode);
-        formData.append("productCode", data.productCode);
-        formData.append("salePrice", data.salePrice);
-        formData.append("retailPrice", data.retailPrice);
-        formData.append("wholesalePrice", data.wholesalePrice);
-        formData.append("wholesalePriceQuick", data.wholesalePriceQuick);
-        formData.append("quantity", data.quantity);
-        formData.append("link", data.link);
-        formData.append("type", data.type);
+        formData.append('name', data.name);
+        formData.append('image', data.image);
+        formData.append('supplier', data.supplier);
+        formData.append('agentCode', data.agentCode);
+        formData.append('productCode', data.productCode);
+        formData.append('salePrice', data.salePrice);
+        formData.append('retailPrice', data.retailPrice);
+        formData.append('wholesalePrice', data.wholesalePrice);
+        formData.append('wholesalePriceQuick', data.wholesalePriceQuick);
+        formData.append('quantity', data.quantity);
+        formData.append('link', data.link);
+        formData.append('type', data.type);
         dispatch(updateProductSupplier(path, formData, navigate));
       }
       setLoading(false); // Ẩn nút xoay đợi
@@ -132,7 +132,7 @@ const UpdateProductSupplier = () => {
               type="text"
               name="name"
               value={data.name}
-              onChange={handleChange("name")}
+              onChange={handleChange('name')}
             />
           </div>
           <div className="mb-3">
@@ -142,13 +142,13 @@ const UpdateProductSupplier = () => {
               type="text"
               name="productCode"
               value={data.productCode}
-              onChange={handleChange("productCode")}
+              onChange={handleChange('productCode')}
             />
           </div>
 
           <div className="mb-3">
             <span>Nhà Cung Cấp</span>
-            <select onChange={handleChange("supplier")}>
+            <select onChange={handleChange('supplier')}>
               <option value={data.supplier}>{data.supplier}</option>
               {listSupplier?.map((item, index) => (
                 <option value={item?.name}>{item?.name}</option>
@@ -157,7 +157,7 @@ const UpdateProductSupplier = () => {
           </div>
           <div className="mb-3">
             <span>Loại Sản Phẩm</span>
-            <select onChange={handleChange("type")}>
+            <select onChange={handleChange('type')}>
               <option value={data.type}>{data.type}</option>
               {listTypes?.map((item, index) => (
                 <option value={item?.name}>{item?.name}</option>
@@ -165,10 +165,10 @@ const UpdateProductSupplier = () => {
             </select>
           </div>
 
-          <div className="mb-3" style={{ width: "200px" }}>
+          <div className="mb-3" style={{ width: '200px' }}>
             {/* Display the current image */}
             {previewImage && (
-              <img src={previewImage} alt="Preview" style={{ width: "100%" }} />
+              <img src={previewImage} alt="Preview" style={{ width: '100%' }} />
             )}
           </div>
         </div>
@@ -191,7 +191,7 @@ const UpdateProductSupplier = () => {
               type="number"
               name="salePrice"
               value={data.salePrice}
-              onChange={handleChange("salePrice")}
+              onChange={handleChange('salePrice')}
             />
           </div>
           <div className="mb-3">
@@ -201,7 +201,7 @@ const UpdateProductSupplier = () => {
               type="number"
               name="retailPrice"
               value={data.retailPrice}
-              onChange={handleChange("retailPrice")}
+              onChange={handleChange('retailPrice')}
             />
           </div>
           <div className="mb-3">
@@ -211,7 +211,7 @@ const UpdateProductSupplier = () => {
               type="number"
               name="wholesalePrice"
               value={data.wholesalePrice}
-              onChange={handleChange("wholesalePrice")}
+              onChange={handleChange('wholesalePrice')}
             />
           </div>
           <div className="mb-3">
@@ -221,7 +221,7 @@ const UpdateProductSupplier = () => {
               type="number"
               name="wholesalePriceQuick"
               value={data.wholesalePriceQuick}
-              onChange={handleChange("wholesalePriceQuick")}
+              onChange={handleChange('wholesalePriceQuick')}
             />
           </div>
           <div className="mb-3">
@@ -231,7 +231,7 @@ const UpdateProductSupplier = () => {
               type="number"
               name="quantity"
               value={data.quantity}
-              onChange={handleChange("quantity")}
+              onChange={handleChange('quantity')}
             />
           </div>
           <div className="mb-3">
@@ -241,7 +241,7 @@ const UpdateProductSupplier = () => {
               type="file"
               accept="image/*"
               name="image"
-              onChange={handleChange("image")}
+              onChange={handleChange('image')}
             />
           </div>
 
@@ -262,9 +262,9 @@ const UpdateProductSupplier = () => {
               onClick={handleSubmit}
               disabled={loading}
             >
-              {loading ? "Đợi Tý" : "Update"}
+              {loading ? 'Đợi Tý' : 'Update'}
             </button>
-            <Link to={"/prducts-supplier"}>
+            <Link to={'/prducts-supplier'}>
               <button className="btn btn-success">Thoát!</button>
             </Link>
           </div>

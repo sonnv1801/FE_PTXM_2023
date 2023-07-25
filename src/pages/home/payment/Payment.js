@@ -1,14 +1,14 @@
-import React from "react";
-import "./style.css";
-import Form from "react-bootstrap/Form";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Button from "@mui/material/Button";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import React from 'react';
+import './style.css';
+import Form from 'react-bootstrap/Form';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Button from '@mui/material/Button';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 export const Payment = () => {
   return (
     <div className="payment-container">
@@ -42,7 +42,7 @@ export const Payment = () => {
               <Form.Control
                 as="textarea"
                 placeholder="Leave a comment here"
-                style={{ height: "100px" }}
+                style={{ height: '100px' }}
               />
             </FloatingLabel>
           </Form.Group>
@@ -62,11 +62,6 @@ export const Payment = () => {
                 value="female"
                 control={<Radio />}
                 label="Thanh toán khi nhận hàng"
-              />
-              <FormControlLabel
-                value="male"
-                control={<Radio />}
-                label="Chuyển khoản ngân hàng"
               />
             </RadioGroup>
           </FormControl>

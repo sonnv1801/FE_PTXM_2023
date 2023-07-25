@@ -1,5 +1,5 @@
-import Axios from "axios";
-const API = "https://phutungxemay.onrender.com/v1/order";
+import Axios from 'axios';
+const API = 'https://phutungxemay.onrender.com/v1/order';
 
 export class OrderService {
   getAllProductToOrder() {

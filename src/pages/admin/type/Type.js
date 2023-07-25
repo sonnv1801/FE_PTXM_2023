@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "./style.css";
-import Modal from "react-bootstrap/Modal";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalFooter from "react-bootstrap/ModalFooter";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import Button from "react-bootstrap/Button";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import './style.css';
+import Modal from 'react-bootstrap/Modal';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import Button from 'react-bootstrap/Button';
 
-import Form from "react-bootstrap/Form";
+import Form from 'react-bootstrap/Form';
 
-import "./style.css";
+import './style.css';
 import {
   addTypes,
   deleteTypes,
   getAllTypeProduct,
-} from "../../../redux/actions/type.action";
-import Menu from "../menu/Menu";
+} from '../../../redux/actions/type.action';
+import Menu from '../menu/Menu';
+import { Loading } from '../../../components/loading/Loading';
 function Type() {
   const [showadd, setShowadd] = useState(false);
 
-  const currentUser = JSON.parse(localStorage.getItem("token"));
-  const [name, setName] = useState("");
+  const currentUser = JSON.parse(localStorage.getItem('token'));
+  const [name, setName] = useState('');
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ function Type() {
               </div>
             </div>
           </div>
-          <div class="table_responsive">
+          <div className="table_responsive">
             <table>
               <thead>
                 <tr>
@@ -81,13 +82,7 @@ function Type() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <div
-                    className="spinner-border"
-                    role="status"
-                    style={{ margin: "0 auto" }}
-                  >
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
+                  <Loading />
                 ) : (
                   <>
                     {listTypes?.map((item, index) => (
@@ -138,7 +133,7 @@ function Type() {
         </ModalBody>
         <ModalFooter>
           <Button
-            style={{ background: "#198754" }}
+            style={{ background: '#198754' }}
             variant="success"
             onClick={handleSubmit}
           >

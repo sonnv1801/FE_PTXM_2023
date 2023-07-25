@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "./style.css";
-import Modal from "react-bootstrap/Modal";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalFooter from "react-bootstrap/ModalFooter";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import Button from "react-bootstrap/Button";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import './style.css';
+import Modal from 'react-bootstrap/Modal';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import Button from 'react-bootstrap/Button';
 
-import Form from "react-bootstrap/Form";
+import Form from 'react-bootstrap/Form';
 
-import "./style.css";
+import './style.css';
 import {
   addTypeCombos,
   deleteTypesCombo,
   getAllTypeProductCombo,
-} from "../../../redux/actions/typecombo.action";
-import Menu from "../menu/Menu";
+} from '../../../redux/actions/typecombo.action';
+import Menu from '../menu/Menu';
 import {
   addTypeSuppliers,
   deleteTypesSupplier,
   getSupplier,
-} from "../../../redux/actions/supplier.action";
+} from '../../../redux/actions/supplier.action';
+import { Loading } from '../../../components/loading/Loading';
 function TypeSupplier() {
   const [showadd, setShowadd] = useState(false);
 
-  const currentUser = JSON.parse(localStorage.getItem("token"));
-  const [name, setName] = useState("");
+  const currentUser = JSON.parse(localStorage.getItem('token'));
+  const [name, setName] = useState('');
   // const [link, setLink] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
@@ -80,7 +81,7 @@ function TypeSupplier() {
             </div>
           </div>
 
-          <div class="table_responsive">
+          <div className="table_responsive">
             <table>
               <thead>
                 <tr>
@@ -91,13 +92,7 @@ function TypeSupplier() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <div
-                    className="spinner-border"
-                    role="status"
-                    style={{ margin: "0 auto" }}
-                  >
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
+                  <Loading />
                 ) : (
                   <>
                     {listSupplier?.map((item, index) => (
@@ -155,7 +150,7 @@ function TypeSupplier() {
         </ModalBody>
         <ModalFooter>
           <Button
-            style={{ background: "green" }}
+            style={{ background: 'green' }}
             variant="success"
             onClick={handleSubmit}
           >

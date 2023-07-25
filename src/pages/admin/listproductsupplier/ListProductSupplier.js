@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalFooter from "react-bootstrap/ModalFooter";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import Form from "react-bootstrap/Form";
-import { read, utils } from "xlsx";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getProducts } from "../../../redux/actions/product.action";
-import Menu from "../menu/Menu";
+import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import Form from 'react-bootstrap/Form';
+import { read, utils } from 'xlsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './style.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getProducts } from '../../../redux/actions/product.action';
+import Menu from '../menu/Menu';
 import {
   addProductSuppliers,
   deleteProductSupplier,
   getProductSupplier,
-} from "../../../redux/actions/productSupplier.action";
-import { getSupplier } from "../../../redux/actions/supplier.action";
-import { getAllTypeProduct } from "../../../redux/actions/type.action";
-import axios from "axios";
+} from '../../../redux/actions/productSupplier.action';
+import { getSupplier } from '../../../redux/actions/supplier.action';
+import { getAllTypeProduct } from '../../../redux/actions/type.action';
+import axios from 'axios';
+import { Loading } from '../../../components/loading/Loading';
 function ListProductSupplier() {
   const [showadd, setShowadd] = useState(false);
-  const currentUser = JSON.parse(localStorage.getItem("token"));
+  const currentUser = JSON.parse(localStorage.getItem('token'));
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
   const listProductSupplier = useSelector(
     (state) => state.defaultReducer.listProductSupplier
@@ -32,58 +33,58 @@ function ListProductSupplier() {
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
 
   const [data, setData] = useState({
-    name: "",
-    image: "",
-    supplier: "",
+    name: '',
+    image: '',
+    supplier: '',
     // agentCode: "",
-    productCode: "",
-    salePrice: "",
-    retailPrice: "",
-    wholesalePrice: "",
-    wholesalePriceQuick: "",
-    quantity: "",
-    link: "",
-    type: "",
+    productCode: '',
+    salePrice: '',
+    retailPrice: '',
+    wholesalePrice: '',
+    wholesalePriceQuick: '',
+    quantity: '',
+    link: '',
+    type: '',
   });
 
   const handleChange = (name) => (e) => {
-    const value = name === "image" ? e.target.files[0] : e.target.value;
+    const value = name === 'image' ? e.target.files[0] : e.target.value;
     setData({ ...data, [name]: value });
   };
 
   const handleSubmit = async () => {
     try {
       if (
-        data.name !== "" &&
-        data.image !== "" &&
-        data.supplier !== "" &&
+        data.name !== '' &&
+        data.image !== '' &&
+        data.supplier !== '' &&
         // data.agentCode !== "" &&
-        data.productCode !== "" &&
-        data.salePrice !== "" &&
-        data.retailPrice !== "" &&
-        data.wholesalePrice !== "" &&
-        data.wholesalePriceQuick !== "" &&
-        data.quantity !== "" &&
-        data.link !== ""
+        data.productCode !== '' &&
+        data.salePrice !== '' &&
+        data.retailPrice !== '' &&
+        data.wholesalePrice !== '' &&
+        data.wholesalePriceQuick !== '' &&
+        data.quantity !== '' &&
+        data.link !== ''
       ) {
         let formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("image", data.image);
-        formData.append("supplier", data.supplier);
+        formData.append('name', data.name);
+        formData.append('image', data.image);
+        formData.append('supplier', data.supplier);
         // formData.append("agentCode", data.agentCode);
-        formData.append("productCode", data.productCode);
-        formData.append("salePrice", data.salePrice);
-        formData.append("retailPrice", data.retailPrice);
-        formData.append("wholesalePrice", data.wholesalePrice);
-        formData.append("wholesalePriceQuick", data.wholesalePriceQuick);
-        formData.append("quantity", data.quantity);
-        formData.append("link", data.link);
-        formData.append("type", data.type);
+        formData.append('productCode', data.productCode);
+        formData.append('salePrice', data.salePrice);
+        formData.append('retailPrice', data.retailPrice);
+        formData.append('wholesalePrice', data.wholesalePrice);
+        formData.append('wholesalePriceQuick', data.wholesalePriceQuick);
+        formData.append('quantity', data.quantity);
+        formData.append('link', data.link);
+        formData.append('type', data.type);
 
         dispatch(addProductSuppliers(formData, currentUser?.accessToken));
         setIsCreatingProduct(true);
       } else {
-        toast.error("Thêm sản phẩm thất bại!", {
+        toast.error('Thêm sản phẩm thất bại!', {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -144,42 +145,66 @@ function ListProductSupplier() {
         const fileReader = new FileReader();
         fileReader.onload = async (e) => {
           const data = new Uint8Array(e.target.result);
-          const workbook = read(data, { type: "array" });
+          const workbook = read(data, { type: 'array' });
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
 
-          // Process the jsonData and convert it into the desired format
-          const newData = jsonData.map((row) => {
+          // Loại bỏ các hàng có một hoặc nhiều ô trống (nếu có)
+          const newData = jsonData.filter((row) =>
+            row.every((cell) => cell !== '')
+          );
+
+          // Kiểm tra xem sau khi loại bỏ các hàng trống mà có dữ liệu để thêm vào hay không
+          if (newData.length === 0) {
+            toast.warning('Không tìm thấy dữ liệu để thêm!', {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            return;
+          }
+
+          // Kiểm tra xem có cột nào bị để trống trong dữ liệu không
+          const emptyColumns = newData.some((row) =>
+            row.some((cell) => cell === '')
+          );
+          if (emptyColumns) {
+            toast.warning('Có cột dữ liệu bị để trống trong file Excel!', {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            return;
+          }
+
+          // Chuyển đổi dữ liệu jsonData và chuyển đổi thành định dạng mong muốn
+          const formattedData = newData.slice(1).map((row) => {
             return {
               name: row[0],
               productCode: row[1],
-              // agentCode: row[2],
-              // supplier: row[3],
-              // link: row[4],
-              // type: row[5],
-              // salePrice: row[6],
-              // retailPrice: row[7],
-              wholesalePrice: row[2],
-              wholesalePriceQuick: row[3],
-              // quantity: row[10],
-              // image: row[11],
+              salePrice: row[2],
+              retailPrice: row[3],
+              wholesalePrice: row[4],
+              wholesalePriceQuick: row[5],
+              quantity: row[6],
             };
           });
 
+          // Gửi dữ liệu mới lên server để thêm vào danh sách sản phẩm cung cấp
           const response = await axios.post(
-            "https://phutungxemay.onrender.com/v1/productsupplier/addmanyproduct",
-            newData
+            'https://phutungxemay.onrender.com/v1/productsupplier/addmanyproduct',
+            formattedData
           );
 
-          toast.success("Imported data successfully!", {
+          // Hiển thị thông báo thành công
+          toast.success('Đã nhập dữ liệu từ file Excel thành công!', {
             position: toast.POSITION.TOP_CENTER,
           });
-          setShowadd(false);
+
+          // Cập nhật lại danh sách listProductSupplier với dữ liệu mới từ server
+          dispatch(getProductSupplier());
         };
 
         fileReader.readAsArrayBuffer(excelFile);
       } else {
-        toast.error("Please select an Excel file to import!", {
+        // Hiển thị thông báo lỗi nếu không có file Excel được chọn
+        toast.error('Vui lòng chọn một file Excel để nhập dữ liệu!', {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -200,10 +225,10 @@ function ListProductSupplier() {
               <div className="col-xl-3 col-sm-3">
                 <p
                   style={{
-                    fontSize: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    fontSize: '15px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   Quản lý Sản Phẩm Cung Cấp
@@ -223,7 +248,7 @@ function ListProductSupplier() {
               </div>
               <div className="col-xl-3 col-sm-3">
                 <input
-                  style={{ fontSize: "15px" }}
+                  style={{ fontSize: '15px' }}
                   type="file"
                   accept=".xlsx,.xls"
                   onChange={handleFileChange}
@@ -241,7 +266,7 @@ function ListProductSupplier() {
               </div>
             </div>
           </div>
-          <div class="table_responsive">
+          <div className="table_responsive">
             <table>
               <thead>
                 <tr>
@@ -257,13 +282,7 @@ function ListProductSupplier() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <div
-                    className="spinner-border"
-                    role="status"
-                    style={{ margin: "0 auto" }}
-                  >
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
+                  <Loading />
                 ) : (
                   <>
                     {listProductSupplier?.map((item, index) => (
@@ -323,19 +342,19 @@ function ListProductSupplier() {
             <Form.Label>Tên sản phẩm: </Form.Label>
             <Form.Control
               type="text"
-              onChange={handleChange("name")}
+              onChange={handleChange('name')}
               placeholder="Nhập tên sản phẩm..."
             />
             <Form.Label>Mã sản phẩm: </Form.Label>
             <Form.Control
               type="text"
-              onChange={handleChange("productCode")}
+              onChange={handleChange('productCode')}
               placeholder="Nhập mã sản phẩm..."
             />
             <Form.Label>Nhà Cung Cấp: </Form.Label>
             <Form.Select
               aria-label="Default select example"
-              onChange={handleChange("supplier")}
+              onChange={handleChange('supplier')}
             >
               <option>Chọn loại sản phẩm</option>
               {listSuppliers?.map((item, index) => (
@@ -347,7 +366,7 @@ function ListProductSupplier() {
             <Form.Label>Loại Sản Phẩm: </Form.Label>
             <Form.Select
               aria-label="Default select example"
-              onChange={handleChange("type")}
+              onChange={handleChange('type')}
             >
               <option>Chọn loại sản phẩm</option>
               {listTypes?.map((item, index) => (
@@ -357,31 +376,31 @@ function ListProductSupplier() {
             <Form.Label>Giá khuyến mãi: </Form.Label>
             <Form.Control
               type="number"
-              onChange={handleChange("salePrice")}
+              onChange={handleChange('salePrice')}
               placeholder="Nhập giá sale sản phẩm..."
             />
             <Form.Label>Giá bán: </Form.Label>
             <Form.Control
               type="number"
-              onChange={handleChange("retailPrice")}
+              onChange={handleChange('retailPrice')}
               placeholder="Nhập giá bán sản phẩm..."
             />
             <Form.Label>Giá vốn: </Form.Label>
             <Form.Control
               type="number"
-              onChange={handleChange("wholesalePrice")}
+              onChange={handleChange('wholesalePrice')}
               placeholder="Nhập giá vốn sản phẩm..."
             />
             <Form.Label>Giá vốn mua nhanh: </Form.Label>
             <Form.Control
               type="number"
-              onChange={handleChange("wholesalePriceQuick")}
+              onChange={handleChange('wholesalePriceQuick')}
               placeholder="Nhập giá vốn mua nhanh sản phẩm..."
             />
             <Form.Label>Số lượng sản phẩm: </Form.Label>
             <Form.Control
               type="number"
-              onChange={handleChange("quantity")}
+              onChange={handleChange('quantity')}
               placeholder="Nhập số lượng sản phẩm..."
             />
           </Form.Group>
@@ -391,17 +410,17 @@ function ListProductSupplier() {
             size="sm"
             accept="image/*"
             name="image"
-            onChange={handleChange("image")}
+            onChange={handleChange('image')}
           />
         </ModalBody>
         <ModalFooter>
           <Button
             disabled={isCreatingProduct}
-            style={{ background: "green" }}
+            style={{ background: 'green' }}
             variant="success"
             onClick={handleSubmit}
           >
-            {isCreatingProduct ? "Vui lòng chờ..." : "Tạo sản phẩm"}
+            {isCreatingProduct ? 'Vui lòng chờ...' : 'Tạo sản phẩm'}
           </Button>
         </ModalFooter>
       </Modal>

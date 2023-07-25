@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import UncontrolledExample from "../../../components/carousel/Carousel";
-import Carousel from "../../../components/carousel/Carousel";
-import ImgMediaCard from "../../../components/imgMediaCard/ImgMediaCard";
-import ImgMediaCardComBo from "../../../components/imgMediaCard/ImgMediaCardComBo";
-import SubNav from "../../../components/subnav/SubNav";
-import TitleHead from "../../../components/title/TitleHead";
-import TitlePT from "../../../components/titlept/TitlePT";
-import { getAllProCombos } from "../../../redux/actions/combo.action";
-import { getAllProToOrders } from "../../../redux/actions/order.action";
-import { getAllTypeProduct } from "../../../redux/actions/type.action";
-import { getAllTypeProductCombo } from "../../../redux/actions/typecombo.action";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import UncontrolledExample from '../../../components/carousel/Carousel';
+import Carousel from '../../../components/carousel/Carousel';
+import ImgMediaCard from '../../../components/imgMediaCard/ImgMediaCard';
+import ImgMediaCardComBo from '../../../components/imgMediaCard/ImgMediaCardComBo';
+import { Loading } from '../../../components/loading/Loading';
+import SubNav from '../../../components/subnav/SubNav';
+import TitleHead from '../../../components/title/TitleHead';
+import TitlePT from '../../../components/titlept/TitlePT';
+import { getAllProCombos } from '../../../redux/actions/combo.action';
+import { getAllProToOrders } from '../../../redux/actions/order.action';
+import { getAllTypeProduct } from '../../../redux/actions/type.action';
+import { getAllTypeProductCombo } from '../../../redux/actions/typecombo.action';
 
-import "./style.css";
+import './style.css';
 export const HomePage = () => {
   const dispatch = useDispatch();
   const listTypes = useSelector((state) => state.defaultReducer.listType);
@@ -53,15 +54,15 @@ export const HomePage = () => {
       </div>
       <TitlePT type={listTypes} />
       {isLoading ? (
-        <div
-          className="spinner-border"
-          role="status"
-          style={{ margin: "0 auto" }}
-        >
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loading />
       ) : (
-        <div className="mt-5">
+        <div
+          className="mt-5"
+          style={{
+            background: '#EFEFEF',
+            borderRadius: '1rem',
+          }}
+        >
           <div className="row sm-product-home-page">
             {getAllProductToOrders?.map((item, index) => (
               <div className="col-xl-3 col-sm-12">
@@ -76,13 +77,7 @@ export const HomePage = () => {
 
       <TitleHead type={listTypeComBos} />
       {isLoading ? (
-        <div
-          className="spinner-border"
-          role="status"
-          style={{ margin: "0 auto" }}
-        >
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         <div className="mt-5">
           <div className="row sm-product-home-page">
