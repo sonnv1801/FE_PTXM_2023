@@ -34,8 +34,10 @@ import Footer from './pages/home/footer/Footer';
 import EditComboPage from './pages/admin/editcombopage/EditComboPage';
 import Register from './pages/home/register/Register';
 import NavbarAdmin from './components/navbaradmin/NavbarAdmin';
+import { useEffect } from 'react';
 function App() {
   const user = JSON.parse(localStorage.getItem('token'));
+
   return (
     <div className="App">
       <ToastContainer />

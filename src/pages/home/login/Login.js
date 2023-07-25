@@ -44,9 +44,6 @@ function Login() {
           position: toast.POSITION.TOP_CENTER,
         });
       }
-      setTimeout(() => {
-        refreshPage();
-      }, 1000);
     } else {
       toast.warning('Nhập đầy đủ Username và mật khẩu', {
         position: toast.POSITION.TOP_CENTER,
