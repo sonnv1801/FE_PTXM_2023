@@ -147,6 +147,7 @@ function App() {
                 path="/list-products-combos-admin"
                 element={<ListProductComboAdmin />}
               />
+              <Route path="*" element={<NotFound />} />
             </>
           ) : (
             <Route path="*" element={<NotFound />} />
