@@ -7,15 +7,13 @@ import ModalHeader from 'react-bootstrap/ModalHeader';
 import ModalFooter from 'react-bootstrap/ModalFooter';
 import ModalTitle from 'react-bootstrap/ModalTitle';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Form from 'react-bootstrap/Form';
 
 import './style.css';
-import {
-  addTypeCombos,
-  deleteTypesCombo,
-  getAllTypeProductCombo,
-} from '../../../redux/actions/typecombo.action';
+
 import Menu from '../menu/Menu';
 import {
   addTypeSuppliers,
@@ -28,7 +26,6 @@ function TypeSupplier() {
 
   const currentUser = JSON.parse(localStorage.getItem('token'));
   const [name, setName] = useState('');
-  // const [link, setLink] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -46,12 +43,21 @@ function TypeSupplier() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newType = {
-      name: name,
-      // link: link,
-    };
-    dispatch(addTypeSuppliers(newType, currentUser?.accessToken));
-    setShowadd(false);
+    if (name !== '') {
+      const newType = {
+        name: name,
+      };
+      toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      dispatch(addTypeSuppliers(newType, currentUser?.accessToken));
+      setName('');
+      setShowadd(false);
+    } else {
+      toast.warning('Vui Lòng Nhập Tên Nhà Cung Cấp...', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   return (

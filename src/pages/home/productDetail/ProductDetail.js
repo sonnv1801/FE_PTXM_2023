@@ -170,11 +170,12 @@ export const ProductDetail = () => {
       <div className="breadcrumbs-prd">
         <CustomizedBreadcrumbs name={productDetail.name} />
       </div>
-      <div className="body-prd-dt">
+      <div className="body-prd-dt sm-body-prd-dt">
         <div className="sub-body-prd sm-sub-body-prd">
           <div className="row">
             <div className="col-xl-6 col-sm-12">
               <img
+                style={{ width: '565px', height: '565px' }}
                 src={productDetail.image}
                 alt="..."
                 className="sm-sub-body-prd-img"
@@ -221,6 +222,7 @@ export const ProductDetail = () => {
               <div className="action-prd-dt sm-action-prd-dt">
                 <div className="btn-quantity sm-btn-quantity">
                   <IconButton
+                    className="btn-qtt-dt"
                     aria-label="decrease"
                     size="large"
                     onClick={handleQuantityDecrease}
@@ -229,6 +231,7 @@ export const ProductDetail = () => {
                   </IconButton>
                   <span>{quantity}</span>
                   <IconButton
+                    className="btn-qtt-dt"
                     aria-label="increase"
                     size="large"
                     onClick={handleQuantityIncrease}

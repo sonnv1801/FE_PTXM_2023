@@ -63,18 +63,6 @@
   text-transform: uppercase;
 }
 
-.sub-menu-lv2 span {
-  display: block;
-  text-align: center;
-  font-weight: 700;
-  color: #282828;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.sub-menu-lv2 span:hover {
-  color: #0693e3;
-}
 .nav-container li > ul li {
   width: 100%;
   border: none;

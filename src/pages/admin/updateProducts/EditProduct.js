@@ -87,7 +87,9 @@ const EditProduct = () => {
         formData.append('salePrice', data.salePrice);
         formData.append('type', data.type);
         formData.append('image', data.image);
-
+        toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+          position: toast.POSITION.TOP_CENTER,
+        });
         dispatch(updateProductoOrder(path, formData, navigate));
       } else {
         toast.success('Sửa sản phẩm thành công', {

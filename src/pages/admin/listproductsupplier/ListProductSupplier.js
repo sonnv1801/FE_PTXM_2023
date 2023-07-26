@@ -31,6 +31,7 @@ function ListProductSupplier() {
     (state) => state.defaultReducer.listProductSupplier
   );
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+  console.log(isCreatingProduct);
 
   const [data, setData] = useState({
     name: '',
@@ -67,6 +68,7 @@ function ListProductSupplier() {
         data.quantity !== '' &&
         data.link !== ''
       ) {
+        setIsCreatingProduct(true);
         let formData = new FormData();
         formData.append('name', data.name);
         formData.append('image', data.image);
@@ -80,19 +82,33 @@ function ListProductSupplier() {
         formData.append('quantity', data.quantity);
         formData.append('link', data.link);
         formData.append('type', data.type);
-
+        toast.info('Sản Phẩm Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+          position: toast.POSITION.TOP_CENTER,
+        });
         dispatch(addProductSuppliers(formData, currentUser?.accessToken));
-        setIsCreatingProduct(true);
+
+        setData({
+          name: '',
+          image: '',
+          supplier: '',
+          productCode: '',
+          salePrice: '',
+          retailPrice: '',
+          wholesalePrice: '',
+          wholesalePriceQuick: '',
+          quantity: '',
+          link: '',
+          type: '',
+        });
+        setShowadd(false);
+        setIsCreatingProduct(false);
       } else {
-        toast.error('Thêm sản phẩm thất bại!', {
+        toast.warning('Vui Lòng Nhập Đầy Đủ Các Trường Sản Phẩm', {
           position: toast.POSITION.TOP_CENTER,
         });
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsCreatingProduct(false); // Kết thúc quá trình tạo sản phẩm
-      setShowadd(false);
     }
   };
 
@@ -149,12 +165,9 @@ function ListProductSupplier() {
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
 
-          // Loại bỏ các hàng có một hoặc nhiều ô trống (nếu có)
           const newData = jsonData.filter((row) =>
             row.every((cell) => cell !== '')
           );
-
-          // Kiểm tra xem sau khi loại bỏ các hàng trống mà có dữ liệu để thêm vào hay không
           if (newData.length === 0) {
             toast.warning('Không tìm thấy dữ liệu để thêm!', {
               position: toast.POSITION.TOP_CENTER,
@@ -162,7 +175,6 @@ function ListProductSupplier() {
             return;
           }
 
-          // Kiểm tra xem có cột nào bị để trống trong dữ liệu không
           const emptyColumns = newData.some((row) =>
             row.some((cell) => cell === '')
           );
@@ -172,8 +184,7 @@ function ListProductSupplier() {
             });
             return;
           }
-
-          // Chuyển đổi dữ liệu jsonData và chuyển đổi thành định dạng mong muốn
+          setIsCreatingProduct(true);
           const formattedData = newData.slice(1).map((row) => {
             return {
               name: row[0],
@@ -185,31 +196,29 @@ function ListProductSupplier() {
               quantity: row[6],
             };
           });
-
-          // Gửi dữ liệu mới lên server để thêm vào danh sách sản phẩm cung cấp
           const response = await axios.post(
             'https://phutungxemay.onrender.com/v1/productsupplier/addmanyproduct',
             formattedData
           );
 
-          // Hiển thị thông báo thành công
           toast.success('Đã nhập dữ liệu từ file Excel thành công!', {
             position: toast.POSITION.TOP_CENTER,
           });
 
-          // Cập nhật lại danh sách listProductSupplier với dữ liệu mới từ server
           dispatch(getProductSupplier());
+          setIsCreatingProduct(false);
         };
 
         fileReader.readAsArrayBuffer(excelFile);
       } else {
-        // Hiển thị thông báo lỗi nếu không có file Excel được chọn
-        toast.error('Vui lòng chọn một file Excel để nhập dữ liệu!', {
+        toast.warning('Vui lòng chọn một file Excel để nhập dữ liệu!', {
           position: toast.POSITION.TOP_CENTER,
         });
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsCreatingProduct(false);
     }
   };
 
@@ -225,8 +234,9 @@ function ListProductSupplier() {
               <div className="col-xl-3 col-sm-3">
                 <p
                   style={{
-                    fontSize: '15px',
+                    fontSize: '24px',
                     display: 'flex',
+                    padding: '0.3rem',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -246,6 +256,7 @@ function ListProductSupplier() {
                   <span>Thêm Sản Phẩm</span>
                 </button>
               </div>
+
               <div className="col-xl-3 col-sm-3">
                 <input
                   style={{ fontSize: '15px' }}
@@ -257,11 +268,17 @@ function ListProductSupplier() {
               <div className="col-xl-3 col-sm-3">
                 <button
                   href="#"
-                  className="btn btn-outline-danger"
+                  className={`btn btn-outline-danger ${
+                    isCreatingProduct ? 'disabled' : ''
+                  }`}
                   onClick={handleSubmitEXC}
                 >
                   <i className="bx bxs-folder-plus"></i>
-                  <span>Nhập Từ File Excel</span>
+                  <span>
+                    {isCreatingProduct
+                      ? 'Đang nhập dữ liệu...'
+                      : 'Nhập Từ File Excel'}
+                  </span>
                 </button>
               </div>
             </div>
@@ -339,79 +356,104 @@ function ListProductSupplier() {
         </ModalHeader>
         <ModalBody className="modal-body">
           <Form.Group className="formgroup-body">
-            <Form.Label>Tên sản phẩm: </Form.Label>
-            <Form.Control
-              type="text"
-              onChange={handleChange('name')}
-              placeholder="Nhập tên sản phẩm..."
-            />
-            <Form.Label>Mã sản phẩm: </Form.Label>
-            <Form.Control
-              type="text"
-              onChange={handleChange('productCode')}
-              placeholder="Nhập mã sản phẩm..."
-            />
-            <Form.Label>Nhà Cung Cấp: </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange('supplier')}
-            >
-              <option>Chọn loại sản phẩm</option>
-              {listSuppliers?.map((item, index) => (
-                <option value={item.name}>{item.name}</option>
-              ))}
-            </Form.Select>
-            <input type="hidden" name="supplierName" value={data.supplier} />
-
-            <Form.Label>Loại Sản Phẩm: </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={handleChange('type')}
-            >
-              <option>Chọn loại sản phẩm</option>
-              {listTypes?.map((item, index) => (
-                <option value={item?.name}>{item.name}</option>
-              ))}
-            </Form.Select>
-            <Form.Label>Giá khuyến mãi: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange('salePrice')}
-              placeholder="Nhập giá sale sản phẩm..."
-            />
-            <Form.Label>Giá bán: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange('retailPrice')}
-              placeholder="Nhập giá bán sản phẩm..."
-            />
-            <Form.Label>Giá vốn: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange('wholesalePrice')}
-              placeholder="Nhập giá vốn sản phẩm..."
-            />
-            <Form.Label>Giá vốn mua nhanh: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange('wholesalePriceQuick')}
-              placeholder="Nhập giá vốn mua nhanh sản phẩm..."
-            />
-            <Form.Label>Số lượng sản phẩm: </Form.Label>
-            <Form.Control
-              type="number"
-              onChange={handleChange('quantity')}
-              placeholder="Nhập số lượng sản phẩm..."
-            />
+            <div className="row">
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Tên sản phẩm: </Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={handleChange('name')}
+                  placeholder="Nhập tên sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Mã sản phẩm: </Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={handleChange('productCode')}
+                  placeholder="Nhập mã sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Nhà Cung Cấp: </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={handleChange('supplier')}
+                >
+                  <option>Chọn loại sản phẩm</option>
+                  {listSuppliers?.map((item, index) => (
+                    <option value={item.name}>{item.name}</option>
+                  ))}
+                </Form.Select>
+                <input
+                  type="hidden"
+                  name="supplierName"
+                  value={data.supplier}
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Loại Sản Phẩm: </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={handleChange('type')}
+                >
+                  <option>Chọn loại sản phẩm</option>
+                  {listTypes?.map((item, index) => (
+                    <option value={item?.name}>{item.name}</option>
+                  ))}
+                </Form.Select>
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Giá khuyến mãi: </Form.Label>
+                <Form.Control
+                  type="number"
+                  onChange={handleChange('salePrice')}
+                  placeholder="Nhập giá sale sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Giá bán: </Form.Label>
+                <Form.Control
+                  type="number"
+                  onChange={handleChange('retailPrice')}
+                  placeholder="Nhập giá bán sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Giá vốn: </Form.Label>
+                <Form.Control
+                  type="number"
+                  onChange={handleChange('wholesalePrice')}
+                  placeholder="Nhập giá vốn sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Giá vốn mua nhanh: </Form.Label>
+                <Form.Control
+                  type="number"
+                  onChange={handleChange('wholesalePriceQuick')}
+                  placeholder="Nhập giá vốn mua nhanh sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Số lượng sản phẩm: </Form.Label>
+                <Form.Control
+                  type="number"
+                  onChange={handleChange('quantity')}
+                  placeholder="Nhập số lượng sản phẩm..."
+                />
+              </div>
+              <div className="col-xl-6 col-sm-12">
+                <Form.Label>Hình ảnh: </Form.Label>
+                <Form.Control
+                  type="file"
+                  size="sm"
+                  accept="image/*"
+                  name="image"
+                  onChange={handleChange('image')}
+                />
+              </div>
+            </div>
           </Form.Group>
-          <Form.Label>Hình ảnh: </Form.Label>
-          <Form.Control
-            type="file"
-            size="sm"
-            accept="image/*"
-            name="image"
-            onChange={handleChange('image')}
-          />
         </ModalBody>
         <ModalFooter>
           <Button

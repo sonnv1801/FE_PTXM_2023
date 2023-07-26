@@ -29,6 +29,7 @@ export const CardHorizontal = (cart) => {
   const [totalAmountCarts, setTotalAmountCarts] = useState(0);
   const user = JSON.parse(localStorage.getItem('token'));
   const [orderData, setOrderData] = useState([]);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   useEffect(() => {
     // Lấy dữ liệu từ localStorage
@@ -315,6 +316,7 @@ export const CardHorizontal = (cart) => {
         order.totalOrderPrice = totalOrderPrice;
 
         try {
+          setIsProcessingPayment(true);
           // Giảm số lượng combo
           for (const combo of order.combos) {
             const comboResponse = await axios.put(
@@ -371,12 +373,14 @@ export const CardHorizontal = (cart) => {
           setTimeout(() => {
             refreshPage();
           }, 500);
+          setIsProcessingPayment(false);
         } catch (error) {
           // Xử lý lỗi (nếu có)
           console.error('Có lỗi xảy ra khi mua hàng:', error);
           toast.error('Có lỗi xảy ra khi mua hàng!', {
             position: toast.POSITION.TOP_CENTER,
           });
+          setIsProcessingPayment(false);
           // window.location.href = "/loi";
         }
       } else {
@@ -751,8 +755,14 @@ export const CardHorizontal = (cart) => {
                   </Button>
                 </Link>
               ) : (
-                <Button variant="contained" onClick={handlePurchase}>
-                  Thanh toán
+                <Button
+                  variant="contained"
+                  onClick={handlePurchase}
+                  disabled={isProcessingPayment} // Disable the button when processing payment
+                >
+                  {isProcessingPayment
+                    ? 'Đang Xử Lý Thanh Toán...'
+                    : 'Thanh toán'}
                 </Button>
               )}
             </div>

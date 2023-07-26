@@ -3,20 +3,48 @@ import axios from 'axios';
 import './style.css';
 import numeral from 'numeral';
 import Menu from '../menu/Menu';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-bootstrap/Modal';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import Button from 'react-bootstrap/Button';
+
+import Form from 'react-bootstrap/Form';
 export const OrderCustomer = () => {
   const [orders, setOrders] = useState([]);
   const [expandedCombos, setExpandedCombos] = useState([]);
+  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+  const [showadd, setShowadd] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const handleCloseAdd = () => {
+    setShowadd(false);
+  };
   useEffect(() => {
     fetchOrders();
   }, []);
 
   console.log(orders, 'orders');
 
+  const fetchOrderById = async (orderId) => {
+    try {
+      const response = await axios.get(
+        `https://phutungxemay.onrender.com/v1/ordercombo/info/${orderId}`
+      );
+      setSelectedOrder(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
         'https://phutungxemay.onrender.com/v1/ordercombo'
-      ); // Replace with your actual API endpoint
+      );
       setOrders(response.data);
     } catch (error) {
       console.log(error);
@@ -45,6 +73,23 @@ export const OrderCustomer = () => {
     );
   };
 
+  const handleDeleteOrder = async (orderId) => {
+    setIsCreatingProduct(true);
+    try {
+      const response = await axios.delete(
+        `https://phutungxemay.onrender.com/v1/ordercombo/${orderId}`
+      );
+      toast.success(`${response.data.message}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      fetchOrders();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsCreatingProduct(false);
+    }
+  };
+
   return (
     <>
       <div className="row">
@@ -60,9 +105,69 @@ export const OrderCustomer = () => {
             <div className="order-list container">
               {orders.map((order, index) => (
                 <div key={order._id} className="order">
-                  <h2 style={{ fontSize: '15px', color: 'green' }}>
-                    Khách hàng: {order.name}
-                  </h2>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDeleteOrder(order._id)}
+                  >
+                    {isCreatingProduct ? (
+                      'Vui lòng chờ...'
+                    ) : (
+                      <i className="fa fa-trash"></i>
+                    )}
+                  </button>
+                  <button
+                    href="#"
+                    className="btn btn-outline-danger"
+                    onClick={() => {
+                      fetchOrderById(order._id); // Fetch order details for the modal
+                      setShowadd(true); // Show the modal
+                    }}
+                  >
+                    <i className="bx bxs-folder-plus"></i>
+                    <span>Thông Tin Khách Hàng</span>
+                  </button>
+                  <Modal
+                    show={showadd}
+                    onHide={handleCloseAdd}
+                    className="modal"
+                  >
+                    <ModalHeader>
+                      <ModalTitle>
+                        Thông Tin Đơn Hàng {selectedOrder?.name}
+                      </ModalTitle>
+                    </ModalHeader>
+                    <ModalBody className="modal-body">
+                      {/* Render the selectedOrder details here */}
+                      {selectedOrder && (
+                        <>
+                          <Form.Group className="formgroup-body">
+                            <Form.Label>
+                              Tên Khách Hàng: {selectedOrder.name}
+                            </Form.Label>{' '}
+                            <br />
+                            <Form.Label>
+                              Số Điện Thoại: {selectedOrder.phoneNumber}
+                            </Form.Label>
+                            <br />
+                            <Form.Label>
+                              Địa Chỉ Email: {selectedOrder.email}
+                            </Form.Label>
+                            <br />
+                            <Form.Label>
+                              Địa Chỉ Nhận Hàng: {selectedOrder.address}
+                            </Form.Label>
+                            <br />
+                            <Form.Label>
+                              Ghi Chú (Đơn Hàng): {selectedOrder.note}
+                            </Form.Label>
+                            <br />
+                          </Form.Group>
+                          {/* Add other customer information you want to display */}
+                        </>
+                      )}
+                    </ModalBody>
+                  </Modal>
+
                   <h2 style={{ fontSize: '15px', color: 'green' }}>
                     Đơn Hàng: {index + 1}
                   </h2>

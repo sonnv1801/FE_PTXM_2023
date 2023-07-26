@@ -7,6 +7,8 @@ import ModalHeader from 'react-bootstrap/ModalHeader';
 import ModalFooter from 'react-bootstrap/ModalFooter';
 import ModalTitle from 'react-bootstrap/ModalTitle';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Form from 'react-bootstrap/Form';
 
@@ -41,12 +43,22 @@ function TypeCombos() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newType = {
-      name: name,
-      // link: link,
-    };
-    dispatch(addTypeCombos(newType, currentUser?.accessToken));
-    setShowadd(false);
+    if (name !== '') {
+      const newType = {
+        name: name,
+        // link: link,
+      };
+      toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      dispatch(addTypeCombos(newType, currentUser?.accessToken));
+      setName('');
+      setShowadd(false);
+    } else {
+      toast.warning('Vui Lòng Nhập Loại ComBo...', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   return (

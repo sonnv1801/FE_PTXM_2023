@@ -83,3 +83,9 @@ h2 {
   text-align: center;
   color: #ff0000;
 }
+
+@media (max-width: 768px) {
+  .sm-filter-container {
+    display: block;
+  }
+}

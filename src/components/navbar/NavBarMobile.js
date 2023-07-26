@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getSupplier } from '../../redux/actions/supplier.action';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 export const NavBarMobile = ({
   listTypePhuTung,
@@ -24,6 +25,17 @@ export const NavBarMobile = ({
           <Link to="/" className="navbar-brand" href="#!" onClick={refreshPage}>
             Quốc Nguyên
           </Link>
+
+          <Link
+            to="/shop/product-dt/cart"
+            className="nav-link active"
+            aria-current="page"
+            style={{ color: 'black' }}
+            onClick={refreshPage}
+          >
+            <ShoppingCartOutlinedIcon /> ({renderQuantity})
+          </Link>
+
           <button
             type="button"
             className="btn btn-secondary"
@@ -115,17 +127,6 @@ export const NavBarMobile = ({
                     onClick={refreshPage}
                   >
                     Liên Hệ
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    to="/shop/product-dt/cart"
-                    className="nav-link active"
-                    aria-current="page"
-                    style={{ color: 'black' }}
-                    onClick={refreshPage}
-                  >
-                    Giỏ Hàng ({renderQuantity})
                   </Link>
                 </li>
                 <li className="nav-item dropdown">

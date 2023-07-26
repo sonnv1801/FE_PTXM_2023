@@ -14,6 +14,7 @@ const OrderPage = () => {
   const [supplierFilter, setSupplierFilter] = useState('');
   const [deliveryDateFilter, setDeliveryDateFilter] = useState({});
   const [productTypeFilter, setProductTypeFilter] = useState('');
+  const [loadingStates, setLoadingStates] = useState({}); // Initialize as an empty object
 
   useEffect(() => {
     fetchOrders();
@@ -39,18 +40,36 @@ const OrderPage = () => {
   const fetchOrderHistories = async (orderId) => {
     try {
       const user = JSON.parse(localStorage.getItem('token'));
+
+      // Set the loading state to true for the corresponding order
+      setLoadingStates((prevStates) => ({
+        ...prevStates,
+        [orderId]: true,
+      }));
+
       const response = await axios.get(
         `https://phutungxemay.onrender.com/v1/delivery/${user?._id}/${orderId}`
       );
-      const updatedOrders = orders.map((order) => {
-        if (order._id === orderId) {
-          return { ...order, histories: response.data };
-        }
-        return order;
-      });
-      setOrders(updatedOrders);
+
+      // Update the order's histories and set the loading state to false
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, histories: response.data } : order
+        )
+      );
+
+      // Set the loading state to false for the corresponding order
+      setLoadingStates((prevStates) => ({
+        ...prevStates,
+        [orderId]: false,
+      }));
     } catch (error) {
       console.error('Error fetching order histories:', error);
+      // Set the loading state to false in case of an error
+      setLoadingStates((prevStates) => ({
+        ...prevStates,
+        [orderId]: false,
+      }));
     }
   };
 
@@ -302,9 +321,12 @@ const OrderPage = () => {
                           </>
                         ) : (
                           <button
+                            disabled={loadingStates[order._id]} // Disable the button if loadingStates[order._id] is true
                             onClick={() => fetchOrderHistories(order._id)}
                           >
-                            Xem lịch sử đơn hàng
+                            {loadingStates[order._id]
+                              ? 'Vui lòng chờ...'
+                              : 'Xem lịch sử đơn hàng'}
                           </button>
                         )}
                       </div>

@@ -7,6 +7,8 @@ import ModalHeader from 'react-bootstrap/ModalHeader';
 import ModalFooter from 'react-bootstrap/ModalFooter';
 import ModalTitle from 'react-bootstrap/ModalTitle';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Form from 'react-bootstrap/Form';
 
@@ -38,11 +40,21 @@ function Type() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newType = {
-      name: name,
-    };
-    dispatch(addTypes(newType, currentUser?.accessToken));
-    setShowadd(false);
+    if (name !== '') {
+      const newType = {
+        name: name,
+      };
+      toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      dispatch(addTypes(newType, currentUser?.accessToken));
+      setName('');
+      setShowadd(false);
+    } else {
+      toast.warning('Vui Lòng Nhập Loại..', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   return (

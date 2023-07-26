@@ -107,6 +107,9 @@ const UpdateProductSupplier = () => {
         formData.append('quantity', data.quantity);
         formData.append('link', data.link);
         formData.append('type', data.type);
+        toast.info('Sản Phẩm Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+          position: toast.POSITION.TOP_CENTER,
+        });
         dispatch(updateProductSupplier(path, formData, navigate));
       }
       setLoading(false); // Ẩn nút xoay đợi
@@ -174,16 +177,6 @@ const UpdateProductSupplier = () => {
         </div>
 
         <div className="col-6">
-          {/* <div className="mb-3">
-              <span>Mô tả Sản Phẩm</span>
-              <textarea
-                className="form-control"
-                type="text"
-                name="description"
-                value={data.description}
-                onChange={handleChange("description")}
-              />
-            </div> */}
           <div className="mb-3">
             <span>Giá khuyến mãi</span>
             <input
@@ -245,24 +238,13 @@ const UpdateProductSupplier = () => {
             />
           </div>
 
-          {/* <div className="mb-3">
-              <span>Số lượng sản phẩm</span>
-              <select onChange={handleChange("quantity")}>
-                <option value={data.quantity}>{data.quantity}</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-              </select>
-            </div> */}
-
-          <div className="text">
+          <div className="mb-3">
             <button
               className="btn btn-primary"
               onClick={handleSubmit}
               disabled={loading}
             >
-              {loading ? 'Đợi Tý' : 'Update'}
+              {loading ? 'Đợi Tý' : 'Cập Nhập'}
             </button>
             <Link to={'/prducts-supplier'}>
               <button className="btn btn-success">Thoát!</button>

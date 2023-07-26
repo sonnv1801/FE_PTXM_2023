@@ -27,6 +27,8 @@
   padding: 0 25px;
   color: #297fb8;
   text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .nav-container > ul li a:hover {
@@ -55,7 +57,8 @@
   padding: 0;
   position: absolute;
   background-color: white;
-  box-shadow: #333 10px 10px 16px -12px;
+  /* box-shadow: #333 10px 10px 16px -12px; */
+  box-shadow: #757474 10px 10px 30px 0px;
   text-transform: uppercase;
   z-index: 2;
 }
@@ -171,8 +174,9 @@
   text-align: center;
   font-weight: 700;
   color: #282828;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 .sub-menu-lv2 span:hover {

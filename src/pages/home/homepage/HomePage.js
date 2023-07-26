@@ -42,6 +42,8 @@ export const HomePage = () => {
     dispatch(getAllTypeProduct());
   }, []);
 
+  console.log(getAllProductToOrders, 'getAllProductToOrders');
+
   return (
     <div className="container-fluid mt-5 text-center">
       <SubNav />
@@ -63,15 +65,25 @@ export const HomePage = () => {
             borderRadius: '1rem',
           }}
         >
-          <div className="row sm-product-home-page">
-            {getAllProductToOrders?.map((item, index) => (
-              <div className="col-xl-3 col-sm-12">
-                <Link to={`/shop/product-dt/${item._id}`}>
-                  <ImgMediaCard item={item} />
-                </Link>
-              </div>
-            ))}
-          </div>
+          {getAllProductToOrders.length === 0 ? (
+            <div class="alert alert-primary" role="alert">
+              Cửa Hàng Tạm Thời
+              <a href="/" class="alert-link">
+                {`${''}`} Đã Hết Hàng {`${''}`}
+              </a>
+              Vui Lòng Chọn Mặt Hàng Khác Để Mua! Cảm Ơn.
+            </div>
+          ) : (
+            <div className="row sm-product-home-page">
+              {getAllProductToOrders?.map((item, index) => (
+                <div className="col-xl-3 col-sm-12">
+                  <Link to={`/shop/product-dt/${item._id}`}>
+                    <ImgMediaCard item={item} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -80,15 +92,25 @@ export const HomePage = () => {
         <Loading />
       ) : (
         <div className="mt-5">
-          <div className="row sm-product-home-page">
-            {listProductCombos?.map((item, index) => (
-              <div className="col-xl-3 col-sm-12">
-                <Link to={`/shop/product-dt-combo/${item._id}`}>
-                  <ImgMediaCardComBo item={item} />
-                </Link>
-              </div>
-            ))}
-          </div>
+          {listProductCombos.length === 0 ? (
+            <div class="alert alert-primary" role="alert">
+              Cửa Hàng Tạm Thời
+              <a href="/" class="alert-link">
+                {`${''}`} Đã Hết Hàng {`${''}`}
+              </a>
+              Vui Lòng Chọn Mặt Hàng Khác Để Mua! Cảm Ơn.
+            </div>
+          ) : (
+            <div className="row sm-product-home-page">
+              {listProductCombos?.map((item, index) => (
+                <div className="col-xl-3 col-sm-12">
+                  <Link to={`/shop/product-dt-combo/${item._id}`}>
+                    <ImgMediaCardComBo item={item} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

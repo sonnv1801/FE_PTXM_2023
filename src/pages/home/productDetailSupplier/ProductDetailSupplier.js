@@ -78,11 +78,12 @@ export const ProductDetailSupplier = () => {
       <div className="breadcrumbs-prd">
         <CustomizedBreadcrumbs name={productDetailSupplier?.name} />
       </div>
-      <div className="body-prd-dt">
+      <div className="body-prd-dt sm-body-prd-dt">
         <div className="sub-body-prd sm-sub-body-prd">
           <div className="row">
             <div className="col-xl-6 col-sm-12">
               <img
+                style={{ width: '565px', height: '565px' }}
                 src={productDetailSupplier?.image}
                 alt={productDetailSupplier?.name}
                 className="sm-sub-body-prd-img"
