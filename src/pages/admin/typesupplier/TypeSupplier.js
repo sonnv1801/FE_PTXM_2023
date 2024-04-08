@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './style.css';
-import Modal from 'react-bootstrap/Modal';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import Button from 'react-bootstrap/Button';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./style.css";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
-import './style.css';
+import "./style.css";
 
-import Menu from '../menu/Menu';
+import Menu from "../menu/Menu";
 import {
   addTypeSuppliers,
   deleteTypesSupplier,
   getSupplier,
-} from '../../../redux/actions/supplier.action';
-import { Loading } from '../../../components/loading/Loading';
+} from "../../../redux/actions/supplier.action";
+import { Loading } from "../../../components/loading/Loading";
 function TypeSupplier() {
   const [showadd, setShowadd] = useState(false);
 
-  const currentUser = JSON.parse(localStorage.getItem('token'));
-  const [name, setName] = useState('');
+  const currentUser = JSON.parse(localStorage.getItem("token"));
+  const [name, setName] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -43,18 +43,18 @@ function TypeSupplier() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name !== '') {
+    if (name !== "") {
       const newType = {
         name: name,
       };
-      toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+      toast.info("Đang Được Xử Lý, Vui Lòng Đợi Tý...", {
         position: toast.POSITION.TOP_CENTER,
       });
       dispatch(addTypeSuppliers(newType, currentUser?.accessToken));
-      setName('');
+      setName("");
       setShowadd(false);
     } else {
-      toast.warning('Vui Lòng Nhập Tên Nhà Cung Cấp...', {
+      toast.warning("Vui Lòng Nhập Tên Nhà Cung Cấp...", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
@@ -98,11 +98,15 @@ function TypeSupplier() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <Loading />
+                  <tr>
+                    <td colSpan="3">
+                      <Loading />
+                    </td>
+                  </tr>
                 ) : (
                   <>
                     {listSupplier?.map((item, index) => (
-                      <>
+                      <Fragment key={index}>
                         <tr>
                           <td>{index + 1}</td>
                           <td>{item.name}</td>
@@ -122,7 +126,7 @@ function TypeSupplier() {
                             </button>
                           </td>
                         </tr>
-                      </>
+                      </Fragment>
                     ))}
                   </>
                 )}
@@ -156,7 +160,7 @@ function TypeSupplier() {
         </ModalBody>
         <ModalFooter>
           <Button
-            style={{ background: 'green' }}
+            style={{ background: "green" }}
             variant="success"
             onClick={handleSubmit}
           >

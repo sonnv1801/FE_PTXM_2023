@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import numeral from 'numeral';
-import './style.css';
+import * as React from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import numeral from "numeral";
+import "./style.css";
 export default function ImgMediaCard({ item }) {
   return (
     <Card
       className="sm-card"
       sx={{ maxWidth: 345 }}
-      style={{ padding: '0', marginBottom: '1rem', borderRadius: '0.6rem' }}
+      style={{ padding: "0", marginBottom: "1rem", borderRadius: "0.6rem" }}
     >
       <CardMedia
         component="img"
@@ -35,10 +35,14 @@ export default function ImgMediaCard({ item }) {
         <Typography variant="body2" color="text.secondary">
           <div id="priceandstatus">
             <p className="code-product">{`${numeral(item.retailPrice).format(
-              '0,0'
+              "0,0"
             )}đ`}</p>
             <span className="code-product">
-              {item?.quantityDelivered === 0 ? 'Hết Hàng' : 'Còn Hàng'}
+              {item?.quantityDelivered === item.quantityPurchased
+                ? "Hết Hàng"
+                : `Còn Hàng ${
+                    item.quantityDelivered - item.quantityPurchased
+                  } Cái`}
             </span>
           </div>
         </Typography>

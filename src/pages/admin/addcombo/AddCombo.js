@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const AddCombo = () => {
   const [formData, setFormData] = useState({
-    image: '',
-    title: '',
-    type: '',
-    link: '',
-    status: '',
+    image: "",
+    title: "",
+    type: "",
+    link: "",
+    status: "",
     products: [],
   });
 
@@ -17,7 +17,7 @@ const AddCombo = () => {
 
   const handleProductChange = (index, field, value) => {
     const updatedProducts = [...formData.products];
-    updatedProducts[index][field] = value === '' ? '' : Number(value);
+    updatedProducts[index][field] = value === "" ? "" : Number(value);
     setFormData({ ...formData, products: updatedProducts });
   };
 
@@ -27,11 +27,11 @@ const AddCombo = () => {
       products: [
         ...formData.products,
         {
-          name: '',
-          productCode: '',
+          name: "",
+          productCode: "",
           price: 0,
           oldPrice: 0,
-          status: '',
+          status: "",
           quantity: 0,
           remainingQuantity: 0,
         },
@@ -43,7 +43,7 @@ const AddCombo = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://phutungxemay.onrender.com/v1/combo/',
+        `${process.env.REACT_APP_API_URL}/v1/combo/`,
         formData
       );
       console.log(response.data); // Combo được tạo thành công
@@ -51,11 +51,11 @@ const AddCombo = () => {
 
       // Reset form
       setFormData({
-        image: '',
-        title: '',
-        type: '',
-        link: '',
-        status: '',
+        image: "",
+        title: "",
+        type: "",
+        link: "",
+        status: "",
         products: [],
       });
     } catch (error) {
@@ -127,7 +127,7 @@ const AddCombo = () => {
                 id={`name-${index}`}
                 value={product.name}
                 onChange={(e) =>
-                  handleProductChange(index, 'name', e.target.value)
+                  handleProductChange(index, "name", e.target.value)
                 }
               />
             </div>
@@ -138,7 +138,7 @@ const AddCombo = () => {
                 id={`productCode-${index}`}
                 value={product.productCode}
                 onChange={(e) =>
-                  handleProductChange(index, 'productCode', e.target.value)
+                  handleProductChange(index, "productCode", e.target.value)
                 }
               />
             </div>
@@ -149,7 +149,7 @@ const AddCombo = () => {
                 id={`price-${index}`}
                 // value={product.price}
                 onChange={(e) =>
-                  handleProductChange(index, 'price', Number(e.target.value))
+                  handleProductChange(index, "price", Number(e.target.value))
                 }
               />
             </div>
@@ -160,7 +160,7 @@ const AddCombo = () => {
                 id={`oldPrice-${index}`}
                 // value={product.oldPrice}
                 onChange={(e) =>
-                  handleProductChange(index, 'oldPrice', Number(e.target.value))
+                  handleProductChange(index, "oldPrice", Number(e.target.value))
                 }
               />
             </div>
@@ -171,7 +171,7 @@ const AddCombo = () => {
                 id={`status-${index}`}
                 value={product.status}
                 onChange={(e) =>
-                  handleProductChange(index, 'status', e.target.value)
+                  handleProductChange(index, "status", e.target.value)
                 }
               />
             </div>
@@ -182,7 +182,7 @@ const AddCombo = () => {
                 id={`quantity-${index}`}
                 // value={product.quantity}
                 onChange={(e) =>
-                  handleProductChange(index, 'quantity', Number(e.target.value))
+                  handleProductChange(index, "quantity", Number(e.target.value))
                 }
               />
             </div>
@@ -197,7 +197,7 @@ const AddCombo = () => {
                 onChange={(e) =>
                   handleProductChange(
                     index,
-                    'remainingQuantity',
+                    "remainingQuantity",
                     Number(e.target.value)
                   )
                 }

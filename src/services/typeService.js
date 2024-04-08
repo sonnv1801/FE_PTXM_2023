@@ -1,5 +1,5 @@
-import Axios from 'axios';
-const API = 'https://phutungxemay.onrender.com/v1/type';
+import Axios from "axios";
+const API = `${process.env.REACT_APP_API_URL}/v1/type`;
 
 export class TypeService {
   getAllType() {

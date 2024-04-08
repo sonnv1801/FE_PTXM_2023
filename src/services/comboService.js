@@ -1,5 +1,5 @@
-import Axios from 'axios';
-const API = 'https://phutungxemay.onrender.com/v1/combo';
+import Axios from "axios";
+const API = `${process.env.REACT_APP_API_URL}/v1/combo`;
 
 export class ComBoService {
   getComBoByTypeLink(type, limit) {

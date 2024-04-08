@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { updateProduct } from '../../../redux/actions/product.action';
-import Swal from 'sweetalert2';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './style.css';
-import { getAllTypeProduct } from '../../../redux/actions/type.action';
-import { getSupplier } from '../../../redux/actions/supplier.action';
-import { updateProductoOrder } from '../../../redux/actions/order.action';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { updateProduct } from "../../../redux/actions/product.action";
+import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./style.css";
+import { getAllTypeProduct } from "../../../redux/actions/type.action";
+import { getSupplier } from "../../../redux/actions/supplier.action";
+import { updateProductoOrder } from "../../../redux/actions/order.action";
 const EditProduct = () => {
   const location = useLocation();
-  const path = location.pathname.split('/')[2];
+  const path = location.pathname.split("/")[2];
   const dispatch = useDispatch();
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
   const navigate = useNavigate();
   const [data, setData] = useState({
-    productCode: '',
-    name: '',
+    productCode: "",
+    name: "",
     // supplier: "",
-    salePrice: '',
-    retailPrice: '',
+    salePrice: "",
+    retailPrice: "",
     // wholesalePrice: "",
-    type: '',
-    image: '',
+    type: "",
+    image: "",
     // link: "",
     // quantityOrdered: "",
     // quantityDelivered: "",
@@ -48,13 +48,13 @@ const EditProduct = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`https://phutungxemay.onrender.com/v1/order/orders/products/${path}`)
+    fetch(`${process.env.REACT_APP_API_URL}/v1/order/orders/products/${path}`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
 
   const handleChange = (name) => (e) => {
-    if (name === 'image') {
+    if (name === "image") {
       const file = e.target.files[0];
       setData({ ...data, [name]: file });
 
@@ -73,26 +73,26 @@ const EditProduct = () => {
   const handleSubmit = async () => {
     try {
       if (
-        data.productCode !== '' &&
-        data.name !== '' &&
-        data.retailPrice !== '' &&
-        data.salePrice !== '' &&
-        data.type !== '' &&
-        data.image !== ''
+        data.productCode !== "" &&
+        data.name !== "" &&
+        data.retailPrice !== "" &&
+        data.salePrice !== "" &&
+        data.type !== "" &&
+        data.image !== ""
       ) {
         let formData = new FormData();
-        formData.append('productCode', data.productCode);
-        formData.append('name', data.name);
-        formData.append('retailPrice', data.retailPrice);
-        formData.append('salePrice', data.salePrice);
-        formData.append('type', data.type);
-        formData.append('image', data.image);
-        toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+        formData.append("productCode", data.productCode);
+        formData.append("name", data.name);
+        formData.append("retailPrice", data.retailPrice);
+        formData.append("salePrice", data.salePrice);
+        formData.append("type", data.type);
+        formData.append("image", data.image);
+        toast.info("Đang Được Xử Lý, Vui Lòng Đợi Tý...", {
           position: toast.POSITION.TOP_CENTER,
         });
         dispatch(updateProductoOrder(path, formData, navigate));
       } else {
-        toast.success('Sửa sản phẩm thành công', {
+        toast.success("Sửa sản phẩm thành công", {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -113,7 +113,7 @@ const EditProduct = () => {
               type="text"
               name="name"
               value={data.name}
-              onChange={handleChange('name')}
+              onChange={handleChange("name")}
             />
           </div>
           <div className="mb-3">
@@ -123,7 +123,7 @@ const EditProduct = () => {
               type="text"
               name="productCode"
               value={data.productCode}
-              onChange={handleChange('productCode')}
+              onChange={handleChange("productCode")}
             />
           </div>
           {/* <div className="mb-3">
@@ -139,22 +139,22 @@ const EditProduct = () => {
 
           <div className="mb-3">
             <span>Loại Sản Phẩm</span>
-            <select onChange={handleChange('type')}>
+            <select onChange={handleChange("type")}>
               <option value={data.type}>{data.type}</option>
               {listTypes?.map((item, index) => (
                 <option value={item?.name}>{item?.name}</option>
               ))}
             </select>
           </div>
-          <div className="mb-3" style={{ width: '200px' }}>
+          <div className="mb-3" style={{ width: "200px" }}>
             {/* Display the current image */}
             {previewImage && (
-              <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+              <div style={{ textAlign: "center", marginTop: "4rem" }}>
                 <p>Hình ảnh</p>
                 <img
                   src={previewImage}
                   alt="Preview"
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                 />
               </div>
             )}
@@ -169,7 +169,7 @@ const EditProduct = () => {
               type="text"
               name="retailPrice"
               value={data.retailPrice}
-              onChange={handleChange('retailPrice')}
+              onChange={handleChange("retailPrice")}
             />
           </div>
           <div className="mb-3">
@@ -179,7 +179,7 @@ const EditProduct = () => {
               type="text"
               name="salePrice"
               value={data.salePrice}
-              onChange={handleChange('salePrice')}
+              onChange={handleChange("salePrice")}
             />
           </div>
           {/* <div className="mb-3">
@@ -199,7 +199,7 @@ const EditProduct = () => {
               type="file"
               accept="image/*"
               name="image"
-              onChange={handleChange('image')}
+              onChange={handleChange("image")}
             />
           </div>
 
@@ -207,7 +207,7 @@ const EditProduct = () => {
             <button className="btn btn-primary" onClick={handleSubmit}>
               Update
             </button>
-            <Link to={'/list-products-admin'}>
+            <Link to={"/list-products-admin"}>
               <button className="btn btn-success">Thoát!</button>
             </Link>
           </div>

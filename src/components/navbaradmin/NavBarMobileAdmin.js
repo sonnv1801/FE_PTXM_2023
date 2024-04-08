@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Menu from '../../pages/admin/menu/Menu';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSupplier } from '../../redux/actions/supplier.action';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getSupplier } from "../../redux/actions/supplier.action";
 
 export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSupplier());
   }, []);
-  const navigate = useNavigate();
 
   const listSupplier = useSelector(
     (state) => state.defaultReducer.listSupplier
@@ -17,11 +15,11 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
 
   return (
     <div id="sm-navbar-mobile">
-      <div style={{ marginTop: '6.1rem' }}></div>
+      <div style={{ marginTop: "6.1rem" }}></div>
       <nav className="navbar bg-body-tertiary fixed-top sm-navbar-container">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand" href="#!" onClick={refreshPage}>
-            Quốc Nguyên
+            Văn Sơn
           </Link>
           <button
             type="button"
@@ -36,7 +34,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
           </button>
           <div
             className="offcanvas offcanvas-end"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel"
           >
@@ -47,7 +45,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                 id="offcanvasNavbarLabel"
                 onClick={refreshPage}
               >
-                Admin Phụ Tùng Xe Máy Quốc Nguyên
+                Admin Phụ Tùng Xe Máy Văn Sơn
               </Link>
               <i
                 className=" btn-close navbar-toggler-icon navbar-toggler"
@@ -61,7 +59,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                   <>
                     <Link
                       to="/"
-                      style={{ margin: '1rem 0', fontWeight: 'bold' }}
+                      style={{ margin: "1rem 0", fontWeight: "bold" }}
                     >
                       Quản lý Admin
                     </Link>
@@ -71,7 +69,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                       >
                         Quản Lý Phụ Tùng
                       </p>
@@ -103,7 +101,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                       >
                         Quản Lý ComBo
                       </p>
@@ -135,7 +133,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                       >
                         Quản Lý Đơn Hàng
                       </p>
@@ -158,7 +156,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                       >
                         Quản Lý Nhà Cung Cấp
                       </p>
@@ -199,13 +197,13 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                       >
                         Mua Hàng Từ Nhà Cung Cấp
                       </p>
                       <ul className="dropdown-menu">
-                        {listSupplier?.map((item, index) => (
-                          <li>
+                        {listSupplier?.map((item) => (
+                          <li key={item._id}>
                             <Link
                               to={`/shopsupplier/${item._id}`}
                               className="dropdown-item"
@@ -224,7 +222,7 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        style={{ color: 'black' }}
+                        style={{ color: "black" }}
                       >
                         Quản Lý Đơn Hàng Cung Cấp Của Tôi
                       </p>
@@ -260,14 +258,14 @@ export const NavBarMobileAdmin = ({ user, handlelogout, refreshPage }) => {
                     </li>
                   </>
                 ) : (
-                  ''
+                  ""
                 )}
                 {user !== null ? (
                   <li className="nav-item" onClick={handlelogout}>
                     <Link
                       className="nav-link active"
                       aria-current="page"
-                      style={{ color: 'black' }}
+                      style={{ color: "black" }}
                     >
                       Đăng xuất
                     </Link>

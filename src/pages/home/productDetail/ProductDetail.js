@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import CustomizedBreadcrumbs from '../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs';
-import './style.css';
-import Button from '@mui/material/Button';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import IconButton from '@mui/material/IconButton';
-import RemoveIcon from '@mui/icons-material/Remove';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import AddIcon from '@mui/icons-material/Add';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import React, { useEffect, useState } from "react";
+import CustomizedBreadcrumbs from "../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs";
+import "./style.css";
+import Button from "@mui/material/Button";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDetail } from '../../../redux/actions/product.action';
-import numeral from 'numeral';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Loading } from '../../../components/loading/Loading';
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getDetail } from "../../../redux/actions/product.action";
+import numeral from "numeral";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Loading } from "../../../components/loading/Loading";
 
 export const ProductDetail = () => {
   const location = useLocation();
@@ -29,7 +29,7 @@ export const ProductDetail = () => {
     }, 100);
   }
 
-  const id = location.pathname.split('/')[3];
+  const id = location.pathname.split("/")[3];
   useEffect(() => {
     dispatch(getDetail(id));
   }, []);
@@ -39,7 +39,7 @@ export const ProductDetail = () => {
   );
 
   const handleAddToCart = () => {
-    const existingItems = JSON.parse(localStorage.getItem('carts')) || [];
+    const existingItems = JSON.parse(localStorage.getItem("carts")) || [];
     const existingItem = existingItems.find((item) => item.id === id);
 
     const availableQuantity =
@@ -83,7 +83,7 @@ export const ProductDetail = () => {
         position: toast.POSITION.TOP_CENTER,
       }
     );
-    localStorage.setItem('carts', JSON.stringify(existingItems));
+    localStorage.setItem("carts", JSON.stringify(existingItems));
     setTimeout(() => {
       setTimeout(() => {
         refreshPage();
@@ -92,7 +92,7 @@ export const ProductDetail = () => {
   };
 
   const handleAddBuyNow = () => {
-    const existingItems = JSON.parse(localStorage.getItem('carts')) || [];
+    const existingItems = JSON.parse(localStorage.getItem("carts")) || [];
     const existingItem = existingItems.find((item) => item.id === id);
 
     const availableQuantity =
@@ -130,8 +130,8 @@ export const ProductDetail = () => {
       });
     }
 
-    navigate('/shop/product-dt/cart');
-    localStorage.setItem('carts', JSON.stringify(existingItems));
+    navigate("/shop/product-dt/cart");
+    localStorage.setItem("carts", JSON.stringify(existingItems));
     setTimeout(() => {
       setTimeout(() => {
         refreshPage();
@@ -175,7 +175,7 @@ export const ProductDetail = () => {
           <div className="row">
             <div className="col-xl-6 col-sm-12">
               <img
-                style={{ width: '565px', height: '565px' }}
+                style={{ width: "565px", height: "565px" }}
                 src={productDetail.image}
                 alt="..."
                 className="sm-sub-body-prd-img"
@@ -191,13 +191,13 @@ export const ProductDetail = () => {
                   <div className="col-6">
                     <span>Giá khuyến mãi</span>
                     <h6>{`${numeral(productDetail.salePrice).format(
-                      '0,0'
+                      "0,0"
                     )}đ`}</h6>
                   </div>
                   <div className="col-6">
                     <span>Đơn giá</span>
                     <h6>{`${numeral(productDetail.retailPrice).format(
-                      '0,0'
+                      "0,0"
                     )}đ`}</h6>
                   </div>
                   <div className="col-6">
@@ -205,7 +205,7 @@ export const ProductDetail = () => {
                     <h6>
                       {productDetail.quantityDelivered ===
                       productDetail.quantityPurchased
-                        ? 'Hết Hàng'
+                        ? "Hết Hàng"
                         : `Còn Hàng ${
                             productDetail.quantityDelivered -
                             productDetail.quantityPurchased

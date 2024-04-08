@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './style.css';
-import Modal from 'react-bootstrap/Modal';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import Button from 'react-bootstrap/Button';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./style.css";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
-import './style.css';
+import "./style.css";
 import {
   addTypes,
   deleteTypes,
   getAllTypeProduct,
-} from '../../../redux/actions/type.action';
-import Menu from '../menu/Menu';
-import { Loading } from '../../../components/loading/Loading';
+} from "../../../redux/actions/type.action";
+import Menu from "../menu/Menu";
+import { Loading } from "../../../components/loading/Loading";
 function Type() {
   const [showadd, setShowadd] = useState(false);
 
-  const currentUser = JSON.parse(localStorage.getItem('token'));
-  const [name, setName] = useState('');
+  const currentUser = JSON.parse(localStorage.getItem("token"));
+  const [name, setName] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -40,18 +40,18 @@ function Type() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name !== '') {
+    if (name !== "") {
       const newType = {
         name: name,
       };
-      toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+      toast.info("Đang Được Xử Lý, Vui Lòng Đợi Tý...", {
         position: toast.POSITION.TOP_CENTER,
       });
       dispatch(addTypes(newType, currentUser?.accessToken));
-      setName('');
+      setName("");
       setShowadd(false);
     } else {
-      toast.warning('Vui Lòng Nhập Loại..', {
+      toast.warning("Vui Lòng Nhập Loại..", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
@@ -94,33 +94,30 @@ function Type() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <Loading />
+                  <tr>
+                    <td colSpan="3">
+                      <Loading />
+                    </td>
+                  </tr>
                 ) : (
-                  <>
-                    {listTypes?.map((item, index) => (
-                      <>
-                        <tr>
-                          <td>{index + 1}</td>
-                          <td>{item.name}</td>
-                          <td>
-                            <button
-                              className="btn btn-danger"
-                              onClick={() => {
-                                dispatch(
-                                  deleteTypes(
-                                    item._id,
-                                    currentUser?.accessToken
-                                  )
-                                );
-                              }}
-                            >
-                              <i className="fa fa-trash"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      </>
-                    ))}
-                  </>
+                  listTypes?.map((item, index) => (
+                    <tr key={item._id}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            dispatch(
+                              deleteTypes(item._id, currentUser?.accessToken)
+                            );
+                          }}
+                        >
+                          <i className="fa fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
                 )}
               </tbody>
             </table>
@@ -145,7 +142,7 @@ function Type() {
         </ModalBody>
         <ModalFooter>
           <Button
-            style={{ background: '#198754' }}
+            style={{ background: "#198754" }}
             variant="success"
             onClick={handleSubmit}
           >

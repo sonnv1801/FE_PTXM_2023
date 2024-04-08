@@ -1,6 +1,6 @@
-import React from 'react';
-import EditCalendarRoundedIcon from '@mui/icons-material/EditCalendarRounded';
-import './style.css';
+import React from "react";
+import EditCalendarRoundedIcon from "@mui/icons-material/EditCalendarRounded";
+import "./style.css";
 function Contact() {
   return (
     <div className="container sm-container-contact">
@@ -174,8 +174,8 @@ function Contact() {
                 <div className="ml-4 flex sm-infor-address">
                   <strong className="w-[50%]">Truy cập vào bãi đậu xe</strong>
                   <p className="w-[50%]">
-                    Bãi đậu xe của Cửa hàng kinh doanh phụ Tùng xe máy Honda
-                    Quốc Nguyên đã được di dời về phía bắc của tòa nhà.
+                    Bãi đậu xe của Cửa hàng kinh doanh phụ Tùng xe máy Honda Văn
+                    Sơn đã được di dời về phía bắc của tòa nhà.
                   </p>
                 </div>
 
@@ -462,27 +462,6 @@ function Contact() {
                 >
                   Đăng ký
                 </button>
-              </div>
-              <div className="my-3 text-center mx-auto">
-                <h3 className="text-[14px] font-medium uppercase mb-4">
-                  Tải App tại
-                </h3>
-                <span className="flex mx-16">
-                  <a href="#!">
-                    <img
-                      src="https://esm.vn/acccommon/scan/images/appstore.png"
-                      alt="#"
-                      className="w-[120px] "
-                    />
-                  </a>
-                  <a href="#!">
-                    <img
-                      src="https://esm.vn/acccommon/scan/images/google.png"
-                      alt=""
-                      className="w-[120px]"
-                    />
-                  </a>
-                </span>
               </div>
             </div>
           </div>

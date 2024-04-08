@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './style.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Menu from '../../admin/menu/Menu';
-import Button from '@mui/material/Button';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./style.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Menu from "../../admin/menu/Menu";
+import Button from "@mui/material/Button";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { Link } from "react-router-dom";
 const Delivery = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -20,15 +20,13 @@ const Delivery = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        'https://phutungxemay.onrender.com/v1/order'
+        "${process.env.REACT_APP_API_URL}/v1/order"
       );
       setOrders(response.data);
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
     }
   };
-
-  console.log(orders, 'orders');
 
   const handleOrderClick = (order) => {
     order.expanded = !order.expanded;
@@ -44,21 +42,21 @@ const Delivery = () => {
   const handleDelivery = async () => {
     try {
       if (!selectedOrder || !selectedProduct) {
-        toast.error('Vui lòng chọn đơn hàng và sản phẩm cần giao.', {
+        toast.error("Vui lòng chọn đơn hàng và sản phẩm cần giao.", {
           position: toast.POSITION.TOP_CENTER,
         });
         return;
       }
 
       const response = await axios.post(
-        `https://phutungxemay.onrender.com/v1/delivery/${selectedOrder._id}`,
+        `${process.env.REACT_APP_API_URL}/v1/delivery/${selectedOrder._id}`,
         {
           productCode: selectedProduct.productCode,
           quantity: deliveryQuantity,
           customerId: selectedOrder.customerId,
         }
       );
-      toast.success('Giao hàng thành công!', {
+      toast.success("Giao hàng thành công!", {
         position: toast.POSITION.TOP_CENTER,
       });
       setSelectedOrder(null);
@@ -70,7 +68,7 @@ const Delivery = () => {
           position: toast.POSITION.TOP_CENTER,
         });
       } else {
-        toast.error('Đã xảy ra lỗi. Vui lòng thử lại sau.', {
+        toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.", {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -81,7 +79,7 @@ const Delivery = () => {
     setIsCreatingProduct(true);
     try {
       const response = await axios.delete(
-        `https://phutungxemay.onrender.com/v1/delivery/order/${orderId}`
+        `${process.env.REACT_APP_API_URL}/v1/delivery/order/${orderId}`
       );
       toast.success(`${response.data.message}`, {
         position: toast.POSITION.TOP_CENTER,
@@ -124,9 +122,9 @@ const Delivery = () => {
                   </button> */}
                   <p
                     style={{
-                      color: 'green',
-                      marginBottom: '1rem',
-                      fontWeight: '500',
+                      color: "green",
+                      marginBottom: "1rem",
+                      fontWeight: "500",
                     }}
                     className="order-id"
                   >
@@ -134,9 +132,9 @@ const Delivery = () => {
                   </p>
                   <p
                     style={{
-                      color: 'green',
-                      marginBottom: '1rem',
-                      fontWeight: '500',
+                      color: "green",
+                      marginBottom: "1rem",
+                      fontWeight: "500",
                     }}
                     className="order-id"
                   >
@@ -144,9 +142,9 @@ const Delivery = () => {
                   </p>
                   <p
                     style={{
-                      color: 'green',
-                      marginBottom: '1rem',
-                      fontWeight: '500',
+                      color: "green",
+                      marginBottom: "1rem",
+                      fontWeight: "500",
                     }}
                     className="customer-id"
                   >
@@ -154,13 +152,13 @@ const Delivery = () => {
                   </p>
                   <p
                     style={{
-                      color: 'green',
-                      marginBottom: '1rem',
-                      fontWeight: '500',
+                      color: "green",
+                      marginBottom: "1rem",
+                      fontWeight: "500",
                     }}
                     className="missing-products"
                   >
-                    Số lượng sản phẩm còn thiếu:{' '}
+                    Số lượng sản phẩm còn thiếu:{" "}
                     {
                       order.products.filter(
                         (product) =>
@@ -172,7 +170,7 @@ const Delivery = () => {
                     className="order-button"
                     onClick={() => handleOrderClick(order)}
                   >
-                    {order.expanded ? 'Ẩn chi tiết' : 'Xem chi tiết'}
+                    {order.expanded ? "Ẩn chi tiết" : "Xem chi tiết"}
                   </button>
 
                   {order.expanded &&
@@ -184,9 +182,9 @@ const Delivery = () => {
                         <h2 className="sub-heading">Thông tin đơn hàng:</h2>
                         <p
                           style={{
-                            color: 'green',
-                            marginBottom: '1rem',
-                            fontWeight: '500',
+                            color: "green",
+                            marginBottom: "1rem",
+                            fontWeight: "500",
                           }}
                           className="order-id"
                         >
@@ -194,9 +192,9 @@ const Delivery = () => {
                         </p>
                         <p
                           style={{
-                            color: 'green',
-                            marginBottom: '1rem',
-                            fontWeight: '500',
+                            color: "green",
+                            marginBottom: "1rem",
+                            fontWeight: "500",
                           }}
                           className="customer-id"
                         >
@@ -222,9 +220,9 @@ const Delivery = () => {
                                 <li key={product._id} className="product-item">
                                   <p
                                     style={{
-                                      color: 'green',
-                                      marginBottom: '1rem',
-                                      fontWeight: '500',
+                                      color: "green",
+                                      marginBottom: "1rem",
+                                      fontWeight: "500",
                                     }}
                                     className="product-code"
                                   >
@@ -232,13 +230,13 @@ const Delivery = () => {
                                   </p>
                                   <p
                                     style={{
-                                      color: 'green',
-                                      marginBottom: '1rem',
-                                      fontWeight: '500',
+                                      color: "green",
+                                      marginBottom: "1rem",
+                                      fontWeight: "500",
                                     }}
                                     className="missing-quantity"
                                   >
-                                    Số lượng còn thiếu:{' '}
+                                    Số lượng còn thiếu:{" "}
                                     {product.quantityOrdered -
                                       product.quantityDelivered}
                                   </p>
@@ -257,9 +255,9 @@ const Delivery = () => {
                             <h2 className="sub-heading">Giao hàng:</h2>
                             <p
                               style={{
-                                color: 'green',
-                                marginBottom: '1rem',
-                                fontWeight: '500',
+                                color: "green",
+                                marginBottom: "1rem",
+                                fontWeight: "500",
                               }}
                               className="order-id"
                             >
@@ -267,9 +265,9 @@ const Delivery = () => {
                             </p>
                             <p
                               style={{
-                                color: 'green',
-                                marginBottom: '1rem',
-                                fontWeight: '500',
+                                color: "green",
+                                marginBottom: "1rem",
+                                fontWeight: "500",
                               }}
                               className="product-code"
                             >

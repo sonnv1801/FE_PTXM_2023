@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 import {
   ADD_CART,
   ADD_PRODUCT,

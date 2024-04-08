@@ -1,12 +1,12 @@
-import React from 'react';
-import './style.css';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import "./style.css";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,15 +16,14 @@ function Register() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullname: '',
-    email: '',
-    phone: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
+    fullname: "",
+    email: "",
+    phone: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  console.log(formData, 'formData');
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -54,14 +53,14 @@ function Register() {
       !formData.password ||
       !formData.confirmPassword
     ) {
-      toast.warning('Vui lòng điền đầy đủ thông tin.', {
+      toast.warning("Vui lòng điền đầy đủ thông tin.", {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.warning('Mật khẩu và xác nhận mật khẩu không trùng khớp.', {
+      toast.warning("Mật khẩu và xác nhận mật khẩu không trùng khớp.", {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
@@ -70,16 +69,14 @@ function Register() {
     try {
       setIsSubmitting(true);
       const response = await axios.post(
-        'https://phutungxemay.onrender.com/v1/auth/register',
+        "${process.env.REACT_APP_API_URL}/v1/auth/register",
         formData
       );
-
-      console.log(response.data);
       setIsDataLoaded(true);
       toast.success(`Đăng Ký Thành Công, Hãy Đăng Nhập Nào!`, {
         position: toast.POSITION.TOP_CENTER,
       });
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       setIsSubmitting(false);
       if (error.response) {
@@ -88,22 +85,22 @@ function Register() {
           position: toast.POSITION.TOP_CENTER,
         });
       } else {
-        console.error('Error:', error.message);
+        console.error("Error:", error.message);
       }
     }
   };
   return (
     <>
       <div className="main-register sm-main-register">
-        <div style={{ padding: '1rem' }}>
+        <div style={{ padding: "1rem" }}>
           <form
             className="register sm-register"
             action="#"
             onSubmit={handleSubmit}
             id="form-1"
           >
-            <div style={{ padding: '1rem' }}>
-              <div className="title" style={{ marginLeft: '0' }}>
+            <div style={{ padding: "1rem" }}>
+              <div className="title" style={{ marginLeft: "0" }}>
                 Đăng Ký!
               </div>
               <div className="row">
@@ -117,7 +114,7 @@ function Register() {
                       onChange={handleChange}
                       className="form-control input-form-h"
                       placeholder="Nhập tên bạn..."
-                      style={{ padding: '0.5rem' }}
+                      style={{ padding: "0.5rem" }}
                     />
                   </div>
                 </div>
@@ -131,7 +128,7 @@ function Register() {
                       onChange={handleChange}
                       className="form-control input-form-h"
                       placeholder="Email..."
-                      style={{ padding: '0.5rem' }}
+                      style={{ padding: "0.5rem" }}
                     />
                   </div>
                 </div>
@@ -147,7 +144,7 @@ function Register() {
                       placeholder="Nhập SDT..."
                       aria-label="Username"
                       aria-describedby="basic-addon1"
-                      style={{ padding: '0.5rem' }}
+                      style={{ padding: "0.5rem" }}
                     />
                   </div>
                 </div>
@@ -163,17 +160,17 @@ function Register() {
                       placeholder="Nhập tên..."
                       aria-label="Username"
                       aria-describedby="basic-addon1"
-                      style={{ padding: '0.5rem' }}
+                      style={{ padding: "0.5rem" }}
                     />
                   </div>
                 </div>
                 <div className="col-xl-6 col-sm-12">
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: "relative" }}>
                     <p className="title-input">Mật khẩu</p>
                     <div className="input-group-h mb-3">
                       <input
-                        style={{ padding: '0.5rem' }}
-                        type={showPassword ? 'text' : 'password'}
+                        style={{ padding: "0.5rem" }}
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
@@ -183,12 +180,12 @@ function Register() {
                       />
                       <span
                         style={{
-                          position: 'absolute',
-                          top: '26px',
-                          right: '8px',
-                          margin: '0',
-                          background: '#ffffff00',
-                          cursor: 'pointer',
+                          position: "absolute",
+                          top: "26px",
+                          right: "8px",
+                          margin: "0",
+                          background: "#ffffff00",
+                          cursor: "pointer",
                         }}
                         className="input-group-h-text"
                         id="basic-addon1"
@@ -204,12 +201,12 @@ function Register() {
                   </div>
                 </div>
                 <div className="col-xl-6 col-sm-12">
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: "relative" }}>
                     <p className="title-input">Nhập lại mật khẩu</p>
                     <div className="input-group-h mb-3">
                       <input
-                        style={{ padding: '0.5rem' }}
-                        type={showConfirmPassword ? 'text' : 'password'}
+                        style={{ padding: "0.5rem" }}
+                        type={showConfirmPassword ? "text" : "password"}
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
@@ -219,12 +216,12 @@ function Register() {
                       />
                       <span
                         style={{
-                          position: 'absolute',
-                          top: '26px',
-                          right: '8px',
-                          margin: '0',
-                          background: '#ffffff00',
-                          cursor: 'pointer',
+                          position: "absolute",
+                          top: "26px",
+                          right: "8px",
+                          margin: "0",
+                          background: "#ffffff00",
+                          cursor: "pointer",
                         }}
                         className="input-group-h-text"
                         id="basic-addon1"
@@ -242,6 +239,9 @@ function Register() {
               </div>
 
               <div className="btn-footer">
+                <Link to="/login">
+                  <p className="regiter-no">Bạn đã có tài khoản? ĐĂNG NHẬP</p>
+                </Link>
                 <Button variant="contained" type="submit">
                   {isSubmitting && !isDataLoaded ? (
                     <>Vui lòng chờ...</>
@@ -249,15 +249,6 @@ function Register() {
                     <> ĐĂNG KÝ</>
                   )}
                 </Button>
-                <Link to="/login">
-                  <Button
-                    variant="contained"
-                    endIcon={<ArrowRightAltIcon />}
-                    color="secondary"
-                  >
-                    ĐĂNG NHẬP
-                  </Button>
-                </Link>
               </div>
             </div>
           </form>

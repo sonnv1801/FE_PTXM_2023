@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './style.css';
-import Modal from 'react-bootstrap/Modal';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import Button from 'react-bootstrap/Button';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./style.css";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
-import './style.css';
+import "./style.css";
 import {
   addTypeCombos,
   deleteTypesCombo,
   getAllTypeProductCombo,
-} from '../../../redux/actions/typecombo.action';
-import Menu from '../menu/Menu';
-import { Loading } from '../../../components/loading/Loading';
+} from "../../../redux/actions/typecombo.action";
+import Menu from "../menu/Menu";
+import { Loading } from "../../../components/loading/Loading";
 function TypeCombos() {
   const [showadd, setShowadd] = useState(false);
 
-  const currentUser = JSON.parse(localStorage.getItem('token'));
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('');
+  const currentUser = JSON.parse(localStorage.getItem("token"));
+  const [name, setName] = useState("");
+  const [link, setLink] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -43,19 +43,19 @@ function TypeCombos() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name !== '') {
+    if (name !== "") {
       const newType = {
         name: name,
         // link: link,
       };
-      toast.info('Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+      toast.info("Đang Được Xử Lý, Vui Lòng Đợi Tý...", {
         position: toast.POSITION.TOP_CENTER,
       });
       dispatch(addTypeCombos(newType, currentUser?.accessToken));
-      setName('');
+      setName("");
       setShowadd(false);
     } else {
-      toast.warning('Vui Lòng Nhập Loại ComBo...', {
+      toast.warning("Vui Lòng Nhập Loại ComBo...", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
@@ -98,11 +98,15 @@ function TypeCombos() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <Loading />
+                  <tr>
+                    <td colSpan="3">
+                      <Loading />
+                    </td>
+                  </tr>
                 ) : (
                   <>
                     {listTypeComBos?.map((item, index) => (
-                      <>
+                      <Fragment key={item._id}>
                         <tr>
                           <td>{index + 1}</td>
                           <td>{item.name}</td>
@@ -122,7 +126,7 @@ function TypeCombos() {
                             </button>
                           </td>
                         </tr>
-                      </>
+                      </Fragment>
                     ))}
                   </>
                 )}
@@ -156,7 +160,7 @@ function TypeCombos() {
         </ModalBody>
         <ModalFooter>
           <Button
-            style={{ background: '#198754' }}
+            style={{ background: "#198754" }}
             variant="success"
             onClick={handleSubmit}
           >

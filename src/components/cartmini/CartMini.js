@@ -4,7 +4,7 @@ export const CartMini = (name) => {
   return (
     <div className="cart-mini">
       <div className="body-cart">
-        <a href="#">{name.name}</a>
+        <a href="/#">{name.name}</a>
       </div>
     </div>
   );

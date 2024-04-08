@@ -1,9 +1,9 @@
-import Axios from 'axios';
-const API = 'https://phutungxemay.onrender.com/v1/order';
+import Axios from "axios";
+const API = `${process.env.REACT_APP_API_URL}/v1/order`;
 
 export class OrderService {
-  getAllProductToOrder() {
-    return Axios.get(`${API}/orders/products`);
+  getAllProductToOrder(page) {
+    return Axios.get(`${API}/orders/products?page=${page}`);
   }
   deleteProductToOrders(id, accessToken) {
     return Axios.delete(`${API}/products/${id}`, {

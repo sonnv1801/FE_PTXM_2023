@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getSupplier } from '../../redux/actions/supplier.action';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getSupplier } from "../../redux/actions/supplier.action";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 export const NavBarMobile = ({
   listTypePhuTung,
@@ -19,18 +19,18 @@ export const NavBarMobile = ({
 
   return (
     <div id="sm-navbar-mobile">
-      <div style={{ marginTop: '6.1rem' }}></div>
+      <div style={{ marginTop: "6.1rem" }}></div>
       <nav className="navbar bg-body-tertiary fixed-top sm-navbar-container">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand" href="#!" onClick={refreshPage}>
-            Quốc Nguyên
+            Văn Sơn
           </Link>
 
           <Link
             to="/shop/product-dt/cart"
             className="nav-link active"
             aria-current="page"
-            style={{ color: 'black' }}
+            style={{ color: "black" }}
             onClick={refreshPage}
           >
             <ShoppingCartOutlinedIcon /> ({renderQuantity})
@@ -49,7 +49,7 @@ export const NavBarMobile = ({
           </button>
           <div
             className="offcanvas offcanvas-end"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel"
           >
@@ -60,7 +60,7 @@ export const NavBarMobile = ({
                 id="offcanvasNavbarLabel"
                 onClick={refreshPage}
               >
-                Phụ Tùng Xe Máy Quốc Nguyên
+                Phụ Tùng Xe Máy Văn Sơn
               </Link>
               <i
                 className=" btn-close navbar-toggler-icon navbar-toggler"
@@ -76,13 +76,13 @@ export const NavBarMobile = ({
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    style={{ color: 'black' }}
+                    style={{ color: "black" }}
                   >
                     Phụ Tùng Xe Máy
                   </p>
                   <ul className="dropdown-menu">
                     {listTypePhuTung?.map((item, index) => (
-                      <li>
+                      <li key={index}>
                         <Link
                           to={`/shop/${item.name}`}
                           className="dropdown-item"
@@ -100,13 +100,13 @@ export const NavBarMobile = ({
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    style={{ color: 'black' }}
+                    style={{ color: "black" }}
                   >
                     ComBo Xe Máy
                   </p>
                   <ul className="dropdown-menu">
                     {listTypeCombo?.map((item, index) => (
-                      <li>
+                      <li key={index}>
                         <Link
                           to={`/shopcombo/${item._id}`}
                           className="dropdown-item"
@@ -123,7 +123,7 @@ export const NavBarMobile = ({
                     to="/contact"
                     className="nav-link active"
                     aria-current="page"
-                    style={{ color: 'black' }}
+                    style={{ color: "black" }}
                     onClick={refreshPage}
                   >
                     Liên Hệ
@@ -135,13 +135,13 @@ export const NavBarMobile = ({
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    style={{ color: 'black' }}
+                    style={{ color: "black" }}
                   >
                     Người Dùng
                   </p>
                   <ul className="dropdown-menu">
                     {user === null ? (
-                      'Vui Lòng Đặt Nhập Để Xem Thêm!'
+                      "Vui Lòng Đặt Nhập Để Xem Thêm!"
                     ) : (
                       <>
                         <Link
@@ -161,7 +161,7 @@ export const NavBarMobile = ({
                     <Link
                       className="nav-link active"
                       aria-current="page"
-                      style={{ color: 'black' }}
+                      style={{ color: "black" }}
                     >
                       Đăng xuất
                     </Link>

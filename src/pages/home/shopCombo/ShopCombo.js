@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { CartMini } from '../../../components/cartmini/CartMini';
-import ImgMediaCard from '../../../components/imgMediaCard/ImgMediaCard';
-import ImgMediaCardComBo from '../../../components/imgMediaCard/ImgMediaCardComBo';
-import { Loading } from '../../../components/loading/Loading';
-import { TitleStore } from '../../../components/titlestore/TitleStore';
-import { getComBoByTypeLink } from '../../../redux/actions/combo.action';
-import { getProductByTypes } from '../../../redux/actions/product.action';
-import { getAllTypeProduct } from '../../../redux/actions/type.action';
-import { getAllTypeProductCombo } from '../../../redux/actions/typecombo.action';
-import './style.css';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { CartMini } from "../../../components/cartmini/CartMini";
+import ImgMediaCardComBo from "../../../components/imgMediaCard/ImgMediaCardComBo";
+import { Loading } from "../../../components/loading/Loading";
+import { getComBoByTypeLink } from "../../../redux/actions/combo.action";
+import { getAllTypeProductCombo } from "../../../redux/actions/typecombo.action";
+import "./style.css";
 export const ShopCombo = () => {
   const location = useLocation();
   function refreshPage() {
@@ -18,7 +14,7 @@ export const ShopCombo = () => {
       window.location.reload(false);
     }, 100);
   }
-  const type = location.pathname.split('/')[2];
+  const type = location.pathname.split("/")[2];
 
   const dispatch = useDispatch();
   const listComboByTypeLink = useSelector(

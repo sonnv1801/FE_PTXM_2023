@@ -1,19 +1,16 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import CustomizedBreadcrumbs from '../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs';
-import './style.css';
-import Button from '@mui/material/Button';
-import numeral from 'numeral';
-import Logo from '../../../assets/logo.jpg';
-import { Link } from 'react-router-dom';
-import { Loading } from '../../../components/loading/Loading';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import CustomizedBreadcrumbs from "../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs";
+import "./style.css";
+import Button from "@mui/material/Button";
+import numeral from "numeral";
+import Logo from "../../../assets/logo1.png";
+import { Link } from "react-router-dom";
+import { Loading } from "../../../components/loading/Loading";
 const PurchaseHistory = ({ customerId }) => {
   const [orders, setOrders] = useState([]);
-  const [selectedCombo, setSelectedCombo] = useState(null);
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  console.log(orders, 'orders');
 
   const calculateTotalOrderPrice = (orders) => {
     let total = 0;
@@ -31,15 +28,15 @@ const PurchaseHistory = ({ customerId }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem('token'));
+        const user = JSON.parse(localStorage.getItem("token"));
         const response = await axios.get(
-          `https://phutungxemay.onrender.com/v1/ordercombo/history/${user?._id}`
+          `${process.env.REACT_APP_API_URL}/v1/ordercombo/history/${user?._id}`
         );
         setOrders(response.data);
         calculateTotalOrderPrice(response.data); // Call the function to calculate the total order price
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error("Error fetching orders:", error);
         setLoading(false);
       }
     };
@@ -48,7 +45,7 @@ const PurchaseHistory = ({ customerId }) => {
   }, [customerId]);
 
   const handlePrintInvoice = (orders, totalOrderPrice) => {
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     printWindow.document.write(`
       <html>
         <head>
@@ -168,7 +165,7 @@ const PurchaseHistory = ({ customerId }) => {
         <body>
           <div class="invoice-container">
             <img class="company-logo" src= "${Logo}" alt="Company Logo">
-            <h1 class="company-name">PHỤ TÙNG XE MÁY QUỐC ANH</h1>
+            <h1 class="company-name">PHỤ TÙNG XE MÁY VĂN SƠN</h1>
             <p class="company-name">Hóa Đơn Của Bạn</p>
                 ${orders
                   .map((order, index) => {
@@ -194,16 +191,16 @@ const PurchaseHistory = ({ customerId }) => {
                               <h3>${product.title}</h3>
                               <p>Số lượng đặt: ${product.quantity_cart}</p>
                               <p>Giá: ${numeral(product.newPrice).format(
-                                '0,0'
+                                "0,0"
                               )}đ</p>
                             </div>
                             <div class="product-price">${numeral(
                               product.quantity_cart * product.newPrice
-                            ).format('0,0')}đ</div>
+                            ).format("0,0")}đ</div>
                           </li>
                         `;
                       })
-                      .join('')}
+                      .join("")}
                   </ul>
                   <hr/>
                 `;
@@ -223,16 +220,16 @@ const PurchaseHistory = ({ customerId }) => {
                               <h3>${combo.comboName}</h3>
                               <p>Số lượng: ${combo.quantity}</p>
                               <p>Giá:${numeral(combo.subtotal).format(
-                                '0,0'
+                                "0,0"
                               )}đ</p>
                             </div>
                             <div class="product-price">${numeral(
                               combo.subtotal * combo.quantity
-                            ).format('0,0')}đ</div>
+                            ).format("0,0")}đ</div>
                           </li>
                         `;
                       })
-                      .join('')}
+                      .join("")}
                   </ul>
                   <hr/>
                 `;
@@ -240,9 +237,9 @@ const PurchaseHistory = ({ customerId }) => {
 
                     return orderContent;
                   })
-                  .join('')}
+                  .join("")}
           <p class="total-price">Tổng tiền: ${numeral(totalOrderPrice).format(
-            '0,0'
+            "0,0"
           )}đ</p>
         </div>
         </body>
@@ -259,7 +256,7 @@ const PurchaseHistory = ({ customerId }) => {
       ) : (
         <div className="purchase-history container">
           <div className="link-history">
-            <CustomizedBreadcrumbs name={'Đơn hàng của bạn'} />
+            <CustomizedBreadcrumbs name={"Đơn hàng của bạn"} />
             <Button
               variant="contained"
               onClick={() => handlePrintInvoice(orders, totalOrderPrice)}
@@ -323,16 +320,16 @@ const PurchaseHistory = ({ customerId }) => {
                     {orders.map((order) => (
                       <>
                         {order.products.map((product) => (
-                          <div style={{ padding: '1.5rem 0' }}>
+                          <div style={{ padding: "1.5rem 0" }}>
                             <div className="row">
                               <div className="col-2">
                                 <label
-                                  style={{ width: '50px', height: '50px' }}
+                                  style={{ width: "50px", height: "50px" }}
                                 >
                                   <img
                                     src={product.image}
                                     alt={product.title}
-                                    style={{ width: '100%' }}
+                                    style={{ width: "100%" }}
                                   />
                                 </label>
                               </div>
@@ -347,14 +344,14 @@ const PurchaseHistory = ({ customerId }) => {
                               </div>
                               <div className="col-2">
                                 <label>{`${numeral(product.newPrice).format(
-                                  '0,0'
+                                  "0,0"
                                 )}đ`}</label>
                               </div>
                               <div className="col-2">
                                 <label>
                                   {`${numeral(
                                     product.quantity_cart * product.newPrice
-                                  ).format('0,0')}đ`}
+                                  ).format("0,0")}đ`}
                                 </label>
                               </div>
                             </div>
@@ -367,7 +364,7 @@ const PurchaseHistory = ({ customerId }) => {
                     {orders.map((order) => (
                       <>
                         {order.products.map((product) => (
-                          <div style={{ padding: '1.5rem 0' }}>
+                          <div style={{ padding: "1.5rem 0" }}>
                             <div className="row">
                               <div className="col-4">
                                 <label className="sm-lablel-titles">
@@ -383,7 +380,7 @@ const PurchaseHistory = ({ customerId }) => {
                                 <label>
                                   {`${numeral(
                                     product.quantity_cart * product.newPrice
-                                  ).format('0,0')}đ`}
+                                  ).format("0,0")}đ`}
                                 </label>
                               </div>
                             </div>
@@ -442,17 +439,17 @@ const PurchaseHistory = ({ customerId }) => {
                         {order.combos.map((combo) => (
                           <div>
                             <div
-                              style={{ padding: '1.5rem 0', cursor: 'pointer' }}
+                              style={{ padding: "1.5rem 0", cursor: "pointer" }}
                             >
                               <div className="row">
                                 <div className="col-2">
                                   <label
-                                    style={{ width: '50px', height: '50px' }}
+                                    style={{ width: "50px", height: "50px" }}
                                   >
                                     <img
                                       src={combo.image}
                                       alt={combo.title}
-                                      style={{ width: '100%' }}
+                                      style={{ width: "100%" }}
                                     />
                                   </label>
                                 </div>
@@ -467,13 +464,13 @@ const PurchaseHistory = ({ customerId }) => {
                                 </div>
                                 <div className="col-2">
                                   <label>{`${numeral(combo.subtotal).format(
-                                    '0,0'
+                                    "0,0"
                                   )}đ`}</label>
                                 </div>
                                 <div className="col-2">
                                   <label>{`${numeral(
                                     combo.subtotal * combo.quantityCombo
-                                  ).format('0,0')}đ`}</label>
+                                  ).format("0,0")}đ`}</label>
                                 </div>
                               </div>
                             </div>
@@ -489,7 +486,7 @@ const PurchaseHistory = ({ customerId }) => {
                         {order.combos.map((combo) => (
                           <div>
                             <div
-                              style={{ padding: '1.5rem 0', cursor: 'pointer' }}
+                              style={{ padding: "1.5rem 0", cursor: "pointer" }}
                             >
                               <div className="row">
                                 <div className="col-4">
@@ -497,13 +494,13 @@ const PurchaseHistory = ({ customerId }) => {
                                 </div>
                                 <div className="col-4">
                                   <label>{`${numeral(combo.subtotal).format(
-                                    '0,0'
+                                    "0,0"
                                   )}đ`}</label>
                                 </div>
                                 <div className="col-4">
                                   <label>{`${numeral(
                                     combo.subtotal * combo.quantityCombo
-                                  ).format('0,0')}đ`}</label>
+                                  ).format("0,0")}đ`}</label>
                                 </div>
                               </div>
                             </div>
@@ -517,14 +514,14 @@ const PurchaseHistory = ({ customerId }) => {
               )}
               <div
                 className="status-history"
-                style={{ padding: '0.5rem 1.5rem' }}
+                style={{ padding: "0.5rem 1.5rem" }}
               >
                 <div className="row">
                   <div className="col-12">
                     <div className="status-orders">
                       <div className="sub-status-orders">
                         <b>Tổng Tiền:</b>
-                        <b>{`${numeral(totalOrderPrice).format('0,0')}đ`}</b>
+                        <b>{`${numeral(totalOrderPrice).format("0,0")}đ`}</b>
                       </div>
                     </div>
                   </div>

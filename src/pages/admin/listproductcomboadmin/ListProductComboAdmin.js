@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import Form from 'react-bootstrap/Form';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './style.css';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { Fragment, useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Link } from 'react-router-dom';
-import { getAllTypeProductCombo } from '../../../redux/actions/typecombo.action';
-import axios from 'axios';
-import Menu from '../menu/Menu';
-import { Loading } from '../../../components/loading/Loading';
+import { Link } from "react-router-dom";
+import { getAllTypeProductCombo } from "../../../redux/actions/typecombo.action";
+import axios from "axios";
+import Menu from "../menu/Menu";
+import { Loading } from "../../../components/loading/Loading";
 
 function ListProductComboAdmin() {
   const [showadd, setShowadd] = useState(false);
@@ -36,20 +36,20 @@ function ListProductComboAdmin() {
   }, []);
 
   const [formData, setFormData] = useState({
-    image: '',
-    link: '',
-    title: '',
-    type: '',
-    status: '',
+    image: "",
+    link: "",
+    title: "",
+    type: "",
+    status: "",
     quantity: Number,
     products: [
       {
-        image: '',
-        name: '',
-        productCode: '',
+        image: "",
+        name: "",
+        productCode: "",
         price: Number,
         oldPrice: Number,
-        status: '',
+        status: "",
         quantity: Number,
         remainingQuantity: Number,
       },
@@ -58,7 +58,7 @@ function ListProductComboAdmin() {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const handleInputChange = (image) => (e) => {
-    if (image === 'image') {
+    if (image === "image") {
       const file = e.target.files[0];
       setFormData((prevData) => ({ ...prevData, [image]: file }));
     } else {
@@ -68,12 +68,12 @@ function ListProductComboAdmin() {
   };
 
   const handleProductChange = (index, field) => (e) => {
-    if (field === 'images') {
+    if (field === "images") {
       const file = e.target.files[0];
       handleImageUpload(index, file);
     } else {
       const value =
-        field === 'price' ? parseFloat(e.target.value) : e.target.value;
+        field === "price" ? parseFloat(e.target.value) : e.target.value;
       const updatedProducts = [...formData.products];
       updatedProducts[index][field] = value;
       setFormData((prevData) => ({ ...prevData, products: updatedProducts }));
@@ -127,12 +127,12 @@ function ListProductComboAdmin() {
     const { image, products, title, type, status, quantity, link } = formData;
 
     if (!image || !title || !type || !status || !quantity || !link) {
-      toast.warn('Vui lòng nhập đầy đủ thông tin combo.');
+      toast.warn("Vui lòng nhập đầy đủ thông tin combo.");
       return;
     }
 
     if (products.length === 0) {
-      toast.warn('Vui lòng nhập ít nhất 1 sản phẩm trong combo.');
+      toast.warn("Vui lòng nhập ít nhất 1 sản phẩm trong combo.");
       return;
     }
 
@@ -150,7 +150,7 @@ function ListProductComboAdmin() {
 
     if (hasEmptyProduct) {
       toast.warn(
-        'Vui lòng nhập đầy đủ thông tin cho các sản phẩm trong combo.'
+        "Vui lòng nhập đầy đủ thông tin cho các sản phẩm trong combo."
       );
       return;
     }
@@ -158,12 +158,12 @@ function ListProductComboAdmin() {
     setIsCreatingProduct(true); // Bắt đầu quá trình tạo sản phẩm
 
     const comboFormData = new FormData();
-    comboFormData.append('image', image);
-    comboFormData.append('link', link);
-    comboFormData.append('title', title);
-    comboFormData.append('type', type);
-    comboFormData.append('status', status);
-    comboFormData.append('quantity', quantity);
+    comboFormData.append("image", image);
+    comboFormData.append("link", link);
+    comboFormData.append("title", title);
+    comboFormData.append("type", type);
+    comboFormData.append("status", status);
+    comboFormData.append("quantity", quantity);
 
     products?.forEach((product, index) => {
       comboFormData.append(`products[${index}][name]`, product.name);
@@ -185,31 +185,31 @@ function ListProductComboAdmin() {
 
     try {
       const comboResponse = await axios.post(
-        'https://phutungxemay.onrender.com/v1/combo/create',
+        "${process.env.REACT_APP_API_URL}/v1/combo/create",
         comboFormData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      toast.success('Thêm mới combo thành công.');
+      toast.success("Thêm mới combo thành công.");
       setShowadd(false);
       setFormData({
-        image: '',
-        title: '',
-        type: '',
-        status: '',
-        quantity: '',
+        image: "",
+        title: "",
+        type: "",
+        status: "",
+        quantity: "",
         products: [
           {
-            images: '',
-            name: '',
-            productCode: '',
+            images: "",
+            name: "",
+            productCode: "",
             price: Number,
             oldPrice: Number,
-            status: '',
+            status: "",
             quantity: Number,
             remainingQuantity: Number,
           },
@@ -219,7 +219,7 @@ function ListProductComboAdmin() {
       fetchCombos();
     } catch (error) {
       console.log(error);
-      toast.error('Có lỗi xảy ra. Vui lòng thử lại sau.');
+      toast.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
     } finally {
       setIsCreatingProduct(false); // Kết thúc quá trình tạo sản phẩm
     }
@@ -234,26 +234,26 @@ function ListProductComboAdmin() {
   const fetchCombos = async () => {
     try {
       const response = await axios.get(
-        'https://phutungxemay.onrender.com/v1/combo'
+        "${process.env.REACT_APP_API_URL}/v1/combo"
       );
       setCombos(response.data);
     } catch (error) {
-      console.error('Error fetching combos:', error);
+      console.error("Error fetching combos:", error);
     }
   };
 
   const handleDeleteCombo = async (comboId) => {
     try {
       await axios.delete(
-        `https://phutungxemay.onrender.com/v1/combo/${comboId}`
+        `${process.env.REACT_APP_API_URL}/v1/combo/${comboId}`
       );
 
       fetchCombos();
 
-      toast.success('Xóa Thành Công Combo');
+      toast.success("Xóa Thành Công Combo");
     } catch (error) {
-      console.error('Error deleting combo:', error);
-      toast.error('Xóa Thất Bại Combo');
+      console.error("Error deleting combo:", error);
+      toast.error("Xóa Thất Bại Combo");
     }
   };
 
@@ -312,11 +312,15 @@ function ListProductComboAdmin() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <Loading />
+                  <tr>
+                    <td colSpan="3">
+                      <Loading />
+                    </td>
+                  </tr>
                 ) : (
                   <>
                     {combos?.map((combo, index) => (
-                      <>
+                      <Fragment key={combo._id}>
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>
@@ -391,7 +395,7 @@ function ListProductComboAdmin() {
                                     <tbody>
                                       {combo.products.map(
                                         (product, productIndex) => (
-                                          <tr>
+                                          <tr key={productIndex}>
                                             <td>{productIndex + 1}</td>
                                             <td>
                                               <img
@@ -403,7 +407,7 @@ function ListProductComboAdmin() {
                                             <td> {product.productCode}</td>
                                             <td>{`${product.price?.toLocaleString()}đ`}</td>
                                             <td>
-                                              {' '}
+                                              {" "}
                                               {`${product.oldPrice?.toLocaleString()}đ`}
                                             </td>
                                             <td> {product.quantity}</td>
@@ -417,7 +421,7 @@ function ListProductComboAdmin() {
                             </td>
                           </tr>
                         )}
-                      </>
+                      </Fragment>
                     ))}
                   </>
                 )}
@@ -440,7 +444,7 @@ function ListProductComboAdmin() {
               name="title"
               placeholder="Nhập tên combo..."
               value={formData.title}
-              onChange={handleInputChange('title')}
+              onChange={handleInputChange("title")}
             />
 
             <Form.Label htmlFor="type">Loại sản phẩm: </Form.Label>
@@ -449,11 +453,13 @@ function ListProductComboAdmin() {
               name="type"
               aria-label="Default select example"
               value={formData.type}
-              onChange={handleInputChange('type')}
+              onChange={handleInputChange("type")}
             >
               <option>Chọn loại sản phẩm</option>
               {listTypeComBos?.map((item, index) => (
-                <option value={item?.name}>{item.name}</option>
+                <option key={index} value={item?.name}>
+                  {item.name}
+                </option>
               ))}
             </Form.Select>
           </Form.Group>
@@ -464,13 +470,13 @@ function ListProductComboAdmin() {
             placeholder="Hình ảnh combo Sản Phẩm..."
             accept="image/*"
             name="image"
-            onChange={handleInputChange('image')}
+            onChange={handleInputChange("image")}
           />
           {selectedImage && (
             <img
               src={selectedImage}
               alt="Selected"
-              style={{ width: '40%', padding: '1rem', margin: '0 auto' }}
+              style={{ width: "40%", padding: "1rem", margin: "0 auto" }}
             />
           )}
           <Form.Label htmlFor="quantity">Số lượng Combo: </Form.Label>
@@ -480,7 +486,7 @@ function ListProductComboAdmin() {
             name="quantity"
             placeholder="Nhập Số lượng Combo..."
             value={formData.quantity}
-            onChange={handleInputChange('quantity')}
+            onChange={handleInputChange("quantity")}
           />
 
           <Form.Label htmlFor="status">Trạng thái:</Form.Label>
@@ -489,7 +495,7 @@ function ListProductComboAdmin() {
             aria-label="Default select example"
             name="status"
             value={formData.status}
-            onChange={handleInputChange('status')}
+            onChange={handleInputChange("status")}
           >
             <option value="">Chọn trạng thái</option>
             <option value="Còn Hàng">Còn Hàng</option>
@@ -513,14 +519,14 @@ function ListProductComboAdmin() {
                     placeholder="Nhập tên sản phẩm..."
                     id={`name-${index}`}
                     // value={product.name}
-                    onChange={handleProductChange(index, 'name')}
+                    onChange={handleProductChange(index, "name")}
                   />
                   <Form.Label htmlFor={`image-${index}`}>Hình Ảnh:</Form.Label>
                   <Form.Control
                     type="file"
                     accept="image/*"
                     name="images"
-                    onChange={handleProductChange(index, 'images')}
+                    onChange={handleProductChange(index, "images")}
                   />
                 </div>
                 <div className="col-6">
@@ -532,7 +538,7 @@ function ListProductComboAdmin() {
                     placeholder="Nhập mã sản phẩm..."
                     id={`productCode-${index}`}
                     value={product.productCode}
-                    onChange={handleProductChange(index, 'productCode')}
+                    onChange={handleProductChange(index, "productCode")}
                   />
                 </div>
                 <div className="col-6">
@@ -544,7 +550,7 @@ function ListProductComboAdmin() {
                     placeholder="Nhập giá mới sản phẩm..."
                     id={`price-${index}`}
                     value={product.price}
-                    onChange={handleProductChange(index, 'price')}
+                    onChange={handleProductChange(index, "price")}
                   />
                 </div>
                 <div className="col-6">
@@ -556,7 +562,7 @@ function ListProductComboAdmin() {
                     placeholder="Nhập giá cũ sản phẩm..."
                     id={`oldPrice-${index}`}
                     value={product.oldPrice}
-                    onChange={handleProductChange(index, 'oldPrice')}
+                    onChange={handleProductChange(index, "oldPrice")}
                   />
                 </div>
                 <div className="col-6">
@@ -567,7 +573,7 @@ function ListProductComboAdmin() {
                     aria-label="Default select example"
                     id={`status-${index}`}
                     value={product.status}
-                    onChange={handleProductChange(index, 'status')}
+                    onChange={handleProductChange(index, "status")}
                   >
                     <option value="">Chọn trạng thái</option>
                     <option value="Còn Hàng">Còn Hàng</option>
@@ -583,7 +589,7 @@ function ListProductComboAdmin() {
                     placeholder="Nhập số lượng sản phẩm..."
                     id={`quantity-${index}`}
                     value={product.quantity}
-                    onChange={handleProductChange(index, 'quantity')}
+                    onChange={handleProductChange(index, "quantity")}
                   />
                 </div>
                 <div className="col-6">
@@ -595,7 +601,7 @@ function ListProductComboAdmin() {
                     placeholder="Nhập số lượng tồn kho sản phẩm..."
                     id={`remainingQuantity-${index}`}
                     value={product.remainingQuantity}
-                    onChange={handleProductChange(index, 'remainingQuantity')}
+                    onChange={handleProductChange(index, "remainingQuantity")}
                   />
                 </div>
                 <div className="col-6"></div>
@@ -606,7 +612,7 @@ function ListProductComboAdmin() {
         <ModalFooter>
           <Button
             variant="primary"
-            style={{ background: '#0d6efd' }}
+            style={{ background: "#0d6efd" }}
             onClick={handleAddProduct}
           >
             Thêm Sản Phẩm
@@ -614,11 +620,11 @@ function ListProductComboAdmin() {
           <Button
             disabled={isCreatingProduct}
             variant="success"
-            style={{ background: '#198754' }}
+            style={{ background: "#198754" }}
             onClick={handleSubmit}
             encType="multipart/form-data"
           >
-            {isCreatingProduct ? 'Vui lòng chờ...' : 'Tạo sản phẩm'}
+            {isCreatingProduct ? "Vui lòng chờ..." : "Tạo sản phẩm"}
           </Button>
         </ModalFooter>
       </Modal>

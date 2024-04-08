@@ -1,39 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Button from '@mui/material/Button';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import RemoveIcon from '@mui/icons-material/Remove';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './style.css';
-import AddIcon from '@mui/icons-material/Add';
-import { useDispatch } from 'react-redux';
-import { deleteCart, numberQuantity } from '../../redux/actions/product.action';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import numeral from 'numeral';
-import Swal from 'sweetalert2';
+import React, { useEffect, useState } from "react";
+import Form from "react-bootstrap/Form";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Button from "@mui/material/Button";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./style.css";
+import AddIcon from "@mui/icons-material/Add";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import numeral from "numeral";
+import Swal from "sweetalert2";
 export const CardHorizontal = (cart) => {
-  const dispatch = useDispatch();
   const [cartCombo, setCartCombo] = useState([]);
   const [carts, setCarts] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalAmountCarts, setTotalAmountCarts] = useState(0);
-  const user = JSON.parse(localStorage.getItem('token'));
-  const [orderData, setOrderData] = useState([]);
+  const user = JSON.parse(localStorage.getItem("token"));
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   useEffect(() => {
     // Lấy dữ liệu từ localStorage
-    const storedCartCombo = localStorage.getItem('orderData');
+    const storedCartCombo = localStorage.getItem("orderData");
     if (storedCartCombo) {
       const parsedCartCombo = JSON.parse(storedCartCombo);
 
@@ -50,7 +46,7 @@ export const CardHorizontal = (cart) => {
 
   useEffect(() => {
     // Lấy dữ liệu từ localStorage
-    const storedCartCombo = localStorage.getItem('carts');
+    const storedCartCombo = localStorage.getItem("carts");
     if (storedCartCombo) {
       const parsedCartCombo = JSON.parse(storedCartCombo);
 
@@ -85,7 +81,7 @@ export const CardHorizontal = (cart) => {
       setTotalAmount(newTotalAmount);
 
       // Lưu dữ liệu đã được cập nhật vào localStorage
-      localStorage.setItem('orderData', JSON.stringify(updatedCartCombo));
+      localStorage.setItem("orderData", JSON.stringify(updatedCartCombo));
 
       return updatedCartCombo;
     });
@@ -108,7 +104,7 @@ export const CardHorizontal = (cart) => {
       setTotalAmountCarts(newTotalAmount);
 
       // Lưu dữ liệu đã được cập nhật vào localStorage
-      localStorage.setItem('carts', JSON.stringify(updatedCartCombo));
+      localStorage.setItem("carts", JSON.stringify(updatedCartCombo));
 
       return updatedCartCombo;
     });
@@ -145,7 +141,7 @@ export const CardHorizontal = (cart) => {
       setTotalAmount(newTotalAmount);
 
       // Lưu dữ liệu đã được cập nhật vào localStorage
-      localStorage.setItem('orderData', JSON.stringify(updatedCartCombo));
+      localStorage.setItem("orderData", JSON.stringify(updatedCartCombo));
 
       return updatedCartCombo;
     });
@@ -182,7 +178,7 @@ export const CardHorizontal = (cart) => {
       setTotalAmountCarts(newTotalAmount);
 
       // Lưu dữ liệu đã được cập nhật vào localStorage
-      localStorage.setItem('carts', JSON.stringify(updatedCart));
+      localStorage.setItem("carts", JSON.stringify(updatedCart));
 
       return updatedCart;
     });
@@ -212,13 +208,13 @@ export const CardHorizontal = (cart) => {
   const [data, setData] = useState({
     email: user?.email,
     fullname: user?.fullname,
-    phone: '',
-    address: '',
-    notes: '',
+    phone: "",
+    address: "",
+    notes: "",
   });
 
   const [paymentMethod, setPaymentMethod] = useState(
-    'Thanh toán khi nhận hàng'
+    "Thanh toán khi nhận hàng"
   );
 
   const handlePaymentMethodChange = (event) => {
@@ -226,21 +222,21 @@ export const CardHorizontal = (cart) => {
   };
 
   const handleChange = (name) => (e) => {
-    const value = name === 'image' ? e.target.files[0] : e.target.value;
+    const value = name === "image" ? e.target.files[0] : e.target.value;
     setData({ ...data, [name]: value });
   };
   async function handlePurchase() {
     if (
-      data.fullname !== '' &&
-      data.phone !== '' &&
-      data.address !== '' &&
-      data.email !== '' &&
+      data.fullname !== "" &&
+      data.phone !== "" &&
+      data.address !== "" &&
+      data.email !== "" &&
       paymentMethod
     ) {
       // Lấy dữ liệu từ localStorage
-      const storedCarts = localStorage.getItem('carts');
-      const storedOrderData = localStorage.getItem('orderData');
-      const storedToken = localStorage.getItem('token');
+      const storedCarts = localStorage.getItem("carts");
+      const storedOrderData = localStorage.getItem("orderData");
+      const storedToken = localStorage.getItem("token");
 
       // Kiểm tra xem dữ liệu có tồn tại hay không
       if (storedCarts || (storedOrderData && storedToken)) {
@@ -320,7 +316,7 @@ export const CardHorizontal = (cart) => {
           // Giảm số lượng combo
           for (const combo of order.combos) {
             const comboResponse = await axios.put(
-              `https://phutungxemay.onrender.com/v1/combo/combo/${combo._id}/reduce`,
+              `${process.env.REACT_APP_API_URL}/v1/combo/combo/${combo._id}/reduce`,
               {
                 quantityCombo: combo.quantityCombo,
                 products: combo.products.map((product) => ({
@@ -331,7 +327,7 @@ export const CardHorizontal = (cart) => {
             );
 
             console.log(
-              'Số lượng combo đã giảm thành công:',
+              "Số lượng combo đã giảm thành công:",
               comboResponse.data
             );
           }
@@ -339,36 +335,36 @@ export const CardHorizontal = (cart) => {
           // Tăng số lượng sản phẩm đã mua
           for (const product of order.products) {
             const productResponse = await axios.post(
-              `https://phutungxemay.onrender.com/v1/order/products/buy/${product.id}`,
+              `${process.env.REACT_APP_API_URL}/v1/order/products/buy/${product.id}`,
               {
                 quantity: product.quantity_cart,
               }
             );
 
             console.log(
-              'Số lượng sản phẩm đã mua đã được cập nhật:',
+              "Số lượng sản phẩm đã mua đã được cập nhật:",
               productResponse.data
             );
           }
 
           // Gửi yêu cầu POST đến backend server với đơn hàng đã được map
           const response = await axios.post(
-            'https://phutungxemay.onrender.com/v1/ordercombo',
+            `${process.env.REACT_APP_API_URL}/v1/ordercombo`,
             order
           );
 
           // Xử lý kết quả trả về từ backend (nếu cần)
-          console.log('Yêu cầu POST thành công:', response.data);
+          console.log("Yêu cầu POST thành công:", response.data);
 
           // Xóa dữ liệu trong localStorage sau khi đã thành công
-          localStorage.removeItem('carts');
-          localStorage.removeItem('orderData');
+          localStorage.removeItem("carts");
+          localStorage.removeItem("orderData");
 
           // Hiển thị thông báo hoặc chuyển hướng người dùng tới trang thành công
-          toast.success('Cảm ơn bạn đã mua hàng!', {
+          toast.success("Cảm ơn bạn đã mua hàng!", {
             position: toast.POSITION.TOP_CENTER,
           });
-          navigate('/history');
+          navigate("/history");
           // window.location.href = "/thanh-cong";
           setTimeout(() => {
             refreshPage();
@@ -376,8 +372,8 @@ export const CardHorizontal = (cart) => {
           setIsProcessingPayment(false);
         } catch (error) {
           // Xử lý lỗi (nếu có)
-          console.error('Có lỗi xảy ra khi mua hàng:', error);
-          toast.error('Có lỗi xảy ra khi mua hàng!', {
+          console.error("Có lỗi xảy ra khi mua hàng:", error);
+          toast.error("Có lỗi xảy ra khi mua hàng!", {
             position: toast.POSITION.TOP_CENTER,
           });
           setIsProcessingPayment(false);
@@ -385,13 +381,13 @@ export const CardHorizontal = (cart) => {
         }
       } else {
         // Hiển thị thông báo lỗi hoặc chuyển hướng người dùng tới trang lỗi
-        toast.error('Không tìm thấy đơn hàng, mua thêm nha', {
+        toast.error("Không tìm thấy đơn hàng, mua thêm nha", {
           position: toast.POSITION.TOP_CENTER,
         });
         // window.location.href = "/loi";
       }
     } else {
-      toast.warn('Nhập đầy đủ thông tin để thanh toán', {
+      toast.warn("Nhập đầy đủ thông tin để thanh toán", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
@@ -413,7 +409,7 @@ export const CardHorizontal = (cart) => {
 
       // Kiểm tra nếu chỉ còn 1 sản phẩm trong combo, không cho phép xóa
       if (combo.products.length === 1) {
-        Swal.fire('Không thể xóa sản phẩm cuối cùng trong combo!', 'error');
+        Swal.fire("Không thể xóa sản phẩm cuối cùng trong combo!", "error");
         return updatedCartCombo;
       }
 
@@ -437,7 +433,7 @@ export const CardHorizontal = (cart) => {
       setTotalAmount(newTotalAmount);
 
       // Lưu dữ liệu đã được cập nhật vào localStorage
-      localStorage.setItem('orderData', JSON.stringify(updatedCartCombo));
+      localStorage.setItem("orderData", JSON.stringify(updatedCartCombo));
 
       return updatedCartCombo;
     });
@@ -450,9 +446,9 @@ export const CardHorizontal = (cart) => {
         <div className="card-horizontal-container">
           <p
             style={{
-              textAlign: 'center',
-              padding: '0 1rem',
-              marginBottom: '1rem',
+              textAlign: "center",
+              padding: "0 1rem",
+              marginBottom: "1rem",
             }}
           >
             Số lượng có trong Giỏ {renderQuantity()}
@@ -461,7 +457,7 @@ export const CardHorizontal = (cart) => {
             {carts?.map((item, index) => (
               <div
                 className="row"
-                style={{ textAlign: 'center', marginBotto: '1rem' }}
+                style={{ textAlign: "center", marginBotto: "1rem" }}
                 key={index}
               >
                 <div className="col-xl-2 col-sm-2">
@@ -505,15 +501,15 @@ export const CardHorizontal = (cart) => {
                 </div>
                 <div className="col-xl-3 col-sm-3">
                   <b>
-                    {' '}
+                    {" "}
                     {item.quantity_cart === 1
-                      ? `${numeral(item.newPrice).format('0,0')}đ`
+                      ? `${numeral(item.newPrice).format("0,0")}đ`
                       : `${numeral(item.newPrice * item.quantity_cart).format(
-                          '0,0'
+                          "0,0"
                         )}đ`}
                   </b>
                 </div>
-                <hr style={{ margin: '1rem 0' }} />
+                <hr style={{ margin: "1rem 0" }} />
               </div>
             ))}
           </div>
@@ -523,7 +519,7 @@ export const CardHorizontal = (cart) => {
               <>
                 <div
                   className="row"
-                  style={{ textAlign: 'center', marginBotto: '1rem' }}
+                  style={{ textAlign: "center", marginBotto: "1rem" }}
                   key={index}
                 >
                   <div className="col-xl-2">
@@ -567,15 +563,15 @@ export const CardHorizontal = (cart) => {
                       <b>
                         <b>
                           {item.quantityCombo === 1
-                            ? `${numeral(item.subtotal).format('0,0')}đ`
+                            ? `${numeral(item.subtotal).format("0,0")}đ`
                             : `${numeral(
                                 item.subtotal * item.quantityCombo
-                              ).format('0,0')}đ`}
+                              ).format("0,0")}đ`}
                         </b>
                       </b>
                     </b>
                   </div>
-                  <hr style={{ margin: '1rem 0' }} />
+                  <hr style={{ margin: "1rem 0" }} />
                 </div>
 
                 {showProducts[index] &&
@@ -584,9 +580,9 @@ export const CardHorizontal = (cart) => {
                     <div
                       className="row"
                       style={{
-                        textAlign: 'center',
-                        marginBotto: '1rem',
-                        padding: '1rem',
+                        textAlign: "center",
+                        marginBotto: "1rem",
+                        padding: "1rem",
                       }}
                       key={productIndex}
                     >
@@ -607,23 +603,23 @@ export const CardHorizontal = (cart) => {
                         <span>Số sản phẩm {product?.quantity}</span>
                       </div>
                       <div className="col-3">
-                        Giá: {numeral(product?.price).format('0,0')}đ
+                        Giá: {numeral(product?.price).format("0,0")}đ
                       </div>
                       <div className="col-3">
-                        Tổng: {numeral(product?.total).format('0,0')}đ
+                        Tổng: {numeral(product?.total).format("0,0")}đ
                       </div>
-                      <hr style={{ margin: '1rem 0' }} />
+                      <hr style={{ margin: "1rem 0" }} />
                     </div>
                   ))}
 
-                <div style={{ display: 'flex', justifyContent: 'right' }}>
+                <div style={{ display: "flex", justifyContent: "right" }}>
                   <button
                     onClick={() => handleToggleProducts(index)}
                     id="btn-htt"
                   >
                     {showProducts[index]
-                      ? 'Ẩn sản phẩm'
-                      : 'Hiển thị sản phẩm combo'}
+                      ? "Ẩn sản phẩm"
+                      : "Hiển thị sản phẩm combo"}
                   </button>
                 </div>
               </>
@@ -636,15 +632,15 @@ export const CardHorizontal = (cart) => {
               <div className="col-xl-6 col-sm-12">
                 <div className="sub-total">
                   <p>Tạm tính Tiền Phụ Tùng: </p>
-                  <b>{`${numeral(totalAmountCarts).format('0,0')}đ`}</b>
+                  <b>{`${numeral(totalAmountCarts).format("0,0")}đ`}</b>
                 </div>
                 <div className="sub-total">
                   <p>Tạm tính Tiền Combo: </p>
-                  <b>{`${numeral(totalAmount).format('0,0')}đ`}</b>
+                  <b>{`${numeral(totalAmount).format("0,0")}đ`}</b>
                 </div>
                 <div className="sub-total">
                   <p>Tổng: </p>
-                  <b>{`${numeral(grandTotal).format('0,0')}đ`}</b>
+                  <b>{`${numeral(grandTotal).format("0,0")}đ`}</b>
                 </div>
               </div>
             </div>
@@ -676,7 +672,7 @@ export const CardHorizontal = (cart) => {
                 </Link>
               </div>
             ) : (
-              ''
+              ""
             )}
 
             <div className="infomation-users">
@@ -686,7 +682,7 @@ export const CardHorizontal = (cart) => {
                   type="email"
                   required
                   value={data.email}
-                  onChange={handleChange('email')}
+                  onChange={handleChange("email")}
                 />
                 <div className="row">
                   <div className="col-6">
@@ -695,7 +691,7 @@ export const CardHorizontal = (cart) => {
                       type="text"
                       required
                       value={data.fullname}
-                      onChange={handleChange('fullname')}
+                      onChange={handleChange("fullname")}
                     />
                   </div>
                   <div className="col-6">
@@ -703,7 +699,7 @@ export const CardHorizontal = (cart) => {
                     <Form.Control
                       type="number"
                       required
-                      onChange={handleChange('phone')}
+                      onChange={handleChange("phone")}
                     />
                   </div>
                 </div>
@@ -712,15 +708,15 @@ export const CardHorizontal = (cart) => {
                 <Form.Control
                   type="text"
                   required
-                  onChange={handleChange('address')}
+                  onChange={handleChange("address")}
                 />
                 <Form.Label>Ghi Chú: </Form.Label>
                 <FloatingLabel controlId="floatingTextarea2" label="Ghi chú">
                   <Form.Control
                     as="textarea"
                     placeholder="Leave a comment here"
-                    style={{ height: '100px' }}
-                    onChange={handleChange('notes')}
+                    style={{ height: "100px" }}
+                    onChange={handleChange("notes")}
                   />
                 </FloatingLabel>
               </Form.Group>
@@ -761,8 +757,8 @@ export const CardHorizontal = (cart) => {
                   disabled={isProcessingPayment} // Disable the button when processing payment
                 >
                   {isProcessingPayment
-                    ? 'Đang Xử Lý Thanh Toán...'
-                    : 'Thanh toán'}
+                    ? "Đang Xử Lý Thanh Toán..."
+                    : "Thanh toán"}
                 </Button>
               )}
             </div>

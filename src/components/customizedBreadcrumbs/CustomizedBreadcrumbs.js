@@ -15,13 +15,6 @@ export default function CustomizedBreadcrumbs(name) {
         <Link underline="hover" color="inherit" to="/">
           Trang Chủ
         </Link>
-        {/* <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Core
-        </Link> */}
         <Typography color="text.primary">{name.name}</Typography>
       </Breadcrumbs>
     </div>

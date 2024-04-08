@@ -1,15 +1,15 @@
-import Axios from 'axios';
-const API = 'https://phutungxemay.onrender.com/v1/product';
+import Axios from "axios";
+const API = `${process.env.REACT_APP_API_URL}/v1/product`;
 
 export class ProductService {
   getPrdByType(type, limit) {
     return Axios.get(
-      `https://phutungxemay.onrender.com/v1/order/products/${type}`
+      `${process.env.REACT_APP_API_URL}/v1/order/products/${type}`
     );
   }
   getDetail(id) {
     return Axios.get(
-      `https://phutungxemay.onrender.com/v1/order/products/byid/${id}`
+      `${process.env.REACT_APP_API_URL}/v1/order/products/byid/${id}`
     );
   }
   getAllProduct() {

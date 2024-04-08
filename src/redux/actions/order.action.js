@@ -1,7 +1,7 @@
 import { createAction } from ".";
 import Swal from "sweetalert2";
 import { ordersService } from "../../services";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   DELETE_PRODUCT_TO_ORDERS,
@@ -23,11 +23,11 @@ export const stopLoading = () => {
   };
 };
 
-export const getAllProToOrders = () => {
+export const getAllProToOrders = (page) => {
   return (dispatch) => {
     dispatch(startLoading());
     ordersService
-      .getAllProductToOrder()
+      .getAllProductToOrder(page)
       .then((res) => {
         dispatch(createAction(FETCH_PRODUCTS_TO_ORDERS, res.data));
         dispatch(stopLoading());

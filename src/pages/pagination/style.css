@@ -1,0 +1,37 @@
+/* .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  list-style: none;
+}
+
+.pagination .pagination-page {
+} */
+
+/* Phần phân trang */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.text-page {
+  padding: 0 1rem;
+  color: #0b68b1;
+  font-weight: 700;
+}
+
+.pagination-page {
+  background: #0b68b1;
+  color: #fff;
+  height: 3rem;
+  margin: 0;
+  text-align: center;
+}
+
+.pagination-page:hover {
+  background: #5cc49e;
+  font-weight: bold;
+}

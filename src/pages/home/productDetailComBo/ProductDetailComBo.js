@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import CustomizedBreadcrumbs from '../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs';
-import './style.css';
-import axios from 'axios';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-import { Link, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { getDetailComBo } from '../../../redux/actions/combo.action';
-import Modal from 'react-bootstrap/Modal';
-import numeral from 'numeral';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import { Loading } from '../../../components/loading/Loading';
+import React, { useState, useEffect } from "react";
+import CustomizedBreadcrumbs from "../../../components/customizedBreadcrumbs/CustomizedBreadcrumbs";
+import "./style.css";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getDetailComBo } from "../../../redux/actions/combo.action";
+import Modal from "react-bootstrap/Modal";
+import numeral from "numeral";
+import { Loading } from "../../../components/loading/Loading";
 
 export const ProductDetailComBo = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const id = location.pathname.split('/')[3];
+  const id = location.pathname.split("/")[3];
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   useEffect(() => {
@@ -38,11 +33,8 @@ export const ProductDetailComBo = () => {
   const productDetailComBo = useSelector(
     (state) => state.defaultReducer.productDetailComBo
   );
-
-  console.log(productDetailComBo, 'productDetailComBo');
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [quantities, setQuantities] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
 
   useEffect(() => {
@@ -56,7 +48,6 @@ export const ProductDetailComBo = () => {
   }, [selectedProducts, quantities, productDetailComBo]);
 
   useEffect(() => {
-    const allProductIds = productDetailComBo?.products?.map((item) => item._id);
     const availableProductIds = productDetailComBo?.products
       .filter((item) => item.quantity > 0)
       .map((item) => item._id);
@@ -78,53 +69,6 @@ export const ProductDetailComBo = () => {
     );
     setSubtotal(updatedSubtotal);
   }, [selectedProducts, quantities, productDetailComBo]);
-  const handleProductSelection = (productId) => {
-    const product = productDetailComBo?.products?.find(
-      (item) => item._id === productId
-    );
-
-    if (productId === 'all') {
-      // Select all available products or deselect all if all are already selected
-      if (selectAll) {
-        setSelectedProducts([]);
-        setQuantities([]);
-        setSelectAll(false);
-      } else {
-        const availableProductIds = productDetailComBo?.products
-          .filter((item) => item.quantity > 0)
-          .map((item) => item._id);
-
-        setSelectedProducts(availableProductIds);
-        setQuantities(Array(availableProductIds.length).fill(1));
-        setSelectAll(true);
-      }
-    } else {
-      if (product?.quantity > 0) {
-        // Product is available, update the selected products and quantities
-        const index = selectedProducts.indexOf(productId);
-
-        if (index === -1) {
-          setSelectedProducts((prevSelectedProducts) => [
-            ...prevSelectedProducts,
-            productId,
-          ]);
-          setQuantities((prevQuantities) => [...prevQuantities, 1]);
-        } else {
-          const updatedSelection = selectedProducts.filter(
-            (id) => id !== productId
-          );
-          const updatedQuantities = quantities.filter((_, i) => i !== index);
-          setSelectedProducts(updatedSelection);
-          setQuantities(updatedQuantities);
-        }
-        setSelectAll(false);
-      } else {
-        toast.error('Sản phẩm này đã hết hàng. Vui lòng chọn sản phẩm khác.', {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
-    }
-  };
 
   const handleQuantityDecrease = (index) => {
     const updatedQuantities = [...quantities];
@@ -132,29 +76,50 @@ export const ProductDetailComBo = () => {
     setQuantities(updatedQuantities);
   };
 
+  // const handleQuantityIncrease = (index) => {
+  //   const updatedQuantities = [...quantities];
+  //   updatedQuantities[index] += 1;
+  //   setQuantities(updatedQuantities);
+  // };
+
   const handleQuantityIncrease = (index) => {
     const updatedQuantities = [...quantities];
-    updatedQuantities[index] += 1;
-    setQuantities(updatedQuantities);
+    const product = productDetailComBo?.products?.[index];
+
+    // Kiểm tra xem số lượng sản phẩm đã chọn vượt quá số lượng còn lại không
+    if (product && updatedQuantities[index] < product.quantity) {
+      updatedQuantities[index] += 1;
+      setQuantities(updatedQuantities);
+    } else {
+      // Hiển thị thông báo hoặc thực hiện hành động khác ở đây (nếu cần)
+      toast.warning(`Số lượng sản phẩm đã đạt tối đa`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   const handlePlaceOrder = () => {
-    const selectedItems = selectedProducts.map((productId, index) => {
+    // Lọc ra các sản phẩm có số lượng lớn hơn 0
+    const selectedItems = selectedProducts.reduce((acc, productId, index) => {
       const product = productDetailComBo?.products[index];
       const quantity = quantities[index];
-      const total = product?.price * quantity;
-      return {
-        productId: product?._id,
-        quantity,
-        name: product?.name,
-        productCode: product?.productCode,
-        price: product?.price,
-        image: product?.images,
-        title: product?.name,
-        total,
-      };
-    });
+      if (quantity > 0) {
+        const total = product?.price * quantity;
+        acc.push({
+          productId: product?._id,
+          quantity,
+          name: product?.name,
+          productCode: product?.productCode,
+          price: product?.price,
+          image: product?.images,
+          title: product?.name,
+          total,
+        });
+      }
+      return acc;
+    }, []);
 
+    // Tạo đơn hàng combo chỉ với các sản phẩm có số lượng lớn hơn 0
     const comboOrder = {
       _id: productDetailComBo?._id, // Thêm _id của combo vào comboOrder
       quantityCombo: 1,
@@ -165,7 +130,8 @@ export const ProductDetailComBo = () => {
       subtotal: selectedItems.reduce((total, item) => total + item.total, 0),
     };
 
-    const existingOrderData = localStorage.getItem('orderData');
+    // Lấy dữ liệu đơn hàng hiện tại từ localStorage
+    const existingOrderData = localStorage.getItem("orderData");
     let dataToStore = [];
 
     if (existingOrderData) {
@@ -197,17 +163,22 @@ export const ProductDetailComBo = () => {
       dataToStore.push(comboOrder);
     }
 
-    localStorage.setItem('orderData', JSON.stringify(dataToStore));
+    // Lưu dữ liệu đơn hàng vào localStorage
+    localStorage.setItem("orderData", JSON.stringify(dataToStore));
 
+    // Tính tổng giá trị của đơn hàng
     const totalOrderPrice = dataToStore.reduce(
       (total, combo) => total + combo.subtotal,
       0
     );
 
-    localStorage.setItem('totalOrderPrice', totalOrderPrice.toString());
-    toast.success('Thêm thành công sản phẩm', {
+    // Lưu tổng giá trị của đơn hàng vào localStorage
+    localStorage.setItem("totalOrderPrice", totalOrderPrice.toString());
+    toast.success("Thêm thành công sản phẩm", {
       position: toast.POSITION.TOP_CENTER,
     });
+
+    // Refresh trang sau khi thêm sản phẩm vào giỏ hàng
     setTimeout(() => {
       setTimeout(() => {
         refreshPage();
@@ -257,18 +228,7 @@ export const ProductDetailComBo = () => {
                     <div className="title-combos">
                       <div className="row">
                         <div className="col-2">
-                          <span>
-                            <input
-                              type="checkbox"
-                              checked={
-                                selectedProducts.length ===
-                                  productDetailComBo?.products?.length &&
-                                selectedProducts.length > 0
-                              }
-                              onChange={() => handleProductSelection('all')}
-                            />
-                            Chọn Tất Cả
-                          </span>
+                          <span>Sản Phẩm</span>
                         </div>
                         <div className="col-2">
                           <span>Tên Sản phẩm</span>
@@ -287,52 +247,16 @@ export const ProductDetailComBo = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="title-combos sm-title-combos">
-                      <div className="row">
-                        <div className="col-3">
-                          <span>
-                            <input
-                              type="checkbox"
-                              checked={
-                                selectedProducts.length ===
-                                  productDetailComBo?.products?.length &&
-                                selectedProducts.length > 0
-                              }
-                              onChange={() => handleProductSelection('all')}
-                            />
-                            Chọn Tất Cả
-                          </span>
-                        </div>
-                        <div className="col-3">
-                          <span>Tên Sản phẩm</span>
-                        </div>
-                        <div className="col-3">
-                          <span>Số lượng</span>
-                        </div>
-                        <div className="col-3">
-                          <span>Tổng</span>
-                        </div>
-                      </div>
-                    </div>
                     <div className="prd-combos">
                       {productDetailComBo?.products?.map((item, index) => (
                         <div className="row" key={item._id}>
                           <div className="col-2">
-                            <span>
-                              <input
-                                type="checkbox"
-                                checked={selectedProducts.includes(item._id)}
-                                onChange={() =>
-                                  handleProductSelection(item._id)
-                                }
-                              />
-                              Sản phẩm {index + 1}
-                            </span>
+                            <span>Sản phẩm {index + 1}</span>
                           </div>
                           <div className="col-2">
                             <span
                               onClick={() => handleShow(item)}
-                              style={{ cursor: 'pointer', color: 'pink' }}
+                              style={{ cursor: "pointer", color: "pink" }}
                             >
                               {item?.name}
                             </span>
@@ -342,10 +266,10 @@ export const ProductDetailComBo = () => {
                           </div>
                           <div className="col-2">
                             <span>{`${numeral(item?.price).format(
-                              '0,0'
+                              "0,0"
                             )}đ`}</span>
                           </div>
-                          <div className="col-2">
+                          {/* <div className="col-2">
                             {item && (
                               <div className="combos-quantity">
                                 <div className="sub-combos-quantity">
@@ -373,46 +297,12 @@ export const ProductDetailComBo = () => {
                                 </div>
                               </div>
                             )}
-                          </div>
-                          {item && item.price && quantities[index] && (
-                            <div className="col-2">
-                              <span>{`${numeral(
-                                item.price * quantities[index]
-                              ).format('0,0')}đ`}</span>
-                            </div>
-                          )}
-                          <hr style={{ margin: '1rem 0' }} />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="prd-combos sm-prd-combos">
-                      {productDetailComBo?.products?.map((item, index) => (
-                        <div className="row" key={item._id}>
-                          <div className="col-6">
-                            <span>
-                              <input
-                                type="checkbox"
-                                checked={selectedProducts.includes(item._id)}
-                                onChange={() =>
-                                  handleProductSelection(item._id)
-                                }
-                              />
-                              Sản phẩm {index + 1}
-                            </span>
-                          </div>
-                          <div className="col-6">
-                            <span
-                              onClick={() => handleShow(item)}
-                              style={{ cursor: 'pointer', color: 'pink' }}
-                            >
-                              {item?.name}
-                            </span>
-                          </div>
+                          </div> */}
 
-                          <div className="col-6">
-                            {item && (
-                              <div className="combos-quantity sm-combos-quantity">
-                                <div className="sub-combos-quantity sm-sub-combos-quantity">
+                          {item && item.quantity > 0 ? (
+                            <div className="col-2">
+                              <div className="combos-quantity">
+                                <div className="sub-combos-quantity">
                                   <IconButton
                                     aria-label="delete"
                                     size="large"
@@ -436,16 +326,31 @@ export const ProductDetailComBo = () => {
                                   </IconButton>
                                 </div>
                               </div>
-                            )}
-                          </div>
-                          {item && item.price && quantities[index] && (
-                            <div className="col-6 sm-span-totals">
-                              <span>{`${numeral(
-                                item.price * quantities[index]
-                              ).format('0,0')}đ`}</span>
+                            </div>
+                          ) : (
+                            <div className="col-2">
+                              <span>Hết hàng</span>
                             </div>
                           )}
-                          <hr style={{ margin: '1rem 0' }} />
+
+                          {/* {item && item.price && quantities[index] && (
+                            <div className="col-2">
+                              <span>{`${numeral(
+                                item.price * quantities[index]
+                              ).format("0,0")}đ`}</span>
+                            </div>
+                          )} */}
+                          <div className="col-2">
+                            <span>
+                              {quantities[index] > 0
+                                ? `${numeral(
+                                    item.price * quantities[index]
+                                  ).format("0,0")}đ`
+                                : "0 đ"}
+                            </span>
+                          </div>
+
+                          <hr style={{ margin: "1rem 0" }} />
                         </div>
                       ))}
                     </div>
@@ -455,20 +360,19 @@ export const ProductDetailComBo = () => {
                         <div className="total-combos">
                           <div className="payments-moneys">
                             <b>Tạm tính</b>
-                            <p>{`${numeral(subtotal).format('0,0')}đ`}</p>
+                            <p>{`${numeral(subtotal).format("0,0")}đ`}</p>
                           </div>
                           <div className="payments-moneys">
                             <b>Tổng</b>
-                            <p>{`${numeral(subtotal).format('0,0')}đ`}</p>
+                            <p>{`${numeral(subtotal).format("0,0")}đ`}</p>
                           </div>
                         </div>
 
                         <div className="orders-combo">
-                          {quantities.includes(0) ? (
-                            <span>Số lượng phải lớn hơn 0</span>
-                          ) : (
-                            // Render the button only if at least one product is selected
-                            selectedProducts.length > 0 &&
+                          {selectedProducts.length > 0 &&
+                            selectedProducts.some(
+                              (productId, index) => quantities[index] > 0
+                            ) &&
                             productDetailComBo?.quantity > 0 && (
                               <Button
                                 variant="contained"
@@ -476,8 +380,7 @@ export const ProductDetailComBo = () => {
                               >
                                 Thêm Vào Giỏ
                               </Button>
-                            )
-                          )}
+                            )}
                         </div>
                       </div>
                     </div>
@@ -487,14 +390,14 @@ export const ProductDetailComBo = () => {
             </div>
           </div>
           <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton style={{ background: '#034063' }}>
+            <Modal.Header closeButton style={{ background: "#034063" }}>
               <Modal.Title>{selected?.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selected && (
                 <>
                   <img
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     src={selected.images}
                     alt={selected?.name}
                     className="modal-image"
@@ -504,13 +407,13 @@ export const ProductDetailComBo = () => {
                       <div
                         className="modal-info mt-3 mb-3"
                         style={{
-                          color: '#034063',
-                          fontSize: '18px',
-                          fontWeight: '700',
+                          color: "#034063",
+                          fontSize: "18px",
+                          fontWeight: "700",
                         }}
                       >
                         <span>Mã Sản Phẩm:</span>
-                        <p style={{ color: 'blue', fontWeight: '500' }}>
+                        <p style={{ color: "blue", fontWeight: "500" }}>
                           {selected.productCode}
                         </p>
                       </div>
@@ -519,13 +422,13 @@ export const ProductDetailComBo = () => {
                       <div
                         className="modal-info mt-3 mb-3"
                         style={{
-                          color: '#034063',
-                          fontSize: '18px',
-                          fontWeight: '700',
+                          color: "#034063",
+                          fontSize: "18px",
+                          fontWeight: "700",
                         }}
                       >
-                        <span>Giá Mới:</span>{' '}
-                        <p style={{ color: 'blue', fontWeight: '500' }}>
+                        <span>Giá Mới:</span>{" "}
+                        <p style={{ color: "blue", fontWeight: "500" }}>
                           {selected.price}
                         </p>
                       </div>
@@ -534,13 +437,13 @@ export const ProductDetailComBo = () => {
                       <div
                         className="modal-info mt-3 mb-3"
                         style={{
-                          color: '#034063',
-                          fontSize: '18px',
-                          fontWeight: '700',
+                          color: "#034063",
+                          fontSize: "18px",
+                          fontWeight: "700",
                         }}
                       >
-                        <span>Giá Cũ:</span>{' '}
-                        <p style={{ color: 'blue', fontWeight: '500' }}>
+                        <span>Giá Cũ:</span>{" "}
+                        <p style={{ color: "blue", fontWeight: "500" }}>
                           {selected.oldPrice}
                         </p>
                       </div>
@@ -549,13 +452,13 @@ export const ProductDetailComBo = () => {
                       <div
                         className="modal-info mt-3 mb-3"
                         style={{
-                          color: '#034063',
-                          fontSize: '18px',
-                          fontWeight: '700',
+                          color: "#034063",
+                          fontSize: "18px",
+                          fontWeight: "700",
                         }}
                       >
                         <span>Số lượng Còn:</span>
-                        <p style={{ color: 'blue', fontWeight: '500' }}>
+                        <p style={{ color: "blue", fontWeight: "500" }}>
                           {selected.quantity}
                         </p>
                       </div>
@@ -565,13 +468,13 @@ export const ProductDetailComBo = () => {
                       <div
                         className="modal-info mt-3 mb-3"
                         style={{
-                          color: '#034063',
-                          fontSize: '18px',
-                          fontWeight: '700',
+                          color: "#034063",
+                          fontSize: "18px",
+                          fontWeight: "700",
                         }}
                       >
-                        <span>Trạng Thái:</span>{' '}
-                        <p style={{ color: 'blue', fontWeight: '500' }}>
+                        <span>Trạng Thái:</span>{" "}
+                        <p style={{ color: "blue", fontWeight: "500" }}>
                           {selected.status}
                         </p>
                       </div>
@@ -584,7 +487,7 @@ export const ProductDetailComBo = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button
-                style={{ background: '#034063', color: 'white' }}
+                style={{ background: "#034063", color: "white" }}
                 variant="secondary"
                 onClick={handleClose}
               >

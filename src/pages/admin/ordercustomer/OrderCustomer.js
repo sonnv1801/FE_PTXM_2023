@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './style.css';
-import numeral from 'numeral';
-import Menu from '../menu/Menu';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-bootstrap/Modal';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import Button from 'react-bootstrap/Button';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./style.css";
+import numeral from "numeral";
+import Menu from "../menu/Menu";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalTitle from "react-bootstrap/ModalTitle";
 
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 export const OrderCustomer = () => {
   const [orders, setOrders] = useState([]);
-  const [expandedCombos, setExpandedCombos] = useState([]);
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
   const [showadd, setShowadd] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -27,12 +24,10 @@ export const OrderCustomer = () => {
     fetchOrders();
   }, []);
 
-  console.log(orders, 'orders');
-
   const fetchOrderById = async (orderId) => {
     try {
       const response = await axios.get(
-        `https://phutungxemay.onrender.com/v1/ordercombo/info/${orderId}`
+        `${process.env.REACT_APP_API_URL}/v1/ordercombo/info/${orderId}`
       );
       setSelectedOrder(response.data);
     } catch (error) {
@@ -43,7 +38,7 @@ export const OrderCustomer = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        'https://phutungxemay.onrender.com/v1/ordercombo'
+        "${process.env.REACT_APP_API_URL}/v1/ordercombo"
       );
       setOrders(response.data);
     } catch (error) {
@@ -77,7 +72,7 @@ export const OrderCustomer = () => {
     setIsCreatingProduct(true);
     try {
       const response = await axios.delete(
-        `https://phutungxemay.onrender.com/v1/ordercombo/${orderId}`
+        `${process.env.REACT_APP_API_URL}/v1/ordercombo/${orderId}`
       );
       toast.success(`${response.data.message}`, {
         position: toast.POSITION.TOP_CENTER,
@@ -104,13 +99,13 @@ export const OrderCustomer = () => {
           ) : (
             <div className="order-list container">
               {orders.map((order, index) => (
-                <div key={order._id} className="order">
+                <div key={index} className="order">
                   <button
                     className="btn btn-danger"
                     onClick={() => handleDeleteOrder(order._id)}
                   >
                     {isCreatingProduct ? (
-                      'Vui lòng chờ...'
+                      "Vui lòng chờ..."
                     ) : (
                       <i className="fa fa-trash"></i>
                     )}
@@ -143,7 +138,7 @@ export const OrderCustomer = () => {
                           <Form.Group className="formgroup-body">
                             <Form.Label>
                               Tên Khách Hàng: {selectedOrder.name}
-                            </Form.Label>{' '}
+                            </Form.Label>{" "}
                             <br />
                             <Form.Label>
                               Số Điện Thoại: {selectedOrder.phoneNumber}
@@ -168,13 +163,13 @@ export const OrderCustomer = () => {
                     </ModalBody>
                   </Modal>
 
-                  <h2 style={{ fontSize: '15px', color: 'green' }}>
+                  <h2 style={{ fontSize: "15px", color: "green" }}>
                     Đơn Hàng: {index + 1}
                   </h2>
-                  <h2 style={{ fontSize: '15px', color: 'green' }}>
+                  <h2 style={{ fontSize: "15px", color: "green" }}>
                     Mã Đơn Hàng: {order._id}
                   </h2>
-                  <h3 style={{ margin: '1rem 0' }}>Sản phẩm phụ tùng:</h3>
+                  <h3 style={{ margin: "1rem 0" }}>Sản phẩm phụ tùng:</h3>
 
                   <div className="table_responsive">
                     <table>
@@ -188,13 +183,13 @@ export const OrderCustomer = () => {
                       </thead>
                       <tbody>
                         {order.products.map((product, index) => (
-                          <tr>
+                          <tr key={product._id}>
                             <td>{index + 1}</td>
                             <td>
                               <img src={product.image} alt={product.title} />
                             </td>
                             <td>{`${numeral(product.newPrice).format(
-                              '0,0'
+                              "0,0"
                             )}đ`}</td>
                             <td>{product.quantity_cart}</td>
                           </tr>
@@ -205,7 +200,7 @@ export const OrderCustomer = () => {
                   <hr className="divider" />
                   {order.combos.length > 0 ? (
                     <>
-                      <h3 style={{ margin: '1rem 0' }}>Combos:</h3>
+                      <h3 style={{ margin: "1rem 0" }}>Combos:</h3>
 
                       <div className="table_responsive">
                         <table>
@@ -220,19 +215,19 @@ export const OrderCustomer = () => {
                           </thead>
                           <tbody>
                             {order.combos.map((combo, index) => (
-                              <tr>
+                              <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{combo.comboName}</td>
                                 <td>{combo.quantityCombo}</td>
                                 <td>
-                                  {' '}
+                                  {" "}
                                   {`${numeral(
                                     combo.quantityCombo * combo.subtotal
-                                  ).format('0,0')}đ`}
+                                  ).format("0,0")}đ`}
                                 </td>
                                 <td>
                                   <button
-                                    style={{ background: 'blue' }}
+                                    style={{ background: "blue" }}
                                     className="toggle-combo-products-btn"
                                     onClick={() =>
                                       handleToggleComboProducts(
@@ -241,7 +236,7 @@ export const OrderCustomer = () => {
                                       )
                                     }
                                   >
-                                    {combo.showProducts ? 'Ẩn' : 'Xem thêm'}
+                                    {combo.showProducts ? "Ẩn" : "Xem thêm"}
                                   </button>
                                   {combo.showProducts ? (
                                     combo.products.length > 0 ? (
@@ -255,23 +250,25 @@ export const OrderCustomer = () => {
                                             </tr>
                                           </thead>
                                           <tbody>
-                                            {combo.products.map((product) => (
-                                              <tr
-                                                key={product._id}
-                                                className="combo-product"
-                                              >
-                                                <td>{product.title}</td>
-                                                <td>{`${numeral(
-                                                  product.price
-                                                ).format('0,0')}đ`}</td>
-                                                <td>{product.quantity}</td>
-                                              </tr>
-                                            ))}
+                                            {combo.products.map(
+                                              (product, index) => (
+                                                <tr
+                                                  key={index}
+                                                  className="combo-product"
+                                                >
+                                                  <td>{product.title}</td>
+                                                  <td>{`${numeral(
+                                                    product.price
+                                                  ).format("0,0")}đ`}</td>
+                                                  <td>{product.quantity}</td>
+                                                </tr>
+                                              )
+                                            )}
                                           </tbody>
                                         </table>
                                       </div>
                                     ) : (
-                                      <p style={{ color: 'red' }}>
+                                      <p style={{ color: "red" }}>
                                         Hiện tại chưa có sản phẩm combo nào cho
                                         order này.
                                       </p>
@@ -285,7 +282,7 @@ export const OrderCustomer = () => {
                       </div>
                     </>
                   ) : (
-                    <p style={{ color: 'red' }}>
+                    <p style={{ color: "red" }}>
                       Hiện tại chưa có sản phẩm combo nào cho order này.
                     </p>
                   )}

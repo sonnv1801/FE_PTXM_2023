@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './style.css';
-import 'react-toastify/dist/ReactToastify.css';
-import numeral from 'numeral';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./style.css";
+import "react-toastify/dist/ReactToastify.css";
+import numeral from "numeral";
+import moment from "moment";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [supplierFilter, setSupplierFilter] = useState('');
+  const [supplierFilter, setSupplierFilter] = useState("");
   const [deliveryDateFilter, setDeliveryDateFilter] = useState({});
-  const [productTypeFilter, setProductTypeFilter] = useState('');
+  const [productTypeFilter, setProductTypeFilter] = useState("");
   const [loadingStates, setLoadingStates] = useState({}); // Initialize as an empty object
 
   useEffect(() => {
@@ -26,20 +26,20 @@ const OrderPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('token'));
+      const user = JSON.parse(localStorage.getItem("token"));
       const customerId = user?._id;
       const response = await axios.get(
-        `https://phutungxemay.onrender.com/v1/order/${customerId}`
+        `${process.env.REACT_APP_API_URL}/v1/order/${customerId}`
       );
       setOrders(response.data);
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
     }
   };
 
   const fetchOrderHistories = async (orderId) => {
     try {
-      const user = JSON.parse(localStorage.getItem('token'));
+      const user = JSON.parse(localStorage.getItem("token"));
 
       // Set the loading state to true for the corresponding order
       setLoadingStates((prevStates) => ({
@@ -48,7 +48,7 @@ const OrderPage = () => {
       }));
 
       const response = await axios.get(
-        `https://phutungxemay.onrender.com/v1/delivery/${user?._id}/${orderId}`
+        `${process.env.REACT_APP_API_URL}/v1/delivery/${user?._id}/${orderId}`
       );
 
       // Update the order's histories and set the loading state to false
@@ -64,7 +64,7 @@ const OrderPage = () => {
         [orderId]: false,
       }));
     } catch (error) {
-      console.error('Error fetching order histories:', error);
+      console.error("Error fetching order histories:", error);
       // Set the loading state to false in case of an error
       setLoadingStates((prevStates) => ({
         ...prevStates,
@@ -134,7 +134,7 @@ const OrderPage = () => {
             variant="outlined"
             endIcon={<ArrowRightIcon />}
             // onClick={handlePurchase}
-            style={{ margin: '0', marginLeft: '1rem' }}
+            style={{ margin: "0", marginLeft: "1rem" }}
           >
             Quay Lại Admin
           </Button>
@@ -177,7 +177,7 @@ const OrderPage = () => {
                 <input
                   type="date"
                   id="delivery-date-start"
-                  value={deliveryDateFilter.startDate || ''}
+                  value={deliveryDateFilter.startDate || ""}
                   onChange={(e) =>
                     setDeliveryDateFilter((prevState) => ({
                       ...prevState,
@@ -190,7 +190,7 @@ const OrderPage = () => {
                 <input
                   type="date"
                   id="delivery-date-end"
-                  value={deliveryDateFilter.endDate || ''}
+                  value={deliveryDateFilter.endDate || ""}
                   onChange={(e) =>
                     setDeliveryDateFilter((prevState) => ({
                       ...prevState,
@@ -234,7 +234,7 @@ const OrderPage = () => {
                   {filteredOrders.map((order) => (
                     <div key={order._id} className="order-item">
                       <div key={order._id} className="order-item">
-                        <h3 style={{ margin: '1rem 0' }}>Sản phẩm:</h3>
+                        <h3 style={{ margin: "1rem 0" }}>Sản phẩm:</h3>
 
                         <div className="table_responsive">
                           <table>
@@ -262,26 +262,26 @@ const OrderPage = () => {
                                   <td>{product.quantityOrdered}</td>
                                   <td>{product.quantityDelivered}</td>
                                   <td>
-                                    {product.deliveryStatus === 'pending'
-                                      ? 'Chưa giao xong'
-                                      : 'Hoàn Thành'}
+                                    {product.deliveryStatus === "pending"
+                                      ? "Chưa giao xong"
+                                      : "Hoàn Thành"}
                                   </td>
                                   <td>
                                     {product.fastDelivery === true
-                                      ? 'Giao Hàng Nhanh'
-                                      : 'Giao Hàng Thường'}
+                                      ? "Giao Hàng Nhanh"
+                                      : "Giao Hàng Thường"}
                                   </td>
                                   <td>{`${numeral(product.productPrice).format(
-                                    '0,0'
+                                    "0,0"
                                   )}đ`}</td>
                                   <td>{`${numeral(product.totalPrice).format(
-                                    '0,0'
+                                    "0,0"
                                   )}đ`}</td>
                                   <td>{`${numeral(product.productProfit).format(
-                                    '0,0'
+                                    "0,0"
                                   )}đ`}</td>
                                   <td>{`${numeral(product.totalProfit).format(
-                                    '0,0'
+                                    "0,0"
                                   )}đ`}</td>
                                 </tr>
                               ))}
@@ -290,7 +290,7 @@ const OrderPage = () => {
                         </div>
                         {order.histories ? (
                           <>
-                            <h3 style={{ margin: '1rem 0' }}>Lịch sử</h3>
+                            <h3 style={{ margin: "1rem 0" }}>Lịch sử</h3>
 
                             <div className="table_responsive">
                               <table>
@@ -307,7 +307,7 @@ const OrderPage = () => {
                                     <tr key={history._id}>
                                       <td>
                                         {moment(history.deliveryDate).format(
-                                          'DD/MM/YYYY'
+                                          "DD/MM/YYYY"
                                         )}
                                       </td>
                                       <td>{history.customerId}</td>
@@ -325,17 +325,17 @@ const OrderPage = () => {
                             onClick={() => fetchOrderHistories(order._id)}
                           >
                             {loadingStates[order._id]
-                              ? 'Vui lòng chờ...'
-                              : 'Xem lịch sử đơn hàng'}
+                              ? "Vui lòng chờ..."
+                              : "Xem lịch sử đơn hàng"}
                           </button>
                         )}
                       </div>
                     </div>
                   ))}
-                  <h3 style={{ margin: '1rem 0' }}>Tổng</h3>
+                  <h3 style={{ margin: "1rem 0" }}>Tổng</h3>
                   <div
                     className="table_responsive"
-                    style={{ margin: '1rem 0' }}
+                    style={{ margin: "1rem 0" }}
                   >
                     <table>
                       <thead>
@@ -353,17 +353,17 @@ const OrderPage = () => {
                           <td>{filteredTotalValues.quantityOrdered}</td>
                           <td>{filteredTotalValues.quantityDelivered}</td>
                           <td>
-                            {numeral(filteredTotalValues.price).format('0,0')}đ
+                            {numeral(filteredTotalValues.price).format("0,0")}đ
                           </td>
                           <td>
-                            {numeral(filteredTotalValues.total).format('0,0')}đ
+                            {numeral(filteredTotalValues.total).format("0,0")}đ
                           </td>
                           <td>
-                            {numeral(filteredTotalValues.profit).format('0,0')}đ
+                            {numeral(filteredTotalValues.profit).format("0,0")}đ
                           </td>
                           <td>
                             {numeral(filteredTotalValues.totalProfit).format(
-                              '0,0'
+                              "0,0"
                             )}
                             đ
                           </td>

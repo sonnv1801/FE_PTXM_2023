@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import 'react-toastify/dist/ReactToastify.css';
-import './style.css';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Link } from 'react-router-dom';
-import { deleteProduct } from '../../../redux/actions/product.action';
-import Menu from '../menu/Menu';
+import { Link } from "react-router-dom";
+import Menu from "../menu/Menu";
 import {
   deleteProductToOrder,
   getAllProToOrders,
-} from '../../../redux/actions/order.action';
-import { Loading } from '../../../components/loading/Loading';
+} from "../../../redux/actions/order.action";
+import { Loading } from "../../../components/loading/Loading";
 function ListProductAdmin() {
-  const currentUser = JSON.parse(localStorage.getItem('token'));
+  const currentUser = JSON.parse(localStorage.getItem("token"));
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -62,11 +54,15 @@ function ListProductAdmin() {
                 </thead>
                 <tbody>
                   {isLoading ? (
-                    <Loading />
+                    <tr>
+                      <td colSpan="3">
+                        <Loading />
+                      </td>
+                    </tr>
                   ) : (
                     <>
                       {getAllProductToOrders?.map((item, index) => (
-                        <tr>
+                        <tr key={item._id}>
                           <td>{index + 1}</td>
                           <td>
                             <img src={item.image} alt={item.name} />
@@ -74,7 +70,7 @@ function ListProductAdmin() {
                           <td>{item.name}</td>
                           <td>
                             {item.quantityDelivered === item.quantityPurchased
-                              ? 'Hết Hàng'
+                              ? "Hết Hàng"
                               : `Còn Hàng ${
                                   item.quantityDelivered -
                                   item.quantityPurchased

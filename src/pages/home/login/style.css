@@ -1,7 +1,7 @@
 /*  */
 
 .main-login {
-  background-image: url('../../../assets/logo-dang-ky.jpg');
+  background-image: url("../../../assets/logo-dang-ky.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -118,7 +118,14 @@
   align-items: center;
   justify-content: center;
 }
+.regiter-no {
+  color: #1f6fbd;
+  font-family: "FontAwesome";
+}
 
+.regiter-no:hover {
+  color: red;
+}
 @media (max-width: 768px) {
   .sm-main-login .sm-login {
     width: 100%;

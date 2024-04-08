@@ -6,13 +6,13 @@ const SubNav = () => {
   return (
     <div className="nav-title-header">
       <div className="sub-nav-body sm-sub-nav-body">
-        <span>
+        {/* <span>
           <img src="https://clickbuy.com.vn/clipse.svg" alt="clipse" />
-        </span>
+        </span> */}
         <p>
           <Link to="/">
-            Chào mừng bạn đến với Cửa hàng kinh doanh phụ Tùng xe máy Honda Quốc
-            Nguyên
+            Chào mừng bạn đến với Cửa hàng kinh doanh phụ Tùng xe máy Honda Văn
+            Sơn
           </Link>
         </p>
       </div>

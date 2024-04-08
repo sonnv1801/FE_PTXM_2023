@@ -1,109 +1,108 @@
-import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalFooter from 'react-bootstrap/ModalFooter';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import Form from 'react-bootstrap/Form';
-import { read, utils } from 'xlsx';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './style.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getProducts } from '../../../redux/actions/product.action';
-import Menu from '../menu/Menu';
+import React, { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import Form from "react-bootstrap/Form";
+import { read, utils } from "xlsx";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getProducts } from "../../../redux/actions/product.action";
+import Menu from "../menu/Menu";
 import {
   addProductSuppliers,
   deleteProductSupplier,
   getProductSupplier,
-} from '../../../redux/actions/productSupplier.action';
-import { getSupplier } from '../../../redux/actions/supplier.action';
-import { getAllTypeProduct } from '../../../redux/actions/type.action';
-import axios from 'axios';
-import { Loading } from '../../../components/loading/Loading';
+} from "../../../redux/actions/productSupplier.action";
+import { getSupplier } from "../../../redux/actions/supplier.action";
+import { getAllTypeProduct } from "../../../redux/actions/type.action";
+import axios from "axios";
+import { Loading } from "../../../components/loading/Loading";
 function ListProductSupplier() {
   const [showadd, setShowadd] = useState(false);
-  const currentUser = JSON.parse(localStorage.getItem('token'));
+  const currentUser = JSON.parse(localStorage.getItem("token"));
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
   const listProductSupplier = useSelector(
     (state) => state.defaultReducer.listProductSupplier
   );
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
-  console.log(isCreatingProduct);
 
   const [data, setData] = useState({
-    name: '',
-    image: '',
-    supplier: '',
+    name: "",
+    image: "",
+    supplier: "",
     // agentCode: "",
-    productCode: '',
-    salePrice: '',
-    retailPrice: '',
-    wholesalePrice: '',
-    wholesalePriceQuick: '',
-    quantity: '',
-    link: '',
-    type: '',
+    productCode: "",
+    salePrice: "",
+    retailPrice: "",
+    wholesalePrice: "",
+    wholesalePriceQuick: "",
+    quantity: "",
+    link: "",
+    type: "",
   });
 
   const handleChange = (name) => (e) => {
-    const value = name === 'image' ? e.target.files[0] : e.target.value;
+    const value = name === "image" ? e.target.files[0] : e.target.value;
     setData({ ...data, [name]: value });
   };
 
   const handleSubmit = async () => {
     try {
       if (
-        data.name !== '' &&
-        data.image !== '' &&
-        data.supplier !== '' &&
+        data.name !== "" &&
+        data.image !== "" &&
+        data.supplier !== "" &&
         // data.agentCode !== "" &&
-        data.productCode !== '' &&
-        data.salePrice !== '' &&
-        data.retailPrice !== '' &&
-        data.wholesalePrice !== '' &&
-        data.wholesalePriceQuick !== '' &&
-        data.quantity !== '' &&
-        data.link !== ''
+        data.productCode !== "" &&
+        data.salePrice !== "" &&
+        data.retailPrice !== "" &&
+        data.wholesalePrice !== "" &&
+        data.wholesalePriceQuick !== "" &&
+        data.quantity !== "" &&
+        data.link !== ""
       ) {
         setIsCreatingProduct(true);
         let formData = new FormData();
-        formData.append('name', data.name);
-        formData.append('image', data.image);
-        formData.append('supplier', data.supplier);
+        formData.append("name", data.name);
+        formData.append("image", data.image);
+        formData.append("supplier", data.supplier);
         // formData.append("agentCode", data.agentCode);
-        formData.append('productCode', data.productCode);
-        formData.append('salePrice', data.salePrice);
-        formData.append('retailPrice', data.retailPrice);
-        formData.append('wholesalePrice', data.wholesalePrice);
-        formData.append('wholesalePriceQuick', data.wholesalePriceQuick);
-        formData.append('quantity', data.quantity);
-        formData.append('link', data.link);
-        formData.append('type', data.type);
-        toast.info('Sản Phẩm Đang Được Xử Lý, Vui Lòng Đợi Tý...', {
+        formData.append("productCode", data.productCode);
+        formData.append("salePrice", data.salePrice);
+        formData.append("retailPrice", data.retailPrice);
+        formData.append("wholesalePrice", data.wholesalePrice);
+        formData.append("wholesalePriceQuick", data.wholesalePriceQuick);
+        formData.append("quantity", data.quantity);
+        formData.append("link", data.link);
+        formData.append("type", data.type);
+        toast.info("Sản Phẩm Đang Được Xử Lý, Vui Lòng Đợi Tý...", {
           position: toast.POSITION.TOP_CENTER,
         });
         dispatch(addProductSuppliers(formData, currentUser?.accessToken));
 
         setData({
-          name: '',
-          image: '',
-          supplier: '',
-          productCode: '',
-          salePrice: '',
-          retailPrice: '',
-          wholesalePrice: '',
-          wholesalePriceQuick: '',
-          quantity: '',
-          link: '',
-          type: '',
+          name: "",
+          image: "",
+          supplier: "",
+          productCode: "",
+          salePrice: "",
+          retailPrice: "",
+          wholesalePrice: "",
+          wholesalePriceQuick: "",
+          quantity: "",
+          link: "",
+          type: "",
         });
         setShowadd(false);
         setIsCreatingProduct(false);
       } else {
-        toast.warning('Vui Lòng Nhập Đầy Đủ Các Trường Sản Phẩm', {
+        toast.warning("Vui Lòng Nhập Đầy Đủ Các Trường Sản Phẩm", {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -161,25 +160,25 @@ function ListProductSupplier() {
         const fileReader = new FileReader();
         fileReader.onload = async (e) => {
           const data = new Uint8Array(e.target.result);
-          const workbook = read(data, { type: 'array' });
+          const workbook = read(data, { type: "array" });
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
 
           const newData = jsonData.filter((row) =>
-            row.every((cell) => cell !== '')
+            row.every((cell) => cell !== "")
           );
           if (newData.length === 0) {
-            toast.warning('Không tìm thấy dữ liệu để thêm!', {
+            toast.warning("Không tìm thấy dữ liệu để thêm!", {
               position: toast.POSITION.TOP_CENTER,
             });
             return;
           }
 
           const emptyColumns = newData.some((row) =>
-            row.some((cell) => cell === '')
+            row.some((cell) => cell === "")
           );
           if (emptyColumns) {
-            toast.warning('Có cột dữ liệu bị để trống trong file Excel!', {
+            toast.warning("Có cột dữ liệu bị để trống trong file Excel!", {
               position: toast.POSITION.TOP_CENTER,
             });
             return;
@@ -197,11 +196,11 @@ function ListProductSupplier() {
             };
           });
           const response = await axios.post(
-            'https://phutungxemay.onrender.com/v1/productsupplier/addmanyproduct',
+            "${process.env.REACT_APP_API_URL}/v1/productsupplier/addmanyproduct",
             formattedData
           );
 
-          toast.success('Đã nhập dữ liệu từ file Excel thành công!', {
+          toast.success("Đã nhập dữ liệu từ file Excel thành công!", {
             position: toast.POSITION.TOP_CENTER,
           });
 
@@ -211,7 +210,7 @@ function ListProductSupplier() {
 
         fileReader.readAsArrayBuffer(excelFile);
       } else {
-        toast.warning('Vui lòng chọn một file Excel để nhập dữ liệu!', {
+        toast.warning("Vui lòng chọn một file Excel để nhập dữ liệu!", {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -234,11 +233,11 @@ function ListProductSupplier() {
               <div className="col-xl-3 col-sm-3">
                 <p
                   style={{
-                    fontSize: '24px',
-                    display: 'flex',
-                    padding: '0.3rem',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    fontSize: "24px",
+                    display: "flex",
+                    padding: "0.3rem",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   Quản lý Sản Phẩm Cung Cấp
@@ -259,7 +258,7 @@ function ListProductSupplier() {
 
               <div className="col-xl-3 col-sm-3">
                 <input
-                  style={{ fontSize: '15px' }}
+                  style={{ fontSize: "15px" }}
                   type="file"
                   accept=".xlsx,.xls"
                   onChange={handleFileChange}
@@ -269,15 +268,15 @@ function ListProductSupplier() {
                 <button
                   href="#"
                   className={`btn btn-outline-danger ${
-                    isCreatingProduct ? 'disabled' : ''
+                    isCreatingProduct ? "disabled" : ""
                   }`}
                   onClick={handleSubmitEXC}
                 >
                   <i className="bx bxs-folder-plus"></i>
                   <span>
                     {isCreatingProduct
-                      ? 'Đang nhập dữ liệu...'
-                      : 'Nhập Từ File Excel'}
+                      ? "Đang nhập dữ liệu..."
+                      : "Nhập Từ File Excel"}
                   </span>
                 </button>
               </div>
@@ -299,11 +298,15 @@ function ListProductSupplier() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <Loading />
+                  <tr>
+                    <td colSpan="3">
+                      <Loading />
+                    </td>
+                  </tr>
                 ) : (
                   <>
                     {listProductSupplier?.map((item, index) => (
-                      <tr>
+                      <tr key={index}>
                         <td>{index + 1}</td>
                         <td>
                           <img src={item.image} alt={item.title} />
@@ -361,7 +364,7 @@ function ListProductSupplier() {
                 <Form.Label>Tên sản phẩm: </Form.Label>
                 <Form.Control
                   type="text"
-                  onChange={handleChange('name')}
+                  onChange={handleChange("name")}
                   placeholder="Nhập tên sản phẩm..."
                 />
               </div>
@@ -369,7 +372,7 @@ function ListProductSupplier() {
                 <Form.Label>Mã sản phẩm: </Form.Label>
                 <Form.Control
                   type="text"
-                  onChange={handleChange('productCode')}
+                  onChange={handleChange("productCode")}
                   placeholder="Nhập mã sản phẩm..."
                 />
               </div>
@@ -377,11 +380,13 @@ function ListProductSupplier() {
                 <Form.Label>Nhà Cung Cấp: </Form.Label>
                 <Form.Select
                   aria-label="Default select example"
-                  onChange={handleChange('supplier')}
+                  onChange={handleChange("supplier")}
                 >
                   <option>Chọn loại sản phẩm</option>
                   {listSuppliers?.map((item, index) => (
-                    <option value={item.name}>{item.name}</option>
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
                   ))}
                 </Form.Select>
                 <input
@@ -394,11 +399,13 @@ function ListProductSupplier() {
                 <Form.Label>Loại Sản Phẩm: </Form.Label>
                 <Form.Select
                   aria-label="Default select example"
-                  onChange={handleChange('type')}
+                  onChange={handleChange("type")}
                 >
                   <option>Chọn loại sản phẩm</option>
                   {listTypes?.map((item, index) => (
-                    <option value={item?.name}>{item.name}</option>
+                    <option key={index} value={item?.name}>
+                      {item.name}
+                    </option>
                   ))}
                 </Form.Select>
               </div>
@@ -406,7 +413,7 @@ function ListProductSupplier() {
                 <Form.Label>Giá khuyến mãi: </Form.Label>
                 <Form.Control
                   type="number"
-                  onChange={handleChange('salePrice')}
+                  onChange={handleChange("salePrice")}
                   placeholder="Nhập giá sale sản phẩm..."
                 />
               </div>
@@ -414,7 +421,7 @@ function ListProductSupplier() {
                 <Form.Label>Giá bán: </Form.Label>
                 <Form.Control
                   type="number"
-                  onChange={handleChange('retailPrice')}
+                  onChange={handleChange("retailPrice")}
                   placeholder="Nhập giá bán sản phẩm..."
                 />
               </div>
@@ -422,7 +429,7 @@ function ListProductSupplier() {
                 <Form.Label>Giá vốn: </Form.Label>
                 <Form.Control
                   type="number"
-                  onChange={handleChange('wholesalePrice')}
+                  onChange={handleChange("wholesalePrice")}
                   placeholder="Nhập giá vốn sản phẩm..."
                 />
               </div>
@@ -430,7 +437,7 @@ function ListProductSupplier() {
                 <Form.Label>Giá vốn mua nhanh: </Form.Label>
                 <Form.Control
                   type="number"
-                  onChange={handleChange('wholesalePriceQuick')}
+                  onChange={handleChange("wholesalePriceQuick")}
                   placeholder="Nhập giá vốn mua nhanh sản phẩm..."
                 />
               </div>
@@ -438,7 +445,7 @@ function ListProductSupplier() {
                 <Form.Label>Số lượng sản phẩm: </Form.Label>
                 <Form.Control
                   type="number"
-                  onChange={handleChange('quantity')}
+                  onChange={handleChange("quantity")}
                   placeholder="Nhập số lượng sản phẩm..."
                 />
               </div>
@@ -449,7 +456,7 @@ function ListProductSupplier() {
                   size="sm"
                   accept="image/*"
                   name="image"
-                  onChange={handleChange('image')}
+                  onChange={handleChange("image")}
                 />
               </div>
             </div>
@@ -458,11 +465,11 @@ function ListProductSupplier() {
         <ModalFooter>
           <Button
             disabled={isCreatingProduct}
-            style={{ background: 'green' }}
+            style={{ background: "green" }}
             variant="success"
             onClick={handleSubmit}
           >
-            {isCreatingProduct ? 'Vui lòng chờ...' : 'Tạo sản phẩm'}
+            {isCreatingProduct ? "Vui lòng chờ..." : "Tạo sản phẩm"}
           </Button>
         </ModalFooter>
       </Modal>

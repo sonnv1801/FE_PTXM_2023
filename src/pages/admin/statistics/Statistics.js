@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './style.css';
-import numeral from 'numeral';
-import Menu from '../menu/Menu';
-import { Loading } from '../../../components/loading/Loading';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./style.css";
+import numeral from "numeral";
+import Menu from "../menu/Menu";
+import { Loading } from "../../../components/loading/Loading";
 
 function Statistics() {
   const [products, setProducts] = useState([]);
   const [filterTypes, setFilterTypes] = useState([]);
   const [filterCodes, setFilterCodes] = useState([]);
   const [filterSuppliers, setFilterSuppliers] = useState([]);
-  const [filterType, setFilterType] = useState('');
-  const [filterCode, setFilterCode] = useState('');
-  const [filterSupplier, setFilterSupplier] = useState('');
+  const [filterType, setFilterType] = useState("");
+  const [filterCode, setFilterCode] = useState("");
+  const [filterSupplier, setFilterSupplier] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get('https://phutungxemay.onrender.com/v1/order/api/products')
+      .get(`${process.env.REACT_APP_API_URL}/v1/order/api/products`)
       .then((response) => {
         const data = response.data;
         setProducts(data);
@@ -139,7 +139,7 @@ function Statistics() {
                   </select>
                 </div>
               </div>
-              <h3 style={{ margin: '1rem 0' }}>Kết quả:</h3>
+              <h3 style={{ margin: "1rem 0" }}>Kết quả:</h3>
               <div className="table_responsive">
                 <table>
                   <thead>
@@ -180,21 +180,21 @@ function Statistics() {
                           <td>{quantityOrdered - quantityPurchased}</td>
                           <td>
                             {numeral(quantityOrdered * productPrice).format(
-                              '0,0'
+                              "0,0"
                             )}
                             đ
                           </td>
                           <td>
                             {numeral(
                               (retailPrice - productPrice) * quantityPurchased
-                            ).format('0,0')}
+                            ).format("0,0")}
                             đ
                           </td>
                           <td>
                             {numeral(
                               (quantityOrdered - quantityPurchased) *
                                 productPrice
-                            ).format('0,0')}
+                            ).format("0,0")}
                             đ
                           </td>
                         </tr>
@@ -207,10 +207,10 @@ function Statistics() {
                       <td>{totalQuantityOrdered}</td>
                       <td>{totalQuantityPurchased}</td>
                       <td>{totalInventory}</td>
-                      <td>{`${numeral(totalCost).format('0,0')}đ`}</td>
-                      <td>{`${numeral(totalProfit).format('0,0')}đ`}</td>
+                      <td>{`${numeral(totalCost).format("0,0")}đ`}</td>
+                      <td>{`${numeral(totalProfit).format("0,0")}đ`}</td>
                       <td>{`${numeral(totalInventoryValue).format(
-                        '0,0'
+                        "0,0"
                       )}đ`}</td>
                     </tr>
                   </tfoot>
