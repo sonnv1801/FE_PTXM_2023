@@ -149,13 +149,6 @@ function TypeSupplier() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Nhập Loại..."
             />
-            {/* <Form.Label>Đường Dẫn: </Form.Label>
-            <Form.Control
-              type="text"
-              // onChange={handleChange('name')}
-              onChange={(e) => setLink(e.target.value)}
-              placeholder="Nhập link..."
-            /> */}
           </Form.Group>
         </ModalBody>
         <ModalFooter>

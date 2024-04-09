@@ -196,7 +196,7 @@ function ListProductSupplier() {
             };
           });
           const response = await axios.post(
-            "${process.env.REACT_APP_API_URL}/v1/productsupplier/addmanyproduct",
+            `${process.env.REACT_APP_API_URL}/v1/productsupplier/addmanyproduct`,
             formattedData
           );
 

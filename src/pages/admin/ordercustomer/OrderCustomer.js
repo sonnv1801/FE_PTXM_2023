@@ -38,7 +38,7 @@ export const OrderCustomer = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        "${process.env.REACT_APP_API_URL}/v1/ordercombo"
+        `${process.env.REACT_APP_API_URL}/v1/ordercombo`
       );
       setOrders(response.data);
     } catch (error) {

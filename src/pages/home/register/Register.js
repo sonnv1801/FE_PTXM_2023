@@ -69,7 +69,7 @@ function Register() {
     try {
       setIsSubmitting(true);
       const response = await axios.post(
-        "${process.env.REACT_APP_API_URL}/v1/auth/register",
+        `${process.env.REACT_APP_API_URL}/v1/auth/register`,
         formData
       );
       setIsDataLoaded(true);

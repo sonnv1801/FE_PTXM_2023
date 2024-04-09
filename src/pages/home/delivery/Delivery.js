@@ -20,7 +20,7 @@ const Delivery = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        "${process.env.REACT_APP_API_URL}/v1/order"
+        `${process.env.REACT_APP_API_URL} /v1/order`
       );
       setOrders(response.data);
     } catch (error) {

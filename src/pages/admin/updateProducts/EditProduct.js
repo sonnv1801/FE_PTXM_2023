@@ -126,16 +126,6 @@ const EditProduct = () => {
               onChange={handleChange("productCode")}
             />
           </div>
-          {/* <div className="mb-3">
-            <span>Số Lượng</span>
-            <input
-              className="form-control"
-              type="text"
-              name="quantityDelivered"
-              value={data.quantityDelivered}
-              onChange={handleChange("quantityDelivered")}
-            />
-          </div> */}
 
           <div className="mb-3">
             <span>Loại Sản Phẩm</span>
@@ -182,16 +172,6 @@ const EditProduct = () => {
               onChange={handleChange("salePrice")}
             />
           </div>
-          {/* <div className="mb-3">
-            <span>Giá Vốn</span>
-            <input
-              className="form-control"
-              type="text"
-              name="productPrice"
-              value={data.productPrice}
-              onChange={handleChange("productPrice")}
-            />
-          </div> */}
           <div className="mb-3">
             <span>Hình Ảnh</span>
             <input

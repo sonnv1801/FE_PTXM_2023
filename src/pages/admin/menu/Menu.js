@@ -81,7 +81,7 @@ export default function Menu() {
               <ListItemIcon>
                 <AnimationIcon />
               </ListItemIcon>
-              <ListItemText primary="Loại Phụ Tùng" />
+              <ListItemText primary="Loại Xe" />
             </ListItemButton>
           </Link>
           <Link to="/list-products-admin">
@@ -89,7 +89,7 @@ export default function Menu() {
               <ListItemIcon>
                 <DnsIcon />
               </ListItemIcon>
-              <ListItemText primary="Sản Phẩm Phụ Tùng" />
+              <ListItemText primary="Sản Phẩm Phụ Tùng Xe" />
             </ListItemButton>
           </Link>
         </List>

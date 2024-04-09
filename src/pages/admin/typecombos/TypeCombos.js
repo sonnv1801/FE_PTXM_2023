@@ -25,7 +25,6 @@ function TypeCombos() {
 
   const currentUser = JSON.parse(localStorage.getItem("token"));
   const [name, setName] = useState("");
-  const [link, setLink] = useState("");
   const isLoading = useSelector((state) => state.defaultReducer.isLoading);
 
   const dispatch = useDispatch();
@@ -149,13 +148,6 @@ function TypeCombos() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Nhập Loại..."
             />
-            {/* <Form.Label>Đường Dẫn: </Form.Label>
-            <Form.Control
-              type="text"
-              // onChange={handleChange('name')}
-              onChange={(e) => setLink(e.target.value)}
-              placeholder="Nhập link..."
-            /> */}
           </Form.Group>
         </ModalBody>
         <ModalFooter>

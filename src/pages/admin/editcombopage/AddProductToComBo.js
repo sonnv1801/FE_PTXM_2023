@@ -1,25 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const AddProductToComBo = () => {
-  const [newProduct, setNewProduct] = useState({
-    name: "",
-    productCode: "",
-    images: null,
-    price: 0,
-    oldPrice: 0,
-    status: "",
-    quantity: 0,
-  });
-
-  const handleNewProductInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewProduct((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleNewProductImageChange = (event) => {
-    const file = event.target.files[0];
-    setNewProduct((prevData) => ({ ...prevData, images: file }));
-  };
   return (
     <div className="col-6">
       <div className="add-product-combo">
