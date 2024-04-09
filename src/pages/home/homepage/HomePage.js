@@ -17,7 +17,7 @@ import ProductCombo from "./ProductCombo";
 export const HomePage = () => {
   const dispatch = useDispatch();
   const listTypes = useSelector((state) => state.defaultReducer.listType);
-  const isLoading = useSelector((state) => state.defaultReducer.isLoading);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -41,12 +41,16 @@ export const HomePage = () => {
 
   useEffect(() => {
     dispatch(getAllProToOrders(currentPage));
+    setIsLoading(false);
   }, [dispatch, currentPage]);
 
   useEffect(() => {
     setHasNextPage(getAllProductToOrders.length > 0);
   }, [getAllProductToOrders]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="container-fluid mt-5 text-center">
       <SubNav />

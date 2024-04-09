@@ -53,11 +53,11 @@ export const getDetailComBo = (id) => {
   };
 };
 
-export const getAllProCombos = () => {
+export const getAllProCombos = (page) => {
   return (dispatch) => {
     dispatch(startLoading());
     comboService
-      .getAllProductCombos()
+      .getAllProductCombos(page)
       .then((res) => {
         dispatch(createAction(FETCH_PRODUCTS_COMBOS, res.data));
         dispatch(stopLoading());

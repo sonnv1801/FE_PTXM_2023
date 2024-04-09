@@ -185,7 +185,7 @@ function ListProductComboAdmin() {
 
     try {
       const comboResponse = await axios.post(
-        "${process.env.REACT_APP_API_URL}/v1/combo/create",
+        `${process.env.REACT_APP_API_URL}/v1/combo/create`,
         comboFormData,
         {
           headers: {
@@ -234,7 +234,7 @@ function ListProductComboAdmin() {
   const fetchCombos = async () => {
     try {
       const response = await axios.get(
-        "${process.env.REACT_APP_API_URL}/v1/combo"
+        `${process.env.REACT_APP_API_URL}/v1/combo`
       );
       setCombos(response.data);
     } catch (error) {
