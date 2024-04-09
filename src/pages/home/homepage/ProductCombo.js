@@ -52,13 +52,7 @@ const ProductCombo = () => {
       <TitleHead type={listTypeComBos} />
       <div className="mt-5">
         {listProductCombos.length === 0 ? (
-          <div className="alert alert-primary" role="alert">
-            Cửa Hàng Tạm Thời
-            <a style={{ padding: "0 0.3rem" }} href="/" className="alert-link">
-              Đã Hết Hàng
-            </a>
-            Vui Lòng Chọn Mặt Hàng Khác Để Mua! Cảm Ơn.
-          </div>
+          <Loading />
         ) : (
           <div className="row sm-product-home-page">
             {listProductCombos.map((item) => (

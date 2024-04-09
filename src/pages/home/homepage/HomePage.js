@@ -76,14 +76,15 @@ export const HomePage = () => {
           }}
         >
           {getAllProductToOrders.length === 0 ? (
-            <div className="alert alert-primary" role="alert">
-              Cửa Hàng Tạm Thời
-              <a href="/" className="alert-link">
-                {" "}
-                Đã Hết Hàng{" "}
-              </a>
-              Vui Lòng Chọn Mặt Hàng Khác Để Mua! Cảm Ơn.
-            </div>
+            // <div className="alert alert-primary" role="alert">
+            //   Cửa Hàng Tạm Thời
+            //   <a href="/" className="alert-link">
+            //     {" "}
+            //     Đã Hết Hàng{" "}
+            //   </a>
+            //   Vui Lòng Chọn Mặt Hàng Khác Để Mua! Cảm Ơn.
+            // </div>
+            <Loading />
           ) : (
             <>
               <div className="row sm-product-home-page">
